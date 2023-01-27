@@ -27,7 +27,7 @@ jobs:
         cache: 'npm'
 
     - name: Install spaship
-      run: npm install @spaship/cli
+      run: npm install -g @spaship/cli
 
     - name: Setup SPAship Environment
       run: |
