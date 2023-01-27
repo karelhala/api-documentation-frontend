@@ -1,0 +1,44 @@
+name: Deploy to SPAship
+
+on:
+  # workflow_run:
+  #   workflows: ["Node.js CI"]
+  #   branches: [main]
+  #   types: 
+  #     - completed
+  push:
+    branches:
+    - "maknop/spaship-github-action"
+    paths:
+    - ".github/workflows/test.yaml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install spaship
+      run: npm install @spaship/cli
+
+    - name: Setup SPAship Environment
+      run: |
+        spaship env --name="${{ secrets.SPASHIP_ENVIRONMENT }}" \
+          --url="${{ secrets.SPASHIP_WEB_PROPERTY }}" \
+          --apikey=${{ secrets.SPASHIP_API_KEY }}
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy
+      run: spaship --env="${{ secrets.SPASHIP_ENVIRONMENT" }}

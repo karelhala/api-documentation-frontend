@@ -34,6 +34,7 @@
     "@patternfly/react-styles": "^4.92.3",
     "@patternfly/react-table": "^4.112.6",
     "@patternfly/react-tokens": "^4.94.3",
+    "@spaship/cli": "^1.5.5",
     "mock-json-schema": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
