@@ -1,4 +1,4 @@
-name: Deploy to SPAship
+name: SPAship Deployment
 
 on:
   # workflow_run:
