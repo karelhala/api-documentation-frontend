@@ -42,4 +42,6 @@ jobs:
       run: npm run build
 
     - name: Deploy
-      run: spaship deploy --env="${{ secrets.SPASHIP_ENVIRONMENT }}"
+      run: spaship deploy \
+        --apikey="${{ secrets.SPASHIP_API_KEY }}"
+        --env="${{ secrets.SPASHIP_WEB_PROPERTY }}"
