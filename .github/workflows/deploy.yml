@@ -32,16 +32,10 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    - name: Setup SPAship Environment
-      run: |
-        spaship env --name="${{ secrets.SPASHIP_ENVIRONMENT }}" \
-          --url="${{ secrets.SPASHIP_WEB_PROPERTY }}" \
-          --apikey=${{ secrets.SPASHIP_API_KEY }}
-
     - name: Build
       run: npm run build
 
     - name: Deploy
       run: |
-        spaship deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
-          --env=${{ secrets.SPASHIP_WEB_PROPERTY }}
+        spaship deploy --env=${{ secrets.SPASHIP_WEB_PROPERTY }} --apikey=${{ secrets.SPASHIP_API_KEY }}
+          
