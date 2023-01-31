@@ -43,5 +43,5 @@ jobs:
 
     - name: Deploy
       run: spaship deploy \
-        --apikey="${{ secrets.SPASHIP_API_KEY }}"
+        --apikey=${{ secrets.SPASHIP_API_KEY }} \
         --env="${{ secrets.SPASHIP_WEB_PROPERTY }}"
