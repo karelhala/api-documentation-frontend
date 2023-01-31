@@ -1,0 +1,4 @@
+name: api-documentation-frontend
+path: /apidocs
+single: true
+buildDir: build
