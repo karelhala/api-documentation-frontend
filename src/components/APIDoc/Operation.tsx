@@ -4,6 +4,7 @@ import {buildExample, deRef} from "../../utils/Openapi";
 import {Stack, StackItem, Text, TextContent, TextVariants} from "@patternfly/react-core";
 import {TableComposable, Tbody, Td, Thead, Tr} from "@patternfly/react-table";
 import {ExampleResponse} from "./ExampleResponse";
+import {CodeSamples} from "./CodeSamples";
 
 export interface OperationProps {
     verb: string;
@@ -85,6 +86,9 @@ export const Operation: React.FunctionComponent<OperationProps> = ({verb, path, 
             </TableComposable>
             {responseExample && <ExampleResponse response={responseExample} />}
         </StackItem> }
+        <StackItem>
+            <CodeSamples parameters={parameters} verb={verb} path={path}/>
+        </StackItem>
     </Stack>;
 }
 
