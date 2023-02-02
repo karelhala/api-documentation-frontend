@@ -16,7 +16,7 @@ export const APIPage: FunctionComponent = () => {
     const selectedApi = apiConfigurations.find(a => a.displayName === api);
 
     if (!selectedApi) {
-        navigate(process.env.PUBLIC_URL);
+        navigate('/');
         return null;
     }
 
@@ -25,7 +25,7 @@ export const APIPage: FunctionComponent = () => {
             <Breadcrumb>
                 <BreadcrumbItem to='#' onClick={(event) => {
                     event.preventDefault();
-                    navigate(process.env.PUBLIC_URL);
+                    navigate('/');
                 }} >API Catalog</BreadcrumbItem>
                 <BreadcrumbItem isActive>{api}</BreadcrumbItem>
             </Breadcrumb>
