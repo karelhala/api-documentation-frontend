@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
         element: <LandingPage />
     },
     {
-        path: process.env.PUBLIC_URL + '/api/:api',
+        path: '/api/:api',
         element: <APIPage />
     }
 ]);

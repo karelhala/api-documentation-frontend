@@ -2,7 +2,7 @@
   "short_name": "API Docs",
   "name": "API Docs",
   "icons": [],
-  "start_url": process.env.PUBLIC_URL,
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
