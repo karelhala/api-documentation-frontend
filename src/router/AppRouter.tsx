@@ -4,7 +4,7 @@ import {APIPage} from "../pages/APIPage";
 
 export const router = createBrowserRouter([
     {
-        path: '/',
+        path: '/apidocs',
         element: <LandingPage />
     },
     {
