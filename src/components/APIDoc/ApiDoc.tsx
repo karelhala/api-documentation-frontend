@@ -10,6 +10,8 @@ interface ApiDocProps {
     openapi: OpenAPIV3.Document;
 }
 
+const operationVerbs: string[] = ["get", "post", "patch", "put", "delete", "options", "head", "trace"]
+
 export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
     const { openapi } = props;
 
@@ -38,7 +40,7 @@ export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
             return Object.entries(
                 // Looks like openapi v3.1 supports components here as well
                 pathObject as Record<OpenAPIV3.HttpMethods, OpenAPIV3.OperationObject>
-            ).map(([verb, operation]) =>
+            ).map(([verb, operation]) => operationVerbs.includes(verb) &&
                 <StackItem key={`${verb} ${path}`}>
                     <Operation verb={ verb } path={ path } operation={ operation } document={ openapi }/>
                 </StackItem>
