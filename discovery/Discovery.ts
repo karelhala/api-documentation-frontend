@@ -1,20 +1,28 @@
 export interface Discovery {
-    apis: {
-        [id: string]: DiscoveryAPI
-    }
+    apis: Array<Group>;
 }
 
-export interface DiscoveryAPI {
+export interface Group {
+    id: string;
+    name: string;
+    apps: Array<App>
+}
+
+export type App = {
+    id: string;
     name: string;
     description: string;
     url?: string;
+    skip?: boolean;
+} & {
+    skip: true;
+    skipReason: string;
 }
 
-export const getPath = (key: string, discovery: Discovery): string => {
-    const discoveryApi = discovery.apis[key];
-    if (discoveryApi.url) {
-        return discoveryApi.url;
+export const getPath = (app: App): string => {
+    if (app.url) {
+        return app.url;
     }
 
-    return `./discovery/resources/api/${key}/openapi.json`;
+    return `./discovery/resources/api/${app.id}/openapi.json`;
 }
