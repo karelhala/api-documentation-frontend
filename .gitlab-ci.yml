@@ -1,0 +1,13 @@
+deploy_dev:
+  stage: deploy
+  script:
+    - |
+      npm install -g @spaship/cli
+      npm ci
+      npm run build
+      spaship deploy --env=$SPASHIP_DEV_WEB_PROPERTY --apikey=$SPASHIP_DEV_API_KEY
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+  tags:
+    - deploy-dev
