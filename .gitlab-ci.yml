@@ -10,4 +10,5 @@ deploy_dev:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
   tags:
-    - deploy-dev
+    - shared
+    - docker
