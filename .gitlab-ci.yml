@@ -4,7 +4,7 @@ deploy_dev:
   stage: deploy
   script:
     - |
-      npm install -g @spaship/cli
+      npm install -g @spaship/cli react-app-rewired
       npm install --cache
       npm run build
       spaship deploy --env=$SPASHIP_DEV_WEB_PROPERTY --apikey=$SPASHIP_DEV_API_KEY
