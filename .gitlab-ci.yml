@@ -5,7 +5,7 @@ deploy_dev:
   script:
     - |
       npm install -g @spaship/cli
-      npm ci
+      npm install --cache
       npm run build
       spaship deploy --env=$SPASHIP_DEV_WEB_PROPERTY --apikey=$SPASHIP_DEV_API_KEY
   rules:
