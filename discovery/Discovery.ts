@@ -1,5 +1,6 @@
 export interface Discovery {
     apis: Array<Group>;
+    tags: Array<Tag>;
 }
 
 export interface Group {
@@ -29,10 +30,17 @@ export type App = {
     name: string;
     description: string;
     apiType: 'openapi-v3' | 'openapi-v2' | 'graphql' | 'unknown';
+    icon: 'ansible' | 'edge' | 'insights' | 'openshift' | 'services' | 'subscriptions';
+    tags?: Array<Tag['id']>;
     url?: string;
     useLocalFile?: boolean;
     skip?: boolean;
 } & AppWithSkipReason & OneOfUrlUseLocalOrSkip;
+
+export type Tag = {
+    id: string;
+    name: string;
+}
 
 export const getPath = (app: App): string => {
     if (app.useLocalFile) {
