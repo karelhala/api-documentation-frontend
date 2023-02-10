@@ -11,6 +11,13 @@
         "$ref": "#/definitions/Group"
       },
       "minItems": 1
+    },
+    "tags": {
+      "description": "List of known tags",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Tag"
+      }
     }
   },
   "required": [
@@ -72,6 +79,16 @@
           "description": "Type of the API",
           "type": "string",
           "enum": [ "openapi-v3", "openapi-v2", "graphql", "unknown" ]
+        },
+        "icon": {
+          "$ref": "#/definitions/icon"
+        },
+        "tags": {
+          "description": "Array of tag ids associated to this application",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/id"
+          }
         }
       },
       "required": [
@@ -89,9 +106,35 @@
         }
       ]
     },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/id"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
     "id": {
       "type": "string",
       "pattern": "^[a-z\\-]+$"
+    },
+    "icon": {
+      "type": "string",
+      "enum": [
+        "ansible",
+        "edge",
+        "insights",
+        "openshift",
+        "services",
+        "subscriptions"
+      ]
     },
     "skip-with-reason": {
       "type": "object",
