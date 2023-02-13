@@ -12,8 +12,6 @@ type WithId = {
     id: string;
 }
 
-const extractName = (app: App) => [`${app.name}(${app.id})`, app] as const;
-
 const skipReason = (app: App) => {
     if (app.skip) {
         return app.skipReason;
@@ -31,8 +29,8 @@ const publicApiFilter = (app: App): boolean => !skipFilter(app) && !app.useLocal
 const privateApiFilter = (app: App): boolean => !skipFilter(app) && !!app.useLocalFile;
 const idMapper = (withId: WithId): string => withId.id;
 
-const validApiTest = async (_ignore: string, app: App) => {
-    const api = await SwaggerParser.validate(getPath(app));
+const validApiTest = async (_ignore: string, app: App, groupId: string) => {
+    const api = await SwaggerParser.validate(getPath(app, groupId));
     expect(api).toBeTruthy();
 
     expect(api).toHaveProperty('openapi');
@@ -70,7 +68,9 @@ describe('Discovered OpenAPI are valid OpenAPI3.0+', () => {
         expectNonRepeatedIds(discovery.tags);
     })
 
-    describe.each(Object.values(discovery.apis).map(a => [`${a.name}(${a.id})`, a.apps]))('%s', (_ignore, apps) => {
+    describe.each(Object.values(discovery.apis).map(g => [`${g.name}(${g.id})`, g.apps, g.id]))('%s', (_ignore, apps, group) => {
+        const prepareApp = (app: App) => [`${app.name}(${app.id})`, app, group] as const;
+
         const skipped = apps.filter(skipFilter);
 
         const appsWithPublicUrls = apps.filter(publicApiFilter);
@@ -84,7 +84,7 @@ describe('Discovered OpenAPI are valid OpenAPI3.0+', () => {
             const tagIds = discovery.tags.map(idMapper);
             const appWithTags = apps.filter(a => !!a.tags);
             if (appWithTags.length > 0) {
-                test.each(appWithTags.map(extractName))('%s', (_unused, app) => {
+                test.each(appWithTags.map(prepareApp))('%s', (_unused, app) => {
                     expect(tagIds).toEqual(expect.arrayContaining(app.tags as Array<Tag['id']>));
                 })
             }
@@ -103,13 +103,13 @@ describe('Discovered OpenAPI are valid OpenAPI3.0+', () => {
 
         if (appsWithPublicUrls.length > 0) {
             describe('public url', () => {
-                test.each(appsWithPublicUrls.map(extractName))('%s', validApiTest);
+                test.each(appsWithPublicUrls.map(prepareApp))('%s', validApiTest);
             });
         }
 
         if (appsWithNonPublicUrls.length > 0) {
             describe('local file', () => {
-                test.each(appsWithNonPublicUrls.map(extractName))('%s', validApiTest);
+                test.each(appsWithNonPublicUrls.map(prepareApp))('%s', validApiTest);
             });
         }
         if (skipped.length > 0) {

@@ -42,9 +42,9 @@ export type Tag = {
     name: string;
 }
 
-export const getPath = (app: App): string => {
+export const getPath = (app: App, groupId: string): string => {
     if (app.useLocalFile) {
-        return `./discovery/resources/api/${app.id}/openapi.json`;
+        return `./discovery/resources/api/${groupId}/${app.id}/openapi.json`;
     }
 
     if (app.url) {

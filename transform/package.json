@@ -1,0 +1,24 @@
+{
+  "name": "api-documentation-frontend-transform",
+  "description": "Transforms the discovery data to something usable by the react application",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "bin": {
+    "api-transform": "./dist/main.js"
+  },
+  "dependencies": {
+    "commander": "7.2.0",
+    "eta": "^2.0.0",
+    "got": "^12.5.3",
+    "prettier": "^2.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "discovery": "file://../discovery"
+  },
+  "scripts": {
+    "build": "tsc && cp src/*.eta dist/src/",
+    "start": "node dist/src/main.js"
+  }
+}

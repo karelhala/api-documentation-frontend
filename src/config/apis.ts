@@ -1,168 +1,335 @@
-import {OpenAPIV3} from "openapi-types";
-import RbacOpenApi from "../resources/api/rbac/openapi_v1.json";
-import SystemBaselineApi from "../resources/api/system-baseline/openapi_v1.json";
-import EdgeApi from "../resources/api/edge/openapi.json";
-import OcmApi from "../resources/api/ocm/openapi_v1.json";
-import RhsmSubscriptionsApi from "../resources/api/rhsm-subscriptions/openapi.json";
-import SourcesApi from "../resources/api/sources/openapi.json";
-import TaskApi from "../resources/api/tasks/openapi.json";
-import Vulnerability from "../resources/api/vulnerability/openapi.json";
-import RosApi from "../resources/api/ros/openapi.json";
-import ConfigManagerApi from "../resources/api/config-manager/openapi.json";
-import PoliciesApi from "../resources/api/policies/openapi.json";
-import PatchApi from "../resources/api/patch/openapi.json";
-import PlaybookDispatcherApi from "../resources/api/playbook-dispatcher/openapi.json";
-import NotificationsApi from "../resources/api/notifications/openapi.json";
-import InventoryApi from "../resources/api/inventory/openapi.json";
-import MalwareDetectionApi from "../resources/api/malware-detection/openapi.json";
-import IntegrationsApi from "../resources/api/integrations/openapi.json";
-import ImageBuilderApi from "../resources/api/image-builder/openapi.json";
-import CostManagementApi from "../resources/api/cost-management/openapi.json";
-import ComplianceApi from "../resources/api/compliance/openapi.json";
-import AutomationHub from "../resources/api/automation-hub/openapi.json";
-import InsightsApi from "../resources/api/insights/openapi.json";
+// Auto generated file, do not modify directly.
+// See api-documentation-frontend/transform for more info on how to generate this file.
 
-import APIConfigurationIcons from './APIConfigurationIcons';
+import { OpenAPIV3 } from "openapi-types";
+
+import APIConfigurationIcons from "./APIConfigurationIcons";
 
 export interface APIConfiguration {
-    displayName: string;
-    icon:  keyof typeof APIConfigurationIcons;
-    description: string;
-    api: OpenAPIV3.Document;
+  id: string;
+  displayName: string;
+  icon: keyof typeof APIConfigurationIcons;
+  description: string;
+  getApi: () => Promise<OpenAPIV3.Document>;
 }
 
 export const apiConfigurations: Array<APIConfiguration> = [
-    {
-        displayName: 'RBAC',
-        icon: 'GenericIcon',
-        description: 'The API for Role Based Access Control.',
-        api: RbacOpenApi as OpenAPIV3.Document
-    },
-    {
-        displayName: 'System - Baseline',
-        icon: 'GenericIcon',
-        description: 'The Service that returns system baselines.',
-        api: SystemBaselineApi as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Edge',
-        icon: 'EdgeIcon',
-        description: 'The API for Edge',
-        api: EdgeApi as OpenAPIV3.Document
-    },
-    {
-        displayName: 'OCM',
-        icon: 'OpenShiftIcon',
-        description: 'Receives and maintains logs from internal sources related to OpenShift clusters.',
-        api: OcmApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Subscriptions',
-        icon: 'SubscriptionsIcon',
-        description: 'The REST interface for the rhsm-subscriptions service.',
-        api: RhsmSubscriptionsApi as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Sources',
-        icon: 'GenericIcon',
-        description: 'The Sources API',
-        api: SourcesApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Tasks',
-        icon: 'AnsibleIcon',
-        description: 'The API for managing and issuing Red Hat generated tasks on your infrastructure.',
-        api: TaskApi as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Vulnerability',
-        icon: 'GenericIcon',
-        description: 'The API for Vulnerability',
-        api: Vulnerability as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'ROS',
-        icon: 'InsightsIcon',
-        description: 'Flask Backend API for Resource Optimization Service.',
-        api: RosApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Config Manager',
-        icon: 'GenericIcon',
-        description: 'The Config manager service.',
-        api: ConfigManagerApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Policies',
-        icon: 'GenericIcon',
-        description: 'The API for Policies.',
-        api: PoliciesApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Patch',
-        icon: 'InsightsIcon',
-        description: 'The API of the Patch application.',
-        api: PatchApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Playbook Dispatcher',
-        icon: 'AnsibleIcon',
-        description: 'The Playbook Dispatcher is a service for running Ansible Playbooks on hosts connected via Cloud Connector.',
-        api: PlaybookDispatcherApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Notifications',
-        icon: 'GenericIcon',
-        description: 'The API for Notifications',
-        api: NotificationsApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Inventory',
-        icon: 'InsightsIcon',
-        description: 'REST interface for the Insights Platform Host Inventory application.',
-        api: InventoryApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Malware Detection',
-        icon: 'InsightsIcon',
-        description: 'The API of the Malware-Detection project in Insights.',
-        api: MalwareDetectionApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Integrations',
-        icon: 'GenericIcon',
-        description: 'The API for Integrations',
-        api: IntegrationsApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Image Builder',
-        icon: 'InsightsIcon',
-        description: 'The Service that relays image build requests.',
-        api: ImageBuilderApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Cost Management',
-        icon: 'OpenShiftIcon',
-        description: 'The API for Project Koku and OpenShift cost management.',
-        api: CostManagementApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Compliance',
-        icon: 'InsightsIcon',
-        description: 'The API for Cloud Services for RHEL Compliance.',
-        api: ComplianceApi as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Automation Hub',
-        icon: 'AnsibleIcon',
-        description: 'The API for Cloud Services for RHEL Compliance.',
-        api: AutomationHub as unknown as OpenAPIV3.Document
-    },
-    {
-        displayName: 'Insights',
-        icon: 'InsightsIcon',
-        description: 'The API of the Advisor project in Insights.',
-        api: InsightsApi as unknown as OpenAPIV3.Document
-    }
+  {
+    id: "insights",
+    displayName: "Advisor",
+    description: "The API of the Advisor project in Insights",
+    icon: "InsightsIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/insights/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "cost-management",
+    displayName: "Cost Management",
+    description:
+      "The API for Project Koku and OpenShift cost management. You can find out more about Project Koku at https://github.com/project-koku",
+    icon: "OpenShiftIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/cost-management/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "drift",
+    displayName: "Drift Backend Service",
+    description: "Service that returns differences between systems.",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/drift/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "system-baseline",
+    displayName: "Drift Baseline",
+    description: "Service that returns system baselines",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/system-baseline/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "historical-system-profiles",
+    displayName: "Drift Historical Systems Profile Service ",
+    description: "Service that returns system baselines",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/historical-system-profiles/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "image-builder",
+    displayName: "Image Builder",
+    description: "Service that relays image build requests",
+    icon: "InsightsIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/image-builder/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "integrations",
+    displayName: "Integrations",
+    description: "The API for Integrations",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/integrations/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "inventory",
+    displayName: "Managed Inventory",
+    description:
+      "REST interface for the Insights Platform Host Inventory application",
+    icon: "InsightsIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/inventory/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "notifications",
+    displayName: "Notifications",
+    description: "The API for Notifications",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/notifications/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "gathering",
+    displayName: "Operator Gathering Conditions Service",
+    description: "Gathering Conditions Services to Insights Operator",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/gathering/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "insights-results-aggregator",
+    displayName: "Results Aggregator",
+    description:
+      "Aggregation service for the results of running Insights rules",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/insights-results-aggregator/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "patch",
+    displayName: "Patch",
+    description: "API of the Patch application on console.redhat.com",
+    icon: "InsightsIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/patch/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "playbook-dispatcher",
+    displayName: "Playbook Dispatcher",
+    description:
+      "Playbook Dispatcher is a service for running Ansible Playbooks on hosts connected via Cloud Connector",
+    icon: "AnsibleIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/playbook-dispatcher/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "policies",
+    displayName: "Policies",
+    description: "The API for Policies",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/policies/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "config-manager",
+    displayName: "Red Hat Connector",
+    description: "Config manager service",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/config-manager/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "remediations",
+    displayName: "Remediations",
+    description: "Insights Remediations Service",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/remediations/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "ros",
+    displayName: "Resource Optimization",
+    description: "Flask Backend API for Resource Optimization Service",
+    icon: "InsightsIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/ros/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "edge",
+    displayName: "RHEL for Edge",
+    description: "RHEL for Edge API",
+    icon: "EdgeIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/edge/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "rbac",
+    displayName: "Role-based Access Control",
+    description: "The API for Role Based Access Control",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/rbac/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "sources",
+    displayName: "Sources",
+    description: "Sources API",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/sources/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "rhsm-subscriptions",
+    displayName: "Subscriptions",
+    description:
+      "REST interface for the rhsm-subscriptions service. Please note any deprecated APIs. Our current deprecation policy is to keep deprecated APIs around for at least 6 months",
+    icon: "SubscriptionsIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/rhsm-subscriptions/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "vulnerability",
+    displayName: "Vulnerability Management",
+    description: "Vulnerability API",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/hcc-insights/vulnerability/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "accounts-management-service",
+    displayName: "Account Management Service",
+    description: "Manage user subscriptions and clusters",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/accounts-management-service/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "authorization-service",
+    displayName: "Authorization Service",
+    description: "Enables access control on resources of OCM services",
+    icon: "OpenShiftIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/authorization-service/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "connector-management",
+    displayName: "Connector Management",
+    description: "Connector Management API is a REST API to manage connectors.",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/connector-management/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "kafka-service-fleet-manager-service",
+    displayName: "Kafka Service Fleet Manager Service",
+    description: "Kafka Management API is a REST API to manage Kafka instances",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/kafka-service-fleet-manager-service/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "rhacs-service-fleet-manager",
+    displayName: "RHACS Service Fleet Manager",
+    description:
+      "Red Hat Advanced Cluster Security (RHACS) Service Fleet Manager is a Rest API to manage instances of ACS components.",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/rhacs-service-fleet-manager/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "service-logs",
+    displayName: "Service Logs",
+    description:
+      "Receives and maintains logs from internal sources related to OpenShift clusters.",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/service-logs/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "service-registry-management",
+    displayName: "Service Registry Management",
+    description:
+      "Service Registry Management API is a REST API for managing Service Registry instances. Service Registry is a datastore for event schemas and API designs, which is based on the open source Apicurio Registry project",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/service-registry-management/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "upgrades-information-service",
+    displayName: "Upgrades Information Service",
+    description: "Upgrades Information Service API",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/upgrades-information-service/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
+  {
+    id: "web-rca-service",
+    displayName: "Web-RCA Service",
+    description: "Web-RCA Service API",
+    icon: "GenericIcon",
+    getApi: () =>
+      import(
+        "./apis/openshift/web-rca-service/openapi.json"
+      ) as unknown as Promise<OpenAPIV3.Document>,
+  },
 ];
-

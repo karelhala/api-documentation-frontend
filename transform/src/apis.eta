@@ -1,0 +1,26 @@
+// Auto generated file, do not modify directly.
+// See api-documentation-frontend/transform for more info on how to generate this file.
+
+import {OpenAPIV3} from "openapi-types";
+
+import APIConfigurationIcons from './APIConfigurationIcons';
+
+export interface APIConfiguration {
+    id: string;
+    displayName: string;
+    icon:  keyof typeof APIConfigurationIcons;
+    description: string;
+    getApi: () => Promise<OpenAPIV3.Document>;
+}
+
+export const apiConfigurations: Array<APIConfiguration> = [
+    <% it.api.forEach(function(api){ %>
+      {
+        id: '<%= api.app.id %>',
+        displayName: '<%= api.app.name %>',
+        description: '<%= api.app.description %>',
+        icon: '<%~ E.includeFile('icon', {icon: api.app.icon}) %>',
+        getApi: () => import('./apis/<%=api.path.join('/')%>/openapi.json') as unknown as Promise<OpenAPIV3.Document>
+      },
+    <% }) %>
+];

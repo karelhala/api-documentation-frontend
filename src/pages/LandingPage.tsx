@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
 import {
   Button,
-  Gallery, 
+  Gallery,
   GalleryItem,
   Page,
   PageGroup,
@@ -72,7 +72,7 @@ export const LandingPage: FunctionComponent = () => {
         <Gallery hasGutter>
           { apiConfigurations.map(apiConfig => (
             <GalleryItem key={apiConfig.displayName}>
-             <Card displayName={apiConfig.displayName} icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon} description={apiConfig.description} onClick={() => navigate(`/api/${apiConfig.displayName}`)} />
+             <Card displayName={apiConfig.displayName} icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon} description={apiConfig.description} onClick={() => navigate(`/api/${apiConfig.id}`)} />
             </GalleryItem>
           ))}
           </Gallery>
