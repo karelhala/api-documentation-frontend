@@ -4,7 +4,7 @@ import { SearchInputBasic } from './SearchBar';
 import { CheckboxControlled } from './CheckBox';
 
 export const SidebarBasic: React.FunctionComponent = () => (
-  <PageSection variant={PageSectionVariants.light} isFilled>
+  <PageSection variant={PageSectionVariants.light} stickyOnBreakpoint={{ default: 'top' }}>
     <Sidebar hasGutter>
       <Form>
         <SearchInputBasic/>
