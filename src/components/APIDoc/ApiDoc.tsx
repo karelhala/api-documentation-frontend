@@ -6,6 +6,7 @@ import {TextContent, Text, TextVariants, Stack, StackItem, Bullseye, Spinner} fr
 import {ServerList} from "./ServerList";
 import {SecuritySchemeList} from "./SecuritySchemeList";
 import {useBackgroundTask} from "../../hooks/useBackgroundTask";
+import { SchemaViewer } from './SchemaViewer';
 
 interface ApiDocProps {
     openapi: OpenAPIV3.Document;
@@ -51,5 +52,8 @@ export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
             </StackItem>
         )}
         { paths.loading ? <Bullseye><Spinner /></Bullseye> : paths.value }
+        <StackItem>
+            <SchemaViewer document={ openapi }/>
+        </StackItem>
     </Stack>;
 }
