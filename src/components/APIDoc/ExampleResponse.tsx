@@ -19,18 +19,18 @@ export const ExampleResponse: React.FunctionComponent<ExampleResponseProps> = ({
         <CodeBlock>
             <CodeBlockCode>
                 {first5Lines}
-                <ExpandableSection isExpanded={isExpanded} isDetached contentId={id}>
+                {remaining.length > 0 && <ExpandableSection isExpanded={isExpanded} isDetached contentId={id}>
                     {remaining}
-                </ExpandableSection>
+                </ExpandableSection>}
             </CodeBlockCode>
-            <ExpandableSectionToggle
+            {remaining.length > 0 && <ExpandableSectionToggle
                 isExpanded={isExpanded}
                 onToggle={onToggle}
                 contentId="code-block-expand"
                 direction="up"
             >
                 {isExpanded ? 'Show Less' : 'Show More'}
-            </ExpandableSectionToggle>
+            </ExpandableSectionToggle>}
         </CodeBlock>
     </>;
 };
