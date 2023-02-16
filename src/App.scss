@@ -27,12 +27,20 @@
 .apid-c-sidebar {
   .pf-c-text-input-group {
     width: 250px;
+    &__icon {
+      display: none;
+    }
+    &__text-input {
+      padding-left: var(--pf-global--spacer--sm);
+    }
   }
-  .pf-c-text-input-group__icon {
-    display: none;
+  .pf-c-content {
+    font-size: var(--pf-c-content--small--FontSize);
+    font-weight: var(--pf-global--FontWeight--bold);
   }
-  .pf-c-text-input-group__text-input {
-    padding-left: 8px;
+  .pf-c-check {
+    --pf-c-check__label--FontSize: var(--pf-c-content--small--FontSize);
+    --pf-c-check__label--LineHeight: var(--pf-c-content--small--LineHeight);
   }
 }
 
