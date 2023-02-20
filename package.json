@@ -7,7 +7,7 @@
     "build": "react-app-rewired build",
     "eject": "react-app-rewired eject",
     "start": "react-app-rewired start",
-    "test": "react-scripts test",
+    "test": "npm exec jest --src discovery",
     "discovery": "npm-run-all discovery:build discovery:start",
     "discovery:build": "npm run --prefix transform build",
     "discovery:start": "npm run --prefix transform start -- --discovery-file `npm prefix`/discovery/Discovery.yml -o `npm prefix`/src/config"
