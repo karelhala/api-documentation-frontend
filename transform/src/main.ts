@@ -55,14 +55,16 @@ export const execute = async (options: Options) => {
             .map(async (app) => {
                 return await limit(async (): Promise<BuildApi> => {
                     let content = {};
-                    let apiIsValid;
+                    let apiIsValid = false;
                     try {
                         const apiContent = await getApiContent(discoveryPath, app, group.id);
                         content = JSON.parse(apiContent);
                         await SwaggerParser.validate(JSON.parse(apiContent) as OpenAPI.Document);
-                        apiIsValid = true;
+                        if ('openapi' in content && typeof content.openapi === 'string' && content.openapi.match(/^3(.\d(.\d)?)?/)) {
+                            apiIsValid = true;
+                        }
                     } catch {
-                        apiIsValid = false;
+                        // Ignore exceptions, API is not valid.
                     }
 
                     return ({

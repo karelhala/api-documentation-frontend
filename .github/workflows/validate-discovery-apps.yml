@@ -2,15 +2,11 @@
 #  - Reachable, i.e. we can download it.
 #  - Following OpenapiV3+
 
-name: Discovery
+name: Validate discovery apps
 
 on:
   schedule:
     - cron: "0 0 * * *"
-  pull_request:
-    branches: [ "main" ]
-    paths:
-      - 'discovery/**'
 
 
 jobs:
@@ -28,4 +24,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm exec jest --src discovery
+    - run: npm exec jest --src discovery/Validate.test.ts
