@@ -2,7 +2,7 @@ import {Discovery, App, Tag} from "discovery/Discovery";
 import {parse} from "yaml";
 import prettier from 'prettier';
 import pLimit from 'p-limit';
-import {mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync} from "fs";
+import {mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, existsSync} from "fs";
 import path from "path";
 import got from "got";
 import {getCommand} from "./program.js";
@@ -14,6 +14,7 @@ import {OpenAPI} from "openapi-types";
 interface Options {
     discoveryFile: string;
     outputDir: string;
+    skipApiFetch: boolean;
 }
 
 type BuildApi = {
@@ -21,10 +22,28 @@ type BuildApi = {
     apiContent: object;
     app: App;
     apiIsValid: boolean;
-    tags: Array<Tag>;
 }
 
-const getApiContent = async (discoveryPath: string, app: App, group: string): Promise<string> => {
+const OUTPUT_APIS_DIR = 'apis';
+
+const getApiContent = async (discoveryPath: string, app: App, group: string, options: Options): Promise<string> => {
+    if (options.skipApiFetch) {
+        const apiPath = path.resolve(
+            options.outputDir,
+            OUTPUT_APIS_DIR,
+            group,
+            app.id,
+            'openapi.json'
+        );
+
+        if (existsSync(apiPath)) {
+            return readFileSync(apiPath).toString();
+        }
+
+        // Return an empty json if we don't have the file and we are not to fetch apis
+        return '{}';
+    }
+
     if (app.useLocalFile) {
         return readFileSync(path.resolve(
             discoveryPath,
@@ -57,7 +76,7 @@ export const execute = async (options: Options) => {
                     let content = {};
                     let apiIsValid = false;
                     try {
-                        const apiContent = await getApiContent(discoveryPath, app, group.id);
+                        const apiContent = await getApiContent(discoveryPath, app, group.id, options);
                         content = JSON.parse(apiContent);
                         await SwaggerParser.validate(JSON.parse(apiContent) as OpenAPI.Document);
                         if ('openapi' in content && typeof content.openapi === 'string' && content.openapi.match(/^3(.\d(.\d)?)?/)) {
@@ -71,15 +90,7 @@ export const execute = async (options: Options) => {
                         path: [ group.id, app.id ],
                         apiContent: content,
                         app,
-                        apiIsValid,
-                        tags: app.tags?.map(tId => {
-                            const tag = discoveryContent.tags.find(t => t.id === tId);
-                            if (!tag) {
-                                throw new Error(`Unknown tag for app: ${app.id}; tag: ${tId}`);
-                            }
-
-                            return tag;
-                        }) ?? []
+                        apiIsValid
                     })
                 });
             })
@@ -93,14 +104,14 @@ export const execute = async (options: Options) => {
     readdirSync(
         path.resolve(
             options.outputDir,
-            'apis'
+            OUTPUT_APIS_DIR
         )
     )
     .flatMap(
         group => readdirSync(
             path.resolve(
                 options.outputDir,
-                'apis',
+                OUTPUT_APIS_DIR,
                 group
             )
         ).map(app => [group, app])
@@ -109,7 +120,7 @@ export const execute = async (options: Options) => {
     .forEach(toDelete => rmSync(
         path.resolve(
             options.outputDir,
-            'apis',
+            OUTPUT_APIS_DIR,
             ...toDelete
         ),
         {
@@ -128,7 +139,7 @@ export const execute = async (options: Options) => {
         mkdirSync(
             path.resolve(
                 options.outputDir,
-                'apis',
+                OUTPUT_APIS_DIR,
                 ...api.path
             ),
             {
@@ -139,7 +150,7 @@ export const execute = async (options: Options) => {
         writeFileSync(
             path.resolve(
                 options.outputDir,
-                'apis',
+                OUTPUT_APIS_DIR,
                 ...api.path,
                 'openapi.json'
             ),
@@ -152,7 +163,8 @@ export const execute = async (options: Options) => {
     const templateString = readFileSync(templateFile).toString();
 
     const result = Eta.render(templateString, {
-        api: buildApis
+        api: buildApis,
+        tags: discoveryContent.tags
     }, {
         filename: templateFile
     }) as string;
