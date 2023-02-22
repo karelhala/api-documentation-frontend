@@ -121,7 +121,7 @@ export const execute = async (options: Options) => {
     buildApis.forEach(api => {
 
         if (!api.apiIsValid) {
-            console.log(`Validation failed for app: ${api.app.id}... Skipping`);
+            console.error(`Validation failed for app: ${api.app.id}... Skipping`);
             return;
         }
 
