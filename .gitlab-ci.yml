@@ -14,3 +14,19 @@ deploy_dev:
   tags:
     - shared
     - docker
+
+deploy_stage:
+  stage: deploy
+  script:
+    - |
+      npm install -g @spaship/cli react-app-rewired
+      npm ci
+      npm run build
+      spaship deploy --env=$SPASHIP_STAGE_WEB_PROPERTY --apikey=$SPASHIP_STAGE_API_KEY
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+  tags:
+    - shared
+    - docker
