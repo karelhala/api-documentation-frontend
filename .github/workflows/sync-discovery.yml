@@ -26,10 +26,23 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci && npm ci --prefix transform
-    - run: npm run discovery
+    - run: npm run discovery:build
+    - id: discovery_run
+      run: npm run discovery:start
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
       with:
         title: Syncing API
+        body: |
+          There were some changes in the discovery or the contents of the APIs.
+          
+          Here are the errors of the script (if any):
+          
+          ```
+            ${{steps.discovery_run.outputs.stderr}}
+          ```
+          
+          Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action
         commit-message: Syncing API
         delete-branch: true
+        author: "GitHub <noreply@github.com>"
