@@ -6,7 +6,7 @@ import {
     PageSectionVariants, Sidebar, SidebarContent,
   SidebarPanel, Spinner,
 } from "@patternfly/react-core";
-import {apiConfigurations} from "../config/apis";
+import {apiConfigurations} from "@apidocs/common";
 import {useNavigate, useParams} from "react-router";
 import {ApiDoc} from "../components/APIDoc/ApiDoc";
 import {usePromise} from "react-use";

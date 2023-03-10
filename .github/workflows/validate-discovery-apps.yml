@@ -24,4 +24,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm exec jest --src discovery/Validate.test.ts
+    - run: npm exec jest --src packages/discovery/Validate.test.ts

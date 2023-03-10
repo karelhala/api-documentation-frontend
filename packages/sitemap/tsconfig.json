@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
     "incremental": true,
     "module": "esnext",
     "target": "ES6",
@@ -10,7 +7,7 @@
     "checkJs": false,
     "strict": true,
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

@@ -6,7 +6,7 @@ import OpenShiftIcon from  './icon-openshift';
 import ServicesIcon from  './icon-services';
 import SubscriptionsIcon from  './icon-subscriptions';
 
-const APIConfigurationIcons = {
+export const APIConfigurationIcons = {
   AnsibleIcon,
   EdgeIcon,
   GenericIcon,
@@ -15,4 +15,3 @@ const APIConfigurationIcons = {
   ServicesIcon,
   SubscriptionsIcon,
 };
-export default APIConfigurationIcons;

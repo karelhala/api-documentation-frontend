@@ -3,13 +3,14 @@
 
 import {OpenAPIV3} from "openapi-types";
 
-import APIConfigurationIcons from './APIConfigurationIcons';
+import {APIConfigurationIcons} from './APIConfigurationIcons';
 
 export interface APIConfiguration {
     id: string;
     displayName: string;
     icon:  keyof typeof APIConfigurationIcons;
     description: string;
+    apiPath: string;
     getApi: () => Promise<OpenAPIV3.Document>;
     tags: ReadonlyArray<Readonly<APILabel>>;
 }
@@ -39,6 +40,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
         displayName: '<%= api.app.name %>',
         description: '<%= api.app.description %>',
         icon: '<%~ E.includeFile('icon', {icon: api.app.icon}) %>',
+        apiPath: './apis/<%=api.path.join('/')%>/openapi.json',
         getApi: () => import('./apis/<%=api.path.join('/')%>/openapi.json') as unknown as Promise<OpenAPIV3.Document>,
         tags: [
             <% api.app.tags.forEach(function(tag){ %>

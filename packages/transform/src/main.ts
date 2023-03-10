@@ -1,4 +1,4 @@
-import {Discovery, App, Tag, Group} from "discovery/Discovery";
+import {Discovery, App, Tag, Group} from "@apidocs/discovery";
 import {parse} from "yaml";
 import prettier from 'prettier';
 import pLimit from 'p-limit';

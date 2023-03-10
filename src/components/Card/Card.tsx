@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
 import {Card as PFCard, CardBody, Split, SplitItem, Text, TextContent, TextVariants} from '@patternfly/react-core';
 
-import APIConfigurationIcons from '../../config/APIConfigurationIcons';
+import {APIConfigurationIcons} from '@apidocs/common';
 
 export interface CardProps {
   displayName: string;
@@ -24,7 +24,7 @@ export const Card: FunctionComponent<CardProps> = ({displayName, icon, descripti
           </SplitItem>
           <SplitItem>
             <Text component="p" className="pf-u-font-size-md pf-u-m-sm pf-u-ml-md">
-              {displayName} 
+              {displayName}
             </Text>
           </SplitItem>
           </Split>

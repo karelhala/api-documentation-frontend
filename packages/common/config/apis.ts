@@ -3,13 +3,14 @@
 
 import { OpenAPIV3 } from "openapi-types";
 
-import APIConfigurationIcons from "./APIConfigurationIcons";
+import { APIConfigurationIcons } from "./APIConfigurationIcons";
 
 export interface APIConfiguration {
   id: string;
   displayName: string;
   icon: keyof typeof APIConfigurationIcons;
   description: string;
+  apiPath: string;
   getApi: () => Promise<OpenAPIV3.Document>;
   tags: ReadonlyArray<Readonly<APILabel>>;
 }
@@ -118,6 +119,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Advisor",
     description: "The API of the Advisor project in Insights",
     icon: "InsightsIcon",
+    apiPath: "./apis/hcc-insights/insights/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/insights/openapi.json"
@@ -133,6 +135,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Automation Hub",
     description: "Fetch, Upload, Organize, and Distribute Ansible Collections",
     icon: "AnsibleIcon",
+    apiPath: "./apis/hcc-insights/automation-hub/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/automation-hub/openapi.json"
@@ -145,6 +148,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "The API for Project Koku and OpenShift cost management. You can find out more about Project Koku at https://github.com/project-koku",
     icon: "OpenShiftIcon",
+    apiPath: "./apis/hcc-insights/cost-management/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/cost-management/openapi.json"
@@ -156,6 +160,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Drift Backend Service",
     description: "Service that returns differences between systems.",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/drift/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/drift/openapi.json"
@@ -172,6 +177,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Drift Baseline",
     description: "Service that returns system baselines",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/system-baseline/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/system-baseline/openapi.json"
@@ -188,6 +194,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Drift Historical Systems Profile Service ",
     description: "Service that returns system baselines",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/historical-system-profiles/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/historical-system-profiles/openapi.json"
@@ -204,6 +211,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Image Builder",
     description: "Service that relays image build requests",
     icon: "InsightsIcon",
+    apiPath: "./apis/hcc-insights/image-builder/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/image-builder/openapi.json"
@@ -215,6 +223,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Integrations",
     description: "The API for Integrations",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/integrations/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/integrations/openapi.json"
@@ -227,6 +236,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "REST interface for the Insights Platform Host Inventory application",
     icon: "InsightsIcon",
+    apiPath: "./apis/hcc-insights/inventory/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/inventory/openapi.json"
@@ -242,6 +252,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Notifications",
     description: "The API for Notifications",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/notifications/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/notifications/openapi.json"
@@ -253,6 +264,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Operator Gathering Conditions Service",
     description: "Gathering Conditions Services to Insights Operator",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/gathering/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/gathering/openapi.json"
@@ -265,6 +277,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "Aggregation service for the results of running Insights rules",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/insights-results-aggregator/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/insights-results-aggregator/openapi.json"
@@ -276,6 +289,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Patch",
     description: "API of the Patch application on console.redhat.com",
     icon: "InsightsIcon",
+    apiPath: "./apis/hcc-insights/patch/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/patch/openapi.json"
@@ -292,6 +306,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "Playbook Dispatcher is a service for running Ansible Playbooks on hosts connected via Cloud Connector",
     icon: "AnsibleIcon",
+    apiPath: "./apis/hcc-insights/playbook-dispatcher/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/playbook-dispatcher/openapi.json"
@@ -303,6 +318,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Policies",
     description: "The API for Policies",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/policies/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/policies/openapi.json"
@@ -318,6 +334,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Remediations",
     description: "Insights Remediations Service",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/remediations/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/remediations/openapi.json"
@@ -335,6 +352,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Resource Optimization",
     description: "Flask Backend API for Resource Optimization Service",
     icon: "InsightsIcon",
+    apiPath: "./apis/hcc-insights/ros/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/ros/openapi.json"
@@ -346,6 +364,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "RHEL for Edge",
     description: "RHEL for Edge API",
     icon: "EdgeIcon",
+    apiPath: "./apis/hcc-insights/edge/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/edge/openapi.json"
@@ -357,6 +376,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Role-based Access Control",
     description: "The API for Role Based Access Control",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/rbac/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/rbac/openapi.json"
@@ -368,6 +388,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Sources",
     description: "Sources API",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/sources/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/sources/openapi.json"
@@ -380,6 +401,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "REST interface for the rhsm-subscriptions service. Please note any deprecated APIs. Our current deprecation policy is to keep deprecated APIs around for at least 6 months",
     icon: "SubscriptionsIcon",
+    apiPath: "./apis/hcc-insights/rhsm-subscriptions/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/rhsm-subscriptions/openapi.json"
@@ -396,6 +418,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Vulnerability Management",
     description: "Vulnerability API",
     icon: "GenericIcon",
+    apiPath: "./apis/hcc-insights/vulnerability/openapi.json",
     getApi: () =>
       import(
         "./apis/hcc-insights/vulnerability/openapi.json"
@@ -412,6 +435,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Account Management Service",
     description: "Manage user subscriptions and clusters",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/accounts-management-service/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/accounts-management-service/openapi.json"
@@ -423,6 +447,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Authorization Service",
     description: "Enables access control on resources of OCM services",
     icon: "OpenShiftIcon",
+    apiPath: "./apis/openshift/authorization-service/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/authorization-service/openapi.json"
@@ -434,6 +459,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Connector Management",
     description: "Connector Management API is a REST API to manage connectors.",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/connector-management/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/connector-management/openapi.json"
@@ -445,6 +471,8 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Kafka Service Fleet Manager Service",
     description: "Kafka Management API is a REST API to manage Kafka instances",
     icon: "GenericIcon",
+    apiPath:
+      "./apis/openshift/kafka-service-fleet-manager-service/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/kafka-service-fleet-manager-service/openapi.json"
@@ -457,6 +485,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "Red Hat Advanced Cluster Security (RHACS) Service Fleet Manager is a Rest API to manage instances of ACS components.",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/rhacs-service-fleet-manager/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/rhacs-service-fleet-manager/openapi.json"
@@ -469,6 +498,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "Receives and maintains logs from internal sources related to OpenShift clusters.",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/service-logs/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/service-logs/openapi.json"
@@ -481,6 +511,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     description:
       "Service Registry Management API is a REST API for managing Service Registry instances. Service Registry is a datastore for event schemas and API designs, which is based on the open source Apicurio Registry project",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/service-registry-management/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/service-registry-management/openapi.json"
@@ -492,6 +523,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Upgrades Information Service",
     description: "Upgrades Information Service API",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/upgrades-information-service/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/upgrades-information-service/openapi.json"
@@ -503,6 +535,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     displayName: "Web-RCA Service",
     description: "Web-RCA Service API",
     icon: "GenericIcon",
+    apiPath: "./apis/openshift/web-rca-service/openapi.json",
     getApi: () =>
       import(
         "./apis/openshift/web-rca-service/openapi.json"

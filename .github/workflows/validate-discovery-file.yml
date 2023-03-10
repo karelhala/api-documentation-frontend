@@ -26,4 +26,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm exec jest --src discovery/Discovery.test.ts
+    - run: npm exec jest --src packages/discovery/Discovery.test.ts

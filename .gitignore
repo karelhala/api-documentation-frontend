@@ -28,3 +28,9 @@ yarn-error.log*
 
 # spaship
 .spashiprc.yml
+
+# sitemap
+public/sitemap.xml
+
+# rollup
+.rollup.cache

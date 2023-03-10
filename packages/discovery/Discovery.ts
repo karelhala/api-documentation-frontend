@@ -44,7 +44,7 @@ export type Tag = {
 
 export const getPath = (app: App, groupId: string): string => {
     if (app.useLocalFile) {
-        return `./discovery/resources/api/${groupId}/${app.id}/openapi.json`;
+        return `${__dirname}/resources/api/${groupId}/${app.id}/openapi.json`;
     }
 
     if (app.url) {

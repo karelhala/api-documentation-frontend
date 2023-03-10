@@ -6,6 +6,7 @@ deploy_dev:
     - |
       npm install -g @spaship/cli react-app-rewired
       npm ci
+      SITEMAP_BASE_URL=https://developers.dev.redhat.com/apidocs npm run sitemap
       npm run build
       spaship deploy --env=$SPASHIP_DEV_WEB_PROPERTY --apikey=$SPASHIP_DEV_API_KEY
   rules:
@@ -21,6 +22,7 @@ deploy_stage:
     - |
       npm install -g @spaship/cli react-app-rewired
       npm ci
+      SITEMAP_BASE_URL=https://developers.stage.redhat.com/apidocs npm run sitemap
       npm run build
       spaship deploy --env=$SPASHIP_STAGE_WEB_PROPERTY --apikey=$SPASHIP_STAGE_API_KEY
   rules:
@@ -37,6 +39,7 @@ deploy_qa:
     - |
       npm install -g @spaship/cli react-app-rewired
       npm ci
+      SITEMAP_BASE_URL=https://developers.qa.redhat.com/apidocs npm run sitemap
       npm run build
       spaship deploy --env=$SPASHIP_QA_WEB_PROPERTY --apikey=$SPASHIP_QA_API_KEY
   rules:
