@@ -7,6 +7,7 @@ node_modules
 
 # testing
 /coverage
+spandx.config.js
 
 # production
 /build
