@@ -1,4 +1,4 @@
-import {FunctionComponent} from 'react';
+import {FunctionComponent, PropsWithChildren, MouseEvent} from 'react';
 import {Card as PFCard, CardBody, Split, SplitItem, Text, TextContent, TextVariants} from '@patternfly/react-core';
 
 import {APIConfigurationIcons} from '@apidocs/common';
@@ -10,10 +10,19 @@ export interface CardProps {
   onClick: () => void;
 }
 
-export const Card: FunctionComponent<CardProps> = ({displayName, icon, description, onClick}) => {
+export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({displayName, icon, description, onClick, children}) => {
   const TitleIcon = icon ? APIConfigurationIcons[icon] : APIConfigurationIcons.GenericIcon;
+
+  const onCardClick = (event: MouseEvent) => {
+    // By-pass click if we actually clicked on a button (or it's children)
+    const clickedAButton = event.target instanceof Element && event.target.closest('button');
+    if (!clickedAButton) {
+      onClick();
+    }
+  }
+
   return <PFCard
-    onClick={ onClick }
+    onClick={onCardClick}
     isSelectableRaised
     isFullHeight
      >
@@ -34,6 +43,7 @@ export const Card: FunctionComponent<CardProps> = ({displayName, icon, descripti
             {description}
           </Text>
         </TextContent>
+        {children}
       </CardBody>
     </PFCard>
 };

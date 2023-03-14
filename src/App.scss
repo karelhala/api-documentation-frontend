@@ -49,6 +49,13 @@
     box-shadow: inset 0.125rem 0 0.125rem -0.0625rem rgba(3, 3, 3, 0.16);
   }
   .pf-c-card__body {
+    display: flex;
+    flex-direction: column;
+    .apid-tags__main {
+      margin-top: auto;
+      padding-top: var(--pf-global--spacer--sm);
+    }
+
     svg {
       width: 38px;
       height: 38px;
