@@ -10,6 +10,7 @@
     "build": "react-app-rewired build",
     "eject": "react-app-rewired eject",
     "start": "react-app-rewired start",
+    "spandx": "spandx",
     "test": "npm exec jest --src discovery",
     "discovery": "npm-run-all discovery:build discovery:start",
     "discovery:build": "npm run --workspace packages/common --workspace packages/transform build",
