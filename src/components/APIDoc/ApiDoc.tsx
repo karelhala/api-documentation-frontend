@@ -1,33 +1,23 @@
-import React from 'react';
+import {FunctionComponent} from 'react';
 import {OpenAPIV3} from "openapi-types";
 import {deRef} from "../../utils/Openapi";
-import {Operation} from "./Operation";
 import {Divider, TextContent, Text, TextVariants, Stack, StackItem, Bullseye, Spinner} from "@patternfly/react-core";
 import {ServerList} from "./ServerList";
 import {SecuritySchemeList} from "./SecuritySchemeList";
-import {useBackgroundTask} from "../../hooks/useBackgroundTask";
 import { SchemaViewer } from './SchemaViewer';
-import {Operations} from "./Operations";
+import {useTags} from "./hooks/useTags";
+import {useGroupedOperations} from "./hooks/useGroupedOperations";
+import {renderGroupOperations} from "./Operations/renderGroupedOperations";
 
 interface ApiDocProps {
     openapi: OpenAPIV3.Document;
 }
 
-const operationVerbs: string[] = ["get", "post", "patch", "put", "delete", "options", "head", "trace"]
-
-export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
+export const ApiDoc: FunctionComponent<ApiDocProps> = props => {
     const { openapi } = props;
 
-    const paths = useBackgroundTask(() => {
-        return Object.entries(openapi.paths).map(([path, pathObject]) => {
-            return Object.entries(
-                // Looks like openapi v3.1 supports components here as well
-                pathObject as Record<OpenAPIV3.HttpMethods, OpenAPIV3.OperationObject>
-            ).map(([verb, operation]) => operationVerbs.includes(verb) &&
-                <Operation key={`${verb} ${path}`} verb={ verb } path={ path } operation={ operation } document={ openapi }/>
-            );
-        });
-    }, [openapi]);
+    const tags = useTags(openapi);
+    const groupedOperations = useGroupedOperations(openapi, tags);
 
     return <Stack hasGutter>
         <StackItem>
@@ -38,7 +28,7 @@ export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
                 <Text component={TextVariants.p}>
                     { openapi.info.description }
                 </Text>
-            </TextContent>  
+            </TextContent>
         </StackItem>
         { openapi.servers && (
             <StackItem>
@@ -55,8 +45,8 @@ export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
                 <SecuritySchemeList schemes={Object.values(openapi.components.securitySchemes).map(s => deRef(s, openapi))} />
             </StackItem>
         )}
-        
-        { paths.loading ? <Bullseye><Spinner /></Bullseye> : 
+
+        { groupedOperations.loading ? <Bullseye><Spinner /></Bullseye> :
             <StackItem>
                 <Divider
                     className="apid-c-divider pf-u-pb-md"
@@ -64,10 +54,15 @@ export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
                 />
                 <TextContent className="pf-u-pb-lg">
                     <Text component={TextVariants.h2}>
-                        { /* Todo: Add the title */}
+                        Operations
                     </Text>
                 </TextContent>
-                <Operations>{paths.value}</Operations>
+                <Stack>
+                    { renderGroupOperations({
+                        openapi,
+                        groupedOperations: groupedOperations.value
+                    }) }
+                </Stack>
             </StackItem>
          }
 
@@ -75,7 +70,7 @@ export const ApiDoc: React.FunctionComponent<ApiDocProps> = props => {
             <Divider
                 className="apid-c-divider pf-u-pb-md"
                 inset={{default: 'insetNone',}}
-            />     
+            />
             <SchemaViewer document={ openapi }/>
         </StackItem>
     </Stack>;
