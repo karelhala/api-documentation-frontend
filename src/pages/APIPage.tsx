@@ -4,7 +4,7 @@ import {
     Page,
     PageSection,
     PageSectionVariants, Sidebar, SidebarContent,
-  SidebarPanel, Spinner,
+    SidebarPanel, Spinner,
 } from "@patternfly/react-core";
 import {apiConfigurations} from "@apidocs/common";
 import {useNavigate, useParams} from "react-router";
@@ -12,6 +12,10 @@ import {ApiDoc} from "../components/APIDoc/ApiDoc";
 import {usePromise} from "react-use";
 import {OpenAPIV3} from "openapi-types";
 import {Helmet} from "react-helmet";
+import {useTags} from "../components/APIDoc/hooks/useTags";
+import {useGroupedOperations} from "../components/APIDoc/hooks/useGroupedOperations";
+import {getApiSidebarContentId} from "../utils/OpenapiHtmlIds";
+import {SidebarApiSections} from "../components/SideBar/SidebarApiSections";
 
 type ApiState = {
     isLoading: true;
@@ -44,6 +48,10 @@ export const APIPage: FunctionComponent = () => {
         })();
     }, [promiseOnMounted, selectedApi]);
 
+    const openapi = 'api' in apiState ? apiState.api : undefined;
+    const tags = useTags(openapi);
+    const groupedOperations = useGroupedOperations(openapi, tags);
+
     if (!selectedApi || (!apiState.isLoading && apiState.api === undefined)) {
         navigate('/');
         return null;
@@ -67,12 +75,13 @@ export const APIPage: FunctionComponent = () => {
           <Divider />
           <Sidebar>
             <SidebarPanel className="pf-u-p-lg">
+                <SidebarApiSections openapi={openapi} groupedOperations={groupedOperations} />
             </SidebarPanel>
-            <SidebarContent>
+            <SidebarContent id={getApiSidebarContentId()}>
               <PageSection variant={PageSectionVariants.light} className="pf-u-px-xl-on-md">
-                  { (apiState.isLoading || !apiState.api) ?
+                  { (apiState.isLoading || !apiState.api || groupedOperations.loading) ?
                       <Bullseye><Spinner /></Bullseye> :
-                      <ApiDoc openapi={apiState.api} /> }
+                      <ApiDoc openapi={apiState.api} groupedOperations={groupedOperations.value} /> }
               </PageSection>
             </SidebarContent>
           </Sidebar>

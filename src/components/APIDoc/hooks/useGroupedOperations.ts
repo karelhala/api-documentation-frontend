@@ -21,7 +21,42 @@ export interface GroupedOperations {
 
 const operationVerbs: string[] = ["get", "post", "patch", "put", "delete", "options", "head", "trace"]
 
-export const useGroupedOperations = (openapi: OpenAPIV3.Document, tags: Array<Tag>): BackgroundTaskState<GroupedOperations> => {
+const loadGrouped = (openapi: OpenAPIV3.Document, grouped: GroupedOperations) => {
+    Object.entries(openapi.paths)
+        // Looks like openapi v3.1 supports components here as well
+        .forEach(([path, pathObject]) =>
+            Object.entries(pathObject as Record<OpenAPIV3.HttpMethods, OpenAPIV3.OperationObject>)
+                .filter(([verb, _operation]) => operationVerbs.includes(verb))
+                .forEach(([verb, operation]) => {
+                    const operationId = operation.operationId || `${verb}-${path}`;
+                    grouped.operations[operationId] = {
+                        id: operationId,
+                        rawOperation: operation,
+                        verb,
+                        path
+                    };
+
+                    let found = false;
+
+                    if (operation.tags) {
+                        for (const group of grouped.groups) {
+                            if (operation.tags.includes(group.id)) {
+                                found = true;
+                                group.operationIds.push(operationId);
+                            }
+                        }
+                    }
+
+                    if (!found) {
+                        grouped.others.push(operationId);
+                    }
+                })
+        );
+
+    grouped.groups = grouped.groups.filter(g => g.operationIds.length > 0);
+}
+
+export const useGroupedOperations = (openapi: OpenAPIV3.Document | undefined, tags: Array<Tag>): BackgroundTaskState<GroupedOperations> => {
     return useBackgroundTask(() => {
         const grouped: GroupedOperations = {
             groups: tags.map(t => ({
@@ -32,38 +67,9 @@ export const useGroupedOperations = (openapi: OpenAPIV3.Document, tags: Array<Ta
             operations: {}
         };
 
-        Object.entries(openapi.paths)
-            // Looks like openapi v3.1 supports components here as well
-            .forEach(([path, pathObject]) =>
-                Object.entries(pathObject as Record<OpenAPIV3.HttpMethods, OpenAPIV3.OperationObject>)
-                    .filter(([verb, _operation]) => operationVerbs.includes(verb))
-                    .forEach(([verb, operation]) => {
-                        const operationId = operation.operationId || `${verb}-${path}`;
-                        grouped.operations[operationId] = {
-                            id: operationId,
-                            rawOperation: operation,
-                            verb,
-                            path
-                        };
-
-                        let found = false;
-
-                        if (operation.tags) {
-                            for (const group of grouped.groups) {
-                                if (operation.tags.includes(group.id)) {
-                                    found = true;
-                                    group.operationIds.push(operationId);
-                                }
-                            }
-                        }
-
-                        if (!found) {
-                            grouped.others.push(operationId);
-                        }
-                    })
-            );
-
-        grouped.groups = grouped.groups.filter(g => g.operationIds.length > 0);
+        if (openapi) {
+            loadGrouped(openapi, grouped);
+        }
 
         return grouped;
     }, [openapi, tags]);

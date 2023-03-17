@@ -1,29 +1,28 @@
 import {FunctionComponent} from 'react';
 import {OpenAPIV3} from "openapi-types";
 import {deRef} from "../../utils/Openapi";
-import {Divider, TextContent, Text, TextVariants, Stack, StackItem, Bullseye, Spinner} from "@patternfly/react-core";
+import {Divider, TextContent, Text, TextVariants, Stack, StackItem} from "@patternfly/react-core";
 import {ServerList} from "./ServerList";
 import {SecuritySchemeList} from "./SecuritySchemeList";
 import { SchemaViewer } from './SchemaViewer';
-import {useTags} from "./hooks/useTags";
-import {useGroupedOperations} from "./hooks/useGroupedOperations";
+import {GroupedOperations} from "./hooks/useGroupedOperations";
 import {renderGroupOperations} from "./Operations/renderGroupedOperations";
+import {getAuthenticationId, getOperationId, getSchemasId} from "../../utils/OpenapiHtmlIds";
+import {getTitleWithVersion} from "../../utils/OpenapiSelectors";
 
 interface ApiDocProps {
     openapi: OpenAPIV3.Document;
+    groupedOperations: GroupedOperations;
 }
 
 export const ApiDoc: FunctionComponent<ApiDocProps> = props => {
-    const { openapi } = props;
-
-    const tags = useTags(openapi);
-    const groupedOperations = useGroupedOperations(openapi, tags);
+    const { openapi, groupedOperations } = props;
 
     return <Stack hasGutter>
         <StackItem>
             <TextContent>
                 <Text component={TextVariants.h1}>
-                    { openapi.info.title } v{ openapi.info.version}
+                    {getTitleWithVersion(openapi)}
                 </Text>
                 <Text component={TextVariants.p}>
                     { openapi.info.description }
@@ -37,7 +36,7 @@ export const ApiDoc: FunctionComponent<ApiDocProps> = props => {
 
         )}
         { openapi.components?.securitySchemes && (
-            <StackItem className="pf-u-pb-lg">
+            <StackItem className="pf-u-pb-lg" id={getAuthenticationId()}>
                 <Divider
                     className="apid-c-divider pf-u-pb-md"
                     inset={{default: 'insetNone',}}
@@ -46,27 +45,25 @@ export const ApiDoc: FunctionComponent<ApiDocProps> = props => {
             </StackItem>
         )}
 
-        { groupedOperations.loading ? <Bullseye><Spinner /></Bullseye> :
-            <StackItem>
-                <Divider
-                    className="apid-c-divider pf-u-pb-md"
-                    inset={{default: 'insetNone',}}
-                />
-                <TextContent className="pf-u-pb-lg">
-                    <Text component={TextVariants.h2}>
-                        Operations
-                    </Text>
-                </TextContent>
-                <Stack>
-                    { renderGroupOperations({
-                        openapi,
-                        groupedOperations: groupedOperations.value
-                    }) }
-                </Stack>
-            </StackItem>
-         }
+        <StackItem id={getOperationId()}>
+            <Divider
+                className="apid-c-divider pf-u-pb-md"
+                inset={{default: 'insetNone',}}
+            />
+            <TextContent className="pf-u-pb-lg">
+                <Text component={TextVariants.h2}>
+                    Operations
+                </Text>
+            </TextContent>
+            <Stack>
+                { renderGroupOperations({
+                    openapi,
+                    groupedOperations: groupedOperations
+                }) }
+            </Stack>
+        </StackItem>
 
-        <StackItem>
+        <StackItem id={getSchemasId()}>
             <Divider
                 className="apid-c-divider pf-u-pb-md"
                 inset={{default: 'insetNone',}}

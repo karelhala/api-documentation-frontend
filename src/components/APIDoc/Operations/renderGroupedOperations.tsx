@@ -3,6 +3,7 @@ import {Operation} from "../Operation";
 import {StackItem, Text, TextContent, TextVariants} from "@patternfly/react-core";
 import {OpenAPIV3} from "openapi-types";
 import {Operations} from "../Operations";
+import {getOperationGroupId, getUngroupedOperationsId} from "../../../utils/OpenapiHtmlIds";
 
 interface GroupedOperationsProps {
     groupedOperations: GroupedOperations;
@@ -22,7 +23,7 @@ const mapToOperation = (operationId: string, operations: GroupedOperations['oper
 
 export const renderGroupOperations = ({groupedOperations, openapi}: GroupedOperationsProps) => {
     const result = [
-        ...(groupedOperations.groups.map(group => <StackItem key={`group_${group.id}`}>
+        ...(groupedOperations.groups.map(group => <StackItem key={`group-${group.id}`} id={getOperationGroupId(group.id)}>
             <TextContent className="pf-u-pb-lg">
                 <Text component={TextVariants.h3}>
                     { group.description || group.name }
@@ -38,7 +39,7 @@ export const renderGroupOperations = ({groupedOperations, openapi}: GroupedOpera
 
     if (groupedOperations.others.length > 0) {
         const title = result.length > 0 ? 'Other operations' : undefined;
-        result.push(<StackItem key={`operations`}>
+        result.push(<StackItem key={`other-operations`} id={getUngroupedOperationsId()}>
             { title && <TextContent className="pf-u-pb-lg">
                 <Text component={TextVariants.h3}>
                     {title}

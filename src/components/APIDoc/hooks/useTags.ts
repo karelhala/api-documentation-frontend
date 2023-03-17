@@ -9,10 +9,10 @@ export interface Tag {
     description?: string;
 }
 
-export const useTags = (openapi: OpenAPIV3.Document): Array<Tag> => {
+export const useTags = (openapi: OpenAPIV3.Document | undefined): Array<Tag> => {
     return useMemo(() => {
         const tags: Array<Tag> = [];
-        if (openapi.tags) {
+        if (openapi?.tags) {
             openapi.tags.forEach(t => tags.push({
                 id: t.name,
                 // the idea here is to have a consistent naming here

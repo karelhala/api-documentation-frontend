@@ -136,6 +136,18 @@
   }
 }
 
+.apid-c-jump-links {
+  .pf-c-jump-links__link {
+    --pf-c-jump-links__link--PaddingTop: var(--pf-global--spacer--sm);
+    --pf-c-jump-links__link--PaddingBottom: 0;
+  }
+
+  .pf-c-jump-links__list {
+    --pf-c-jump-links__list--PaddingTop: var(--pf-global--spacer--sm);
+    --pf-c-jump-links__list--PaddingBottom: var(--pf-global--spacer--sm);
+  }
+}
+
 .apid-reqbody-header {
   padding-top: var(--pf-global--spacer--md);
 }
