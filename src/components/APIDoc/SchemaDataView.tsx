@@ -4,6 +4,8 @@ import { OpenAPIV3 } from 'openapi-types';
 
 import { deRef, DeRefResponse } from '../../utils/Openapi';
 
+import { PropertyView } from './SchemaPropertyView';
+
 export interface SchemaDataViewProps {
   schemaName: string;
   schema: DeRefResponse<OpenAPIV3.ArraySchemaObject | OpenAPIV3.NonArraySchemaObject>;
@@ -31,39 +33,6 @@ export const SchemaDataView: React.FunctionComponent<SchemaDataViewProps> = ({ s
       </AccordionContent>}
   </AccordionItem>;
 };
-
-
-interface PropertyComponentProps {
-  propName: string;
-  propertyType: string;
-  required: boolean | undefined;
-}
-
-const PropertyView:React.FunctionComponent<PropertyComponentProps> = ({propName, propertyType, required}) => {
-  return (
-    <Flex>
-      <FlexItem>
-        <TextContent>
-          <Flex>
-            <FlexItem>
-              <Text component={TextVariants.h6}>{propName}</Text>
-            </FlexItem>
-            <FlexItem>
-              <Text component={TextVariants.p} className="pf-u-danger-color-100">{required && "required"}</Text>
-            </FlexItem>
-          </Flex>
-        </TextContent>
-      </FlexItem>
-      <FlexItem>
-        <TextContent>
-            <Text component={TextVariants.p}>
-              {propertyType}
-            </Text>
-          </TextContent>
-      </FlexItem>
-    </Flex>
-  )
-}
 
 interface SchemasDataOut {
   type: string;
@@ -149,7 +118,7 @@ const findConditionKey = (value: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObj
 
 const getTreeViewData = (schemaName: string, schema: DeRefResponse<OpenAPIV3.ArraySchemaObject | OpenAPIV3.NonArraySchemaObject>, document: OpenAPIV3.Document) => {
   if (schema.type && !schema.properties) {
-    return [{ name: <PropertyView propName={schema.deRefData ? schema.deRefData.name : ""} propertyType={schema.type} required={false}/>}] as TreeViewDataItem[]
+    return [{ name: <PropertyView propSchema={schema} propName={schema.deRefData ? schema.deRefData.name : ""} propertyType={schema.type} required={false}/>}] as TreeViewDataItem[]
   }
 
   const conditionalSchema = findConditionKey(schema)
@@ -198,7 +167,7 @@ const getTreeViewData = (schemaName: string, schema: DeRefResponse<OpenAPIV3.Arr
     }
 
     return {
-      name: <PropertyView propName={key as string} propertyType={propertyType} required={schema.required?.includes(key)}/>,
+      name: <PropertyView propSchema={value} propName={key as string} propertyType={propertyType} required={schema.required?.includes(key)}/>,
       id: `${key}-${propertyType}`,
       children: children,
     }
