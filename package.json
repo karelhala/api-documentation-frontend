@@ -82,6 +82,7 @@
     "@types/react-helmet": "^6.1.6",
     "ajv": "^8.12.0",
     "assert-never": "^1.2.1",
+    "better-ajv-errors": "^1.2.0",
     "customize-cra": "^1.0.0",
     "gh-pages": "^5.0.0",
     "glob": "^9.2.1",

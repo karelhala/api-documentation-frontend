@@ -3,6 +3,7 @@ import {readFileSync, existsSync} from 'fs';
 import path from 'path';
 import {parse} from 'yaml';
 import Ajv from 'ajv';
+import betterAjvErrors from 'better-ajv-errors';
 import DiscoverySchema from './schemas/Discovery.json';
 
 const discovery: Discovery = parse(readFileSync(path.resolve(__dirname, 'Discovery.yml')).toString());
@@ -49,7 +50,12 @@ describe('Discovery', () => {
 
         const valid = validate(discovery);
         if (!valid) {
-            throw new Error('Invalid discovery file:' + JSON.stringify(validate.errors, null,  2));
+            const output = betterAjvErrors(DiscoverySchema, discovery, validate.errors!, {
+                format: 'cli',
+                indent: 2
+            });
+            console.log(output);
+            throw new Error('Invalid discovery file');
         }
     });
 
