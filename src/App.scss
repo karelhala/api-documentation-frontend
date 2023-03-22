@@ -4,32 +4,12 @@
     margin: auto;
  }
 
- @media only screen and (max-width: 768px) {
-  .apid-c-page-landingpage {
-    .pf-c-sidebar__panel {
-      position: relative !important;
-    }
-    .pf-c-sidebar__content {
-      height:auto;
-      overflow: visible !important;
-    }
-    .pf-c-page__main-group {
-      position: relative;
-    }
-    .pf-c-page__main-section {
-      box-shadow: none;
-    }
-  }
-}
-
 .apid-c-page-landingpage {
   .pf-c-sidebar__main {
     height: 100%;
   }
   .pf-c-sidebar__content {
     height: 100%;
-    overflow: hidden;
-    background: var(--pf-global--BackgroundColor--200);
     box-shadow: inset 0.125rem 0 0.125rem -0.0625rem rgba(3, 3, 3, 0.16);
   }
   .pf-c-text-input-group {
@@ -47,11 +27,8 @@
   }
   .pf-c-page__main-section {
     box-shadow: inset 0.125rem 0 0.125rem -0.0625rem rgba(3, 3, 3, 0.16);
-    height: 100%;
   }
-  .pf-c-page__main-section-gallery {
-    overflow: scroll;
-  }
+
   .pf-c-card__body {
     display: flex;
     flex-direction: column;
@@ -59,7 +36,6 @@
       margin-top: auto;
       padding-top: var(--pf-global--spacer--sm);
     }
-
     svg {
       width: 38px;
       height: 38px;

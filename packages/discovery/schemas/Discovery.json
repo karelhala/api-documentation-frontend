@@ -65,7 +65,8 @@
         },
         "description": {
           "description": "Displayed description for the application.",
-          "type": "string"
+          "type": "string",
+          "maxLength": 100
         },
         "url": {
           "description": "URL to the public API file",

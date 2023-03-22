@@ -145,8 +145,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
   {
     id: "cost-management",
     displayName: "Cost Management",
-    description:
-      "The API for Project Koku and OpenShift cost management. You can find out more about Project Koku at https://github.com/project-koku",
+    description: "The API for Project Koku and OpenShift cost management.",
     icon: "OpenShiftIcon",
     apiPath: "./apis/hcc-insights/cost-management/openapi.json",
     getApi: () =>
@@ -304,7 +303,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     id: "playbook-dispatcher",
     displayName: "Playbook Dispatcher",
     description:
-      "Playbook Dispatcher is a service for running Ansible Playbooks on hosts connected via Cloud Connector",
+      "Service for running Ansible Playbooks on hosts connected via Cloud Connector",
     icon: "AnsibleIcon",
     apiPath: "./apis/hcc-insights/playbook-dispatcher/openapi.json",
     getApi: () =>
@@ -398,8 +397,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
   {
     id: "rhsm-subscriptions",
     displayName: "Subscriptions",
-    description:
-      "REST interface for the rhsm-subscriptions service. Please note any deprecated APIs. Our current deprecation policy is to keep deprecated APIs around for at least 6 months",
+    description: "REST interface for the rhsm-subscriptions service.",
     icon: "SubscriptionsIcon",
     apiPath: "./apis/hcc-insights/rhsm-subscriptions/openapi.json",
     getApi: () =>
@@ -482,8 +480,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
   {
     id: "rhacs-service-fleet-manager",
     displayName: "RHACS Service Fleet Manager",
-    description:
-      "Red Hat Advanced Cluster Security (RHACS) Service Fleet Manager is a Rest API to manage instances of ACS components.",
+    description: "Rest API to manage instances of ACS components.",
     icon: "GenericIcon",
     apiPath: "./apis/openshift/rhacs-service-fleet-manager/openapi.json",
     getApi: () =>
@@ -509,7 +506,7 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     id: "service-registry-management",
     displayName: "Service Registry Management",
     description:
-      "Service Registry Management API is a REST API for managing Service Registry instances. Service Registry is a datastore for event schemas and API designs, which is based on the open source Apicurio Registry project",
+      "Service Registry Management API is a REST API for managing Service Registry instances.",
     icon: "GenericIcon",
     apiPath: "./apis/openshift/service-registry-management/openapi.json",
     getApi: () =>

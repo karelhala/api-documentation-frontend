@@ -133,6 +133,26 @@
           "type": "string"
         }
       },
+      "occurred_after": {
+        "description": "Restrict results to all records occurred after the given date.",
+        "in": "query",
+        "name": "occurred_after",
+        "required": false,
+        "schema": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "occurred_before": {
+        "description": "Restrict results to all records occurred before the given date.",
+        "in": "query",
+        "name": "occurred_before",
+        "required": false,
+        "schema": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
       "on_call_id": {
         "description": "the on-call person of an Incident",
         "in": "query",
@@ -712,9 +732,12 @@
               "incident_type": {
                 "type": "string"
               },
+              "on_call_person": {
+                "$ref": "#/components/schemas/User"
+              },
               "participants": {
                 "items": {
-                  "$ref": "#/components/schemas/IncidentParticipant"
+                  "$ref": "#/components/schemas/User"
                 },
                 "type": "array"
               },
@@ -797,43 +820,6 @@
           }
         ]
       },
-      "IncidentParticipant": {
-        "allOf": [
-          {
-            "properties": {
-              "role": {
-                "type": "string"
-              },
-              "user": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "type": "object"
-          }
-        ]
-      },
-      "IncidentParticipantList": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/List"
-          },
-          {
-            "properties": {
-              "items": {
-                "items": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/IncidentParticipant"
-                    }
-                  ]
-                },
-                "type": "array"
-              }
-            },
-            "type": "object"
-          }
-        ]
-      },
       "IncidentPatchRequest": {
         "properties": {
           "description": {
@@ -865,7 +851,7 @@
           },
           "participants": {
             "items": {
-              "$ref": "#/components/schemas/IncidentParticipant"
+              "$ref": "#/components/schemas/User"
             },
             "type": "array"
           },
@@ -1683,6 +1669,12 @@
           },
           {
             "$ref": "#/components/parameters/created_before"
+          },
+          {
+            "$ref": "#/components/parameters/occurred_after"
+          },
+          {
+            "$ref": "#/components/parameters/occurred_before"
           },
           {
             "$ref": "#/components/parameters/show_system_events"

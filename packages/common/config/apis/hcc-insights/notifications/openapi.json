@@ -1648,6 +1648,7 @@
       },
       "EmailSubscriptionType": {
         "enum": [
+          "INSTANT",
           "DAILY"
         ],
         "type": "string"

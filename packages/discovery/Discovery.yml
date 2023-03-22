@@ -23,8 +23,7 @@ apis:
           - automation
       - id: compliance
         name: Compliance
-        description: This is the API for Cloud Services for RHEL Compliance. You can find
-          out more about Red Hat Cloud Services for RHEL at https://console.redhat.com
+        description: This is the API for Cloud Services for RHEL Compliance.
         url: https://console.redhat.com/api/compliance/v1/openapi.json
         apiType: openapi-v3
         icon: insights
@@ -35,8 +34,7 @@ apis:
         skipReason: Has a minor validation error with openapi
       - id: cost-management
         name: Cost Management
-        description: The API for Project Koku and OpenShift cost management. You can find
-          out more about Project Koku at https://github.com/project-koku
+        description: The API for Project Koku and OpenShift cost management.
         url: https://console.redhat.com/api/cost-management/v1/openapi.json
         apiType: openapi-v3
         icon: openshift
@@ -146,8 +144,7 @@ apis:
           - observe
       - id: playbook-dispatcher
         name: Playbook Dispatcher
-        description: Playbook Dispatcher is a service for running Ansible Playbooks on
-          hosts connected via Cloud Connector
+        description: Service for running Ansible Playbooks on hosts connected via Cloud Connector
         url: https://console.redhat.com/api/playbook-dispatcher/v1/openapi.json
         apiType: openapi-v3
         icon: ansible
@@ -220,9 +217,7 @@ apis:
           - identify-and-access-management
       - id: rhsm-subscriptions
         name: Subscriptions
-        description: REST interface for the rhsm-subscriptions service. Please note any
-          deprecated APIs. Our current deprecation policy is to keep deprecated APIs around
-          for at least 6 months
+        description: REST interface for the rhsm-subscriptions service.
         url: https://console.redhat.com/api/rhsm-subscriptions/v1/openapi.json
         apiType: openapi-v3
         icon: subscriptions
@@ -317,7 +312,7 @@ apis:
           - infrastructure
       - id: rhacs-service-fleet-manager
         name: RHACS Service Fleet Manager
-        description: Red Hat Advanced Cluster Security (RHACS) Service Fleet Manager is a Rest API to manage instances of ACS components.
+        description: Rest API to manage instances of ACS components.
         url: https://api.openshift.com/api/rhacs/v1/openapi
         apiType: openapi-v3
         tags:
@@ -333,7 +328,7 @@ apis:
           - infrastructure
       - id: service-registry-management
         name: Service Registry Management
-        description: Service Registry Management API is a REST API for managing Service Registry instances. Service Registry is a datastore for event schemas and API designs, which is based on the open source Apicurio Registry project
+        description: Service Registry Management API is a REST API for managing Service Registry instances.
         url: https://api.openshift.com/api/serviceregistry_mgmt/v1/openapi
         apiType: openapi-v3
         tags:
