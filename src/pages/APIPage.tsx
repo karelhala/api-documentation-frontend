@@ -14,7 +14,6 @@ import {OpenAPIV3} from "openapi-types";
 import {Helmet} from "react-helmet";
 import {useTags} from "../components/APIDoc/hooks/useTags";
 import {useGroupedOperations} from "../components/APIDoc/hooks/useGroupedOperations";
-import {getApiSidebarContentId} from "../utils/OpenapiHtmlIds";
 import {SidebarApiSections} from "../components/SideBar/SidebarApiSections";
 
 type ApiState = {
@@ -77,7 +76,7 @@ export const APIPage: FunctionComponent = () => {
             <SidebarPanel className="pf-u-p-lg">
                 <SidebarApiSections openapi={openapi} groupedOperations={groupedOperations} />
             </SidebarPanel>
-            <SidebarContent id={getApiSidebarContentId()}>
+            <SidebarContent>
               <PageSection variant={PageSectionVariants.light} className="pf-u-px-xl-on-md">
                   { (apiState.isLoading || !apiState.api || groupedOperations.loading) ?
                       <Bullseye><Spinner /></Bullseye> :

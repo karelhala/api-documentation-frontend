@@ -83,7 +83,7 @@ export const LandingPage: FunctionComponent = () => {
               </div>
             </PageSection>
 
-            <PageSection className="apid-c-page__main-section-gallery" style={paginatedGalleryInfo.height ? {minHeight: paginatedGalleryInfo.height} : undefined} padding={{ default: 'noPadding' }} isFilled={true}>
+            <PageSection className="apid-c-page__main-section-gallery" style={paginatedGalleryInfo.height ? {minHeight: `${paginatedGalleryInfo.height}px !important`} : undefined} padding={{ default: 'noPadding' }} isFilled={true}>
               <GalleryTemplate
                   id={galleryId}
                   elements={filteredDocs}
