@@ -1,4 +1,4 @@
-import {CSSProperties, FunctionComponent, useMemo, useState} from 'react';
+import {CSSProperties, FunctionComponent, useEffect, useMemo, useState} from 'react';
 import {
   Button,
   Form,
@@ -49,6 +49,11 @@ export const LandingPage: FunctionComponent = () => {
     setSelectedTags([]);
     paginatedGalleryInfo.onSetPage(1);
   };
+
+  useEffect(() => {
+    const onSetPage = paginatedGalleryInfo.onSetPage;
+    onSetPage(1);
+  }, [filteredDocs, paginatedGalleryInfo.onSetPage]);
 
   const galleryPageStyle: CSSProperties = {
     minHeight: Math.max(paginatedGalleryInfo.height ?? 0, 500)
