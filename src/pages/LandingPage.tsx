@@ -54,6 +54,7 @@ export const LandingPage: FunctionComponent = () => {
     return <>
       <Helmet>
         <title>API Docs</title>
+        <meta name="description" content="Displays API Documentation in a single page" />
       </Helmet>
       <Page className="apid-c-page-landingpage pf-u-background-color-100">
         <Sidebar>
