@@ -15,10 +15,16 @@ export interface APIConfiguration {
     tags: ReadonlyArray<Readonly<APILabel>>;
 }
 
+export interface DevRedHatTaxonomy {
+    topic?: string;
+    product?: string;
+}
+
 export interface APILabel {
     id: string;
     name: string;
     type: 'use-case' | 'service' | 'platform';
+    devRedHatTaxonomy: DevRedHatTaxonomy;
 }
 
 export const apiLabelsMap: Record<string, Readonly<APILabel>> = {
@@ -26,7 +32,8 @@ export const apiLabelsMap: Record<string, Readonly<APILabel>> = {
   '<%= tag.id %>': {
       id: '<%= tag.id %>',
       name: '<%= tag.name %>',
-      type: '<%= tag.type %>'
+      type: '<%= tag.type %>',
+      devRedHatTaxonomy: <%~ E.includeFile('dev-redhat-taxonomy', tag['dev-rh:taxonomy']) %>,
   },
   <% }) %>
 }

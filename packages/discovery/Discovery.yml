@@ -415,21 +415,30 @@ tags:
   - id: ansible
     name: Ansible
     type: service
+    dev-rh:taxonomy:
+      product: Red Hat Ansible Automation Platform
+      topic: Automation
   - id: application-services
     name: Application Services
     type: service
   - id: automation
     name: Automation
     type: use-case
+    dev-rh:taxonomy:
+      topic: Automation
   - id: data-services
     name: Data Services
     type: use-case
   - id: deploy
     name: Deploy
     type: use-case
+    dev-rh:taxonomy:
+      topic: CI/CD
   - id: edge
     name: Edge
     type: service
+    dev-rh:taxonomy:
+      topic: Edge
   - id: infrastructure
     name: Infrastructure
     type: use-case
@@ -454,9 +463,13 @@ tags:
   - id: rhel
     name: RHEL
     type: platform
+    dev-rh:taxonomy:
+      product: RHEL
   - id: security
     name: Security
     type: use-case
+    dev-rh:taxonomy:
+      topic: Security
   - id: spend-management
     name: Spend Management
     type: use-case

@@ -15,10 +15,16 @@ export interface APIConfiguration {
   tags: ReadonlyArray<Readonly<APILabel>>;
 }
 
+export interface DevRedHatTaxonomy {
+  topic?: string;
+  product?: string;
+}
+
 export interface APILabel {
   id: string;
   name: string;
   type: "use-case" | "service" | "platform";
+  devRedHatTaxonomy: DevRedHatTaxonomy;
 }
 
 export const apiLabelsMap: Record<string, Readonly<APILabel>> = {
@@ -26,86 +32,154 @@ export const apiLabelsMap: Record<string, Readonly<APILabel>> = {
     id: "ansible",
     name: "Ansible",
     type: "service",
+    devRedHatTaxonomy: {
+      topic: "Automation",
+      product: "Red Hat Ansible Automation Platform",
+    },
   },
   "application-services": {
     id: "application-services",
     name: "Application Services",
     type: "service",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   automation: {
     id: "automation",
     name: "Automation",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: "Automation",
+      product: undefined,
+    },
   },
   "data-services": {
     id: "data-services",
     name: "Data Services",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   deploy: {
     id: "deploy",
     name: "Deploy",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: "CI/CD",
+      product: undefined,
+    },
   },
   edge: {
     id: "edge",
     name: "Edge",
     type: "service",
+    devRedHatTaxonomy: {
+      topic: "Edge",
+      product: undefined,
+    },
   },
   infrastructure: {
     id: "infrastructure",
     name: "Infrastructure",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   insights: {
     id: "insights",
     name: "Insights",
     type: "service",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   "integrations-and-notifications": {
     id: "integrations-and-notifications",
     name: "Integrations and Notifications",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   inventories: {
     id: "inventories",
     name: "Inventories",
     type: "service",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   "identify-and-access-management": {
     id: "identify-and-access-management",
     name: "Identify and Access Management",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   observe: {
     id: "observe",
     name: "Observe",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   openshift: {
     id: "openshift",
     name: "Openshift",
     type: "platform",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   rhel: {
     id: "rhel",
     name: "RHEL",
     type: "platform",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: "RHEL",
+    },
   },
   security: {
     id: "security",
     name: "Security",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: "Security",
+      product: undefined,
+    },
   },
   "spend-management": {
     id: "spend-management",
     name: "Spend Management",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
   "system-configuration": {
     id: "system-configuration",
     name: "System Configuration",
     type: "use-case",
+    devRedHatTaxonomy: {
+      topic: undefined,
+      product: undefined,
+    },
   },
 };
 

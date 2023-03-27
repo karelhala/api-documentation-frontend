@@ -20,6 +20,7 @@ import {Helmet} from "react-helmet-async";
 import {useTags} from "../components/APIDoc/hooks/useTags";
 import {useGroupedOperations} from "../components/APIDoc/hooks/useGroupedOperations";
 import {SidebarApiSections} from "../components/SideBar/SidebarApiSections";
+import {fromApiLabels} from "../utils/DevelopersRedHatTaxonomy";
 
 type ApiState = {
     isLoading: true;
@@ -61,11 +62,16 @@ export const APIPage: FunctionComponent = () => {
         return null;
     }
 
+    const taxonomyData = fromApiLabels(selectedApi.tags);
+
     return <>
         <Helmet>
             <title>{selectedApi.displayName} - API Docs</title>
             <meta name="rhd:node-type" content="api_docs" />
             <meta name="description" content={selectedApi.description} />
+            { taxonomyData.map(t => (
+                <meta name={`rhd:taxonomy-${t.type}`} content={t.value} />
+            )) }
         </Helmet>
         <Page className="apid-c-page-apipage pf-u-background-color-100">
           <PageSection variant={PageSectionVariants.light}>

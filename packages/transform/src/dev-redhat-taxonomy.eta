@@ -1,0 +1,4 @@
+{
+    topic: <%~ it?.topic ? `"${it.topic}"`: undefined %>,
+    product: <%~ it?.product ? `"${it.product}"`: undefined %>
+}
