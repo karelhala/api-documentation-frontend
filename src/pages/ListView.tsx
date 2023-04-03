@@ -16,12 +16,12 @@ export const ListView: FunctionComponent<ListViewProps> = ({id, elements}) => {
   return (
       <Fragment>
         { elements.map(apiConfig => (
-            <Tr>
+            <Tr key={apiConfig.id}>
                 <Td modifier="fitContent">
                   <Flex>
                     <FlexItem >
                       <Button variant="link" onClick={() => navigate(pages.getApiPage(apiConfig.id))}>
-                        {apiConfig.displayName} 
+                        {apiConfig.displayName}
                       </Button>
                     </FlexItem>
                   </Flex>

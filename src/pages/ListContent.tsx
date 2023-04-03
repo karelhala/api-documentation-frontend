@@ -1,19 +1,17 @@
-import {Fragment, FunctionComponent} from 'react';
+import {FunctionComponent} from 'react';
 import {Flex, FlexItem} from "@patternfly/react-core";
 import { TableComposable, Thead, Tr, Th, Tbody} from '@patternfly/react-table';
 import { APIConfiguration } from '@apidocs/common';
-import { PaginationInfo } from '../components/Card/usePaginatedGallery';
 import {NoMatchFound} from "../components/NoMatchFound/NoMatchFound";
 import {ListView} from './ListView';
 
 interface ListContentProps {
     galleryId: string;
-    filteredDocs: Readonly<APIConfiguration>[];
-    paginatedGalleryInfo: PaginationInfo<Readonly<APIConfiguration>>;
+    items: ReadonlyArray<APIConfiguration>;
     clearFilters: () => void;
 }
 
-export const ListContent: FunctionComponent<ListContentProps> = ({galleryId, filteredDocs, paginatedGalleryInfo, clearFilters}) => {
+export const ListContent: FunctionComponent<ListContentProps> = ({galleryId, items, clearFilters}) => {
     const columnNames = {
         name: 'Application name',
         description: 'Description',
@@ -21,7 +19,7 @@ export const ListContent: FunctionComponent<ListContentProps> = ({galleryId, fil
         tags: 'Tags',
       };
 
-    return <Fragment>
+    return <div className="pf-u-m-md">
     <TableComposable aria-label="Misc table">
     <Thead noWrap>
       <Tr>
@@ -37,12 +35,12 @@ export const ListContent: FunctionComponent<ListContentProps> = ({galleryId, fil
       </Tr>
     </Thead>
     <Tbody>
-    { paginatedGalleryInfo.paginatedElements.length > 0 ?
+    { items.length > 0 ?
           <ListView
               id={galleryId}
-              elements={paginatedGalleryInfo.paginatedElements}
+              elements={items}
           /> : <NoMatchFound clearFilters={clearFilters} /> }
     </Tbody>
     </TableComposable>
-  </Fragment>
+  </div>;
 }

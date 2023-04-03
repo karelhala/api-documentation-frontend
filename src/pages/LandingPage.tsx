@@ -24,6 +24,7 @@ import {usePaginatedGallery} from "../components/Card/usePaginatedGallery";
 
 import { GridContent } from './GridContent';
 import { ListContent } from './ListContent';
+import {usePagination} from "../hooks/usePagination";
 
 export const LandingPage: FunctionComponent = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -42,21 +43,30 @@ export const LandingPage: FunctionComponent = () => {
   );
 
   const galleryId = 'apid-c-api-gallery';
-  const paginatedGalleryInfo = usePaginatedGallery(galleryId, filteredDocs);
+  const pagination = usePagination(filteredDocs, 10);
+  const galleryHeight = usePaginatedGallery(galleryId, view === 'grid', pagination.onSetPage, pagination.onSetPerPage);
+
+  const changeView = (toView: 'grid' | 'list') => {
+    setView(toView);
+    pagination.onSetPage(1);
+    if (toView === 'list') {
+      pagination.onSetPerPage(10);
+    }
+  }
 
   const clearFilters = () => {
     setSearchInput('');
     setSelectedTags([]);
-    paginatedGalleryInfo.onSetPage(1);
+    pagination.onSetPage(1);
   };
 
   useEffect(() => {
-    const onSetPage = paginatedGalleryInfo.onSetPage;
+    const onSetPage = pagination.onSetPage;
     onSetPage(1);
-  }, [filteredDocs, paginatedGalleryInfo.onSetPage]);
+  }, [filteredDocs, pagination.onSetPage]);
 
   const galleryPageStyle: CSSProperties = {
-    minHeight: Math.max(paginatedGalleryInfo.height ?? 0, 500)
+    minHeight: Math.max(galleryHeight ?? 0, 500)
   };
 
   return <>
@@ -90,28 +100,32 @@ export const LandingPage: FunctionComponent = () => {
 
           <PageSection variant={PageSectionVariants.light} className="pf-u-p-md">
             <div className="pf-u-text-align-right">
-              <Button isDisabled={view === 'grid'} variant="link" icon={<ThIcon />} onClick={() => setView('grid')} className="pf-u-mr-sm" isInline isLarge/>
-              <Button isDisabled={view === 'list'} variant="link" icon={<ThListIcon />} onClick={() => setView('list')} isInline isLarge/>
+              <Button isDisabled={view === 'grid'} variant="link" icon={<ThIcon />} onClick={() => changeView('grid')} className="pf-u-mr-sm" isInline isLarge/>
+              <Button isDisabled={view === 'list'} variant="link" icon={<ThListIcon />} onClick={() => changeView('list')} isInline isLarge/>
             </div>
           </PageSection>
 
           <PageSection className="apid-c-page__main-section-gallery" style={galleryPageStyle} padding={{ default: 'noPadding' }} isFilled={true}>
           { view === 'grid'
-            ? <GridContent galleryId={galleryId} filteredDocs={filteredDocs} paginatedGalleryInfo={paginatedGalleryInfo} clearFilters={clearFilters}/>
-            : <ListContent galleryId={galleryId} filteredDocs={filteredDocs} paginatedGalleryInfo={paginatedGalleryInfo} clearFilters={clearFilters}/>
+            ? <GridContent galleryId={galleryId} allItems={filteredDocs} items={pagination.items} clearFilters={clearFilters}/>
+            : <ListContent galleryId={galleryId} items={pagination.items} clearFilters={clearFilters}/>
           }
           </PageSection>
 
           <PageSection className="pf-u-pl-md" padding={{ md: 'noPadding' }} variant={PageSectionVariants.light} isFilled={false}>
             <Pagination
-                itemCount={paginatedGalleryInfo.count}
-                perPage={paginatedGalleryInfo.perPage}
-                page={paginatedGalleryInfo.page}
-                onSetPage={(_event, page) => paginatedGalleryInfo.onSetPage(page)}
-                perPageOptions={[{
-                  title: paginatedGalleryInfo.perPage+'',
-                  value: paginatedGalleryInfo.perPage
-                }]}
+                itemCount={pagination.count}
+                perPage={pagination.perPage}
+                page={pagination.page}
+                onSetPage={(_event, page) => pagination.onSetPage(page)}
+                onPerPageSelect={(_event, perPage, newPage) => {
+                  pagination.onSetPerPage(perPage);
+                  pagination.onSetPage(newPage);
+                }}
+                perPageOptions={view === 'grid' ? [{
+                  title: pagination.perPage.toString(),
+                  value: pagination.perPage
+                }] : undefined}
                 dropDirection="up"
                 variant="bottom"
                 className="pf-u-py-sm"

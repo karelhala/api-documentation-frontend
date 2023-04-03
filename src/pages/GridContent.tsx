@@ -1,26 +1,25 @@
 import { APIConfiguration } from '@apidocs/common';
 import {Fragment, FunctionComponent} from 'react';
-import { PaginationInfo } from '../components/Card/usePaginatedGallery';
 import {NoMatchFound} from "../components/NoMatchFound/NoMatchFound";
 import {GalleryTemplate} from "./GalleryTemplate";
 
 interface GridContentProps {
     galleryId: string;
-    filteredDocs: Readonly<APIConfiguration>[];
-    paginatedGalleryInfo: PaginationInfo<Readonly<APIConfiguration>>;
+    allItems: Readonly<APIConfiguration>[];
+    items: ReadonlyArray<APIConfiguration>;
     clearFilters: () => void;
 }
 
-export const GridContent: FunctionComponent<GridContentProps> = ({galleryId, filteredDocs, paginatedGalleryInfo, clearFilters}) => {
+export const GridContent: FunctionComponent<GridContentProps> = ({galleryId, allItems, items, clearFilters}) => {
     return <Fragment>
         <GalleryTemplate
         id={galleryId}
-        elements={filteredDocs}
+        elements={allItems}
         isHidden
         />
-        { paginatedGalleryInfo.paginatedElements.length > 0 ?
+        { items.length > 0 ?
         <GalleryTemplate
-            elements={paginatedGalleryInfo.paginatedElements}
+            elements={items}
         /> : <NoMatchFound clearFilters={clearFilters} /> }
     </Fragment>
 }

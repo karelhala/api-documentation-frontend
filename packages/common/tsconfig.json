@@ -5,7 +5,7 @@
     "declarationMap": true,
     "incremental": true,
     "module": "esnext",
-    "target": "ES6",
+    "target": "es2016",
     "allowJs": true,
     "checkJs": false,
     "strict": true,
