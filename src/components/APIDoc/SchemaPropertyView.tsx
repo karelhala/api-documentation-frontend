@@ -89,7 +89,7 @@ export const ExtraPropertyView:React.FunctionComponent<ExtraPropertyViewProps> =
     <LabelGroup>
       {propSchema.format && <Label isCompact>{propSchema.format}</Label>}
       {propSchema.default && <Label isCompact>default: {propSchema.default}</Label>}
-      {propSchema.enum && <Label isCompact>enums: {propSchema.enum.join(" | ")}</Label>}
+      {propSchema.enum && <LabelGroup categoryName="Enums">{propSchema.enum.map(e => <Label key={e} isCompact>{e}</Label>)}</LabelGroup>}
       {propSchema.pattern && <Label isCompact>pattern: {propSchema.pattern}</Label>}
       {propSchema.multipleOf && <Label isCompact>multipleOf: {propSchema.multipleOf}</Label>}
       {maxMin && <Label isCompact>{maxMin}</Label>}
