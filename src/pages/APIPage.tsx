@@ -80,7 +80,7 @@ export const APIPage: FunctionComponent = () => {
                     event.preventDefault();
                     navigate('/');
                 }} >API Documentation and Guides</BreadcrumbItem>
-              <BreadcrumbItem isActive>{api}</BreadcrumbItem>
+              <BreadcrumbItem isActive>{selectedApi.displayName}</BreadcrumbItem>
             </Breadcrumb>
           </PageSection>
           <Sidebar>
