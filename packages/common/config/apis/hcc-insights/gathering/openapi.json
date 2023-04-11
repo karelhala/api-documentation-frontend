@@ -1,81 +1,55 @@
 {
-  "openapi": "3.0.0",
   "info": {
-    "title": "Insights Operator Gathering Conditions Service",
+    "contact": {},
     "description": "Gathering Conditions Services to Insights Operator.",
-    "version": "0.1",
-    "contact": {}
+    "title": "Insights Operator Gathering Conditions Service",
+    "version": "0.1"
   },
+  "openapi": "3.0.0",
   "paths": {
-    "/openapi.json": {
-      "get": {
-        "summary": "Returns the OpenAPI specification JSON.",
-        "description": "The OpenAPI specification of this REST API service that is represented in formatted and human-readable JSON is available under this endpoint.",
-        "operationId": "getOpenApi",
-        "responses": {
-          "200": {
-            "description": "A JSON containing the OpenAPI specification for this service.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "openapi": {
-                      "type": "string"
-                    },
-                    "info": {
-                      "type": "object",
-                      "properties": {
-                        "title": {
-                          "type": "string"
-                        },
-                        "description": {
-                          "type": "string"
-                        },
-                        "version": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "paths": {
-                      "type": "object",
-                      "description": "Available paths and their descriptions."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": []
-      }
-    },
     "/gathering_rules": {
-      "summary": "Return the list of gathering rules",
       "description": "This endpoint returns an array of the available rules stored. This array contains the conditions and gathering functions for the Insights Operator. These rules are used in https://github.com/openshift/insights-operator/blob/master/pkg/gatherers/conditional/conditional_gatherer.go.",
       "get": {
         "responses": {
           "200": {
             "content": {
               "application/json": {
+                "examples": {
+                  "List of rules": {
+                    "value": {
+                      "rules": [
+                        {
+                          "conditions": [
+                            {
+                              "alert": {
+                                "name": "SamplesImagestreamImportFailing"
+                              },
+                              "type": "alert_is_firing"
+                            }
+                          ],
+                          "gathering_functions": {
+                            "image_streams_of_namespace": {
+                              "namespace": "openshift-cluster-samples-operator"
+                            },
+                            "logs_of_namespace": {
+                              "namespace": "openshift-cluster-samples-operator",
+                              "tail_lines": 100
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
                 "schema": {
-                  "type": "object",
                   "properties": {
-                    "version": {
-                      "type": "string"
-                    },
                     "rules": {
-                      "type": "array",
                       "items": {
-                        "type": "object",
                         "properties": {
                           "conditions": {
-                            "type": "array",
                             "items": {
-                              "type": "object",
                               "properties": {
                                 "alert": {
-                                  "type": "object",
                                   "properties": {
                                     "name": {
                                       "type": "string"
@@ -83,7 +57,8 @@
                                   },
                                   "required": [
                                     "name"
-                                  ]
+                                  ],
+                                  "type": "object"
                                 },
                                 "type": {
                                   "type": "string"
@@ -92,8 +67,10 @@
                               "required": [
                                 "alert",
                                 "type"
-                              ]
-                            }
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
                           },
                           "gathering_functions": {
                             "type": "object"
@@ -102,37 +79,16 @@
                         "required": [
                           "conditions",
                           "gathering_functions"
-                        ]
-                      }
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "version": {
+                      "type": "string"
                     }
-                  }
-                },
-                "examples": {
-                  "List of rules": {
-                    "value": {
-                      "rules": [
-                        {
-                          "conditions": [
-                            {
-                              "type": "alert_is_firing",
-                              "alert": {
-                                "name": "SamplesImagestreamImportFailing"
-                              }
-                            }
-                          ],
-                          "gathering_functions": {
-                            "logs_of_namespace": {
-                              "namespace": "openshift-cluster-samples-operator",
-                              "tail_lines": 100
-                            },
-                            "image_streams_of_namespace": {
-                              "namespace": "openshift-cluster-samples-operator"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
+                  },
+                  "type": "object"
                 }
               }
             },
@@ -142,77 +98,95 @@
             "description": "Found an unexpected error while geting the rules returned."
           }
         }
-      }
+      },
+      "summary": "Return the list of gathering rules"
     },
-    "/v1/openapi.json": {
+    "/openapi.json": {
       "get": {
-        "summary": "Returns the OpenAPI specification JSON.",
         "description": "The OpenAPI specification of this REST API service that is represented in formatted and human-readable JSON is available under this endpoint.",
-        "operationId": "getOpenApiV1",
+        "operationId": "getOpenApi",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "A JSON containing the OpenAPI specification for this service.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
-                    "openapi": {
-                      "type": "string"
-                    },
                     "info": {
-                      "type": "object",
                       "properties": {
-                        "title": {
+                        "description": {
                           "type": "string"
                         },
-                        "description": {
+                        "title": {
                           "type": "string"
                         },
                         "version": {
                           "type": "string"
                         }
-                      }
+                      },
+                      "type": "object"
+                    },
+                    "openapi": {
+                      "type": "string"
                     },
                     "paths": {
-                      "type": "object",
-                      "description": "Available paths and their descriptions."
+                      "description": "Available paths and their descriptions.",
+                      "type": "object"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "description": "A JSON containing the OpenAPI specification for this service."
           }
         },
-        "parameters": []
+        "summary": "Returns the OpenAPI specification JSON."
       }
     },
     "/v1/gathering_rules": {
-      "summary": "Return the list of gathering rules",
       "description": "This endpoint returns an array of the available rules stored. This array contains the conditions and gathering functions for the Insights Operator. These rules are used in https://github.com/openshift/insights-operator/blob/master/pkg/gatherers/conditional/conditional_gatherer.go.",
       "get": {
         "responses": {
           "200": {
             "content": {
               "application/json": {
+                "examples": {
+                  "List of rules": {
+                    "value": {
+                      "rules": [
+                        {
+                          "conditions": [
+                            {
+                              "alert": {
+                                "name": "SamplesImagestreamImportFailing"
+                              },
+                              "type": "alert_is_firing"
+                            }
+                          ],
+                          "gathering_functions": {
+                            "image_streams_of_namespace": {
+                              "namespace": "openshift-cluster-samples-operator"
+                            },
+                            "logs_of_namespace": {
+                              "namespace": "openshift-cluster-samples-operator",
+                              "tail_lines": 100
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
                 "schema": {
-                  "type": "object",
                   "properties": {
-                    "version": {
-                      "type": "string"
-                    },
                     "rules": {
-                      "type": "array",
                       "items": {
-                        "type": "object",
                         "properties": {
                           "conditions": {
-                            "type": "array",
                             "items": {
-                              "type": "object",
                               "properties": {
                                 "alert": {
-                                  "type": "object",
                                   "properties": {
                                     "name": {
                                       "type": "string"
@@ -220,7 +194,8 @@
                                   },
                                   "required": [
                                     "name"
-                                  ]
+                                  ],
+                                  "type": "object"
                                 },
                                 "type": {
                                   "type": "string"
@@ -229,8 +204,10 @@
                               "required": [
                                 "alert",
                                 "type"
-                              ]
-                            }
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
                           },
                           "gathering_functions": {
                             "type": "object"
@@ -239,37 +216,16 @@
                         "required": [
                           "conditions",
                           "gathering_functions"
-                        ]
-                      }
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "version": {
+                      "type": "string"
                     }
-                  }
-                },
-                "examples": {
-                  "List of rules": {
-                    "value": {
-                      "rules": [
-                        {
-                          "conditions": [
-                            {
-                              "type": "alert_is_firing",
-                              "alert": {
-                                "name": "SamplesImagestreamImportFailing"
-                              }
-                            }
-                          ],
-                          "gathering_functions": {
-                            "logs_of_namespace": {
-                              "namespace": "openshift-cluster-samples-operator",
-                              "tail_lines": 100
-                            },
-                            "image_streams_of_namespace": {
-                              "namespace": "openshift-cluster-samples-operator"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
+                  },
+                  "type": "object"
                 }
               }
             },
@@ -279,6 +235,50 @@
             "description": "Found an unexpected error while geting the rules returned."
           }
         }
+      },
+      "summary": "Return the list of gathering rules"
+    },
+    "/v1/openapi.json": {
+      "get": {
+        "description": "The OpenAPI specification of this REST API service that is represented in formatted and human-readable JSON is available under this endpoint.",
+        "operationId": "getOpenApiV1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "info": {
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "openapi": {
+                      "type": "string"
+                    },
+                    "paths": {
+                      "description": "Available paths and their descriptions.",
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A JSON containing the OpenAPI specification for this service."
+          }
+        },
+        "summary": "Returns the OpenAPI specification JSON."
       }
     }
   }

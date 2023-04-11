@@ -586,12 +586,12 @@
   },
   "servers": [
     {
-      "url": "https://cloud.redhat.com",
-      "description": "production server"
+      "description": "production server",
+      "url": "https://cloud.redhat.com"
     },
     {
-      "url": "/",
-      "description": "relative path"
+      "description": "relative path",
+      "url": "/"
     }
   ]
 }

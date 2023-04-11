@@ -10,7 +10,8 @@
     "eta": "^2.0.0",
     "got": "^12.5.3",
     "json-canonicalize": "^1.0.4",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "sorted-json-stringify": "^0.1.1"
   },
   "devDependencies": {
     "@types/node": "^18.13.0"

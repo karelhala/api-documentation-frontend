@@ -11,6 +11,7 @@ import * as Eta from "eta"
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {OpenAPI} from "openapi-types";
 import {canonicalize} from "json-canonicalize";
+import sortedJsonStringify from 'sorted-json-stringify';
 
 interface Options {
     discoveryFile: string;
@@ -167,7 +168,8 @@ const writeOpenApiFiles = (foundApis: Array<BuildApi>, options: Options) => {
         if (writeFile) {
             writeFileSync(
                 destinationFile,
-                JSON.stringify(api.apiContent, null, 2)
+                // Store the json in a consistent way
+                sortedJsonStringify(api.apiContent, null, 2)
             );
         }
     });
