@@ -4,7 +4,9 @@ import {
   Form,
   Page,
   PageSection,
-  PageSectionVariants, Pagination, PaginationProps,
+  PageSectionVariants, 
+  Pagination, 
+  PaginationProps,
   Sidebar,
   SidebarContent,
   SidebarPanel, Split, SplitItem,
@@ -77,7 +79,7 @@ export const LandingPage: FunctionComponent = () => {
 
   // For some reason the type doesn't like 'ref'.
   const basePaginationProps: Omit<PaginationProps, 'ref'> = {
-    itemCount: pagination.count,
+    itemCount: filteredDocs.length,
     perPage: pagination.perPage,
     page: pagination.page,
     onSetPage: (_event, page) => pagination.onSetPage(page),
