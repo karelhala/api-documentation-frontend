@@ -21,6 +21,7 @@ import {useTags} from "../components/APIDoc/hooks/useTags";
 import {useGroupedOperations} from "../components/APIDoc/hooks/useGroupedOperations";
 import {SidebarApiSections} from "../components/SideBar/SidebarApiSections";
 import {fromApiLabels} from "../utils/DevelopersRedHatTaxonomy";
+import {Config} from "../config";
 
 type ApiState = {
     isLoading: true;
@@ -66,7 +67,7 @@ export const APIPage: FunctionComponent = () => {
 
     return <>
         <Helmet>
-            <title>{selectedApi.displayName} - API Docs</title>
+            <title>{selectedApi.displayName} | {Config.title} </title>
             <meta name="rhd:node-type" content="api_docs" />
             <meta name="description" content={selectedApi.description} />
             { taxonomyData.map(t => (
@@ -79,7 +80,7 @@ export const APIPage: FunctionComponent = () => {
               <BreadcrumbItem to='#' onClick={(event) => {
                     event.preventDefault();
                     navigate('/');
-                }} >API Documentation and Guides</BreadcrumbItem>
+                }} >{Config.title}</BreadcrumbItem>
               <BreadcrumbItem isActive>{selectedApi.displayName}</BreadcrumbItem>
             </Breadcrumb>
           </PageSection>

@@ -4,8 +4,8 @@ import {
   Form,
   Page,
   PageSection,
-  PageSectionVariants, 
-  Pagination, 
+  PageSectionVariants,
+  Pagination,
   PaginationProps,
   Sidebar,
   SidebarContent,
@@ -29,6 +29,7 @@ import {usePaginatedGallery} from "../components/Card/usePaginatedGallery";
 import { GridContent } from './GridContent';
 import { ListContent } from './ListContent';
 import {usePagination} from "../hooks/usePagination";
+import {Config} from "../config";
 
 export const LandingPage: FunctionComponent = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -98,7 +99,7 @@ export const LandingPage: FunctionComponent = () => {
 
   return <>
     <Helmet>
-      <title>API Docs</title>
+      <title>Home | {Config.title}</title>
       <meta name="description" content="Displays API Documentation in a single page" />
     </Helmet>
     <Page className="apid-c-page-landingpage pf-u-background-color-100">
@@ -117,7 +118,7 @@ export const LandingPage: FunctionComponent = () => {
         <SidebarContent className="pf-u-display-flex pf-u-flex-direction-column">
           <PageSection variant={PageSectionVariants.darker} className="pf-u-px-2xl-on-md pf-u-pb-2xl pf-u-background-color-dark-100">
             <TextContent>
-              <Text component={TextVariants.h1}>API Catalog and Documentation</Text>
+              <Text component={TextVariants.h1}>{Config.title}</Text>
             </TextContent>
           </PageSection>
 
