@@ -14,7 +14,7 @@ import {
   TextContent,
   TextVariants,
   ToggleGroup,
-  ToggleGroupItem
+  ToggleGroupItem, Tooltip
 } from "@patternfly/react-core";
 import {apiConfigurations, apiLabels} from "@apidocs/common";
 import { SearchInput } from '@patternfly/react-core';
@@ -134,8 +134,12 @@ export const LandingPage: FunctionComponent = () => {
                   </SplitItem>
                   <SplitItem className="apid-landing-layout-toggle-group">
                     <ToggleGroup aria-label="API content type toggle group">
-                      <ToggleGroupItem buttonId="display-cards" icon={<ThIcon />} aria-label="Cards display" isSelected={view === 'grid'} onChange={() => changeView('grid')} />
-                      <ToggleGroupItem buttonId="display-list" icon={<ThListIcon />} aria-label="Table display" isSelected={view === 'list'} onChange={() => changeView('list')} />
+                      <Tooltip content="Show card view">
+                        <ToggleGroupItem buttonId="display-cards" icon={<ThIcon />} aria-label="Cards display" isSelected={view === 'grid'} onChange={() => changeView('grid')} />
+                      </Tooltip>
+                      <Tooltip content="Show table view">
+                        <ToggleGroupItem buttonId="display-list" icon={<ThListIcon />} aria-label="Table display" isSelected={view === 'list'} onChange={() => changeView('list')} />
+                      </Tooltip>
                     </ToggleGroup>
                   </SplitItem>
                 </Split>
