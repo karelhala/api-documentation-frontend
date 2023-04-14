@@ -1,8 +1,9 @@
-import {FunctionComponent, PropsWithChildren} from "react";
+import {Children, FunctionComponent, PropsWithChildren} from "react";
 import {LabelGroup} from "@patternfly/react-core";
 
 export const Tags: FunctionComponent<PropsWithChildren> = ({children}) => {
-    return <LabelGroup>
+    const numLabels = Children.toArray(children).length <= 4 ? 4 : 3;
+    return <LabelGroup numLabels={numLabels}>
         {children}
     </LabelGroup>;
 };
