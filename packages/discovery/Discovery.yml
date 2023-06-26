@@ -24,15 +24,15 @@ apis:
           - automation
       - id: compliance
         name: Compliance
-        description: This is the API for Cloud Services for RHEL Compliance
+        description: Assess, monitor, and report on the security-policy compliance of RHEL systems
         url: https://console.redhat.com/api/compliance/v1/openapi.json
         apiType: openapi-v3
         icon: insights
         tags:
+          - insights
+          - observe
           - rhel
           - security
-        skip: true
-        skipReason: Has a minor validation error with openapi
       - id: cost-management
         name: Cost Management
         description: The API for Project Koku and OpenShift cost management
@@ -127,10 +127,19 @@ apis:
         tags:
           - infrastructure
           - openshift
-      - id: insights-results-aggregator
-        name: Results Aggregator
+      - id: insights-results-aggregator_v1
+        name: Results Aggregator V1
         description: Aggregation service for the results of running Insights rules
         url: https://console.redhat.com/api/insights-results-aggregator/v1/openapi.json
+        apiType: openapi-v3
+        tags:
+          - infrastructure
+          - openshift
+          - insights
+      - id: insights-results-aggregator_v2
+        name: Results Aggregator V2
+        description: Aggregation service for the results of running Insights rules
+        url: https://console.redhat.com/api/insights-results-aggregator/v2/openapi.json
         apiType: openapi-v3
         tags:
           - infrastructure
