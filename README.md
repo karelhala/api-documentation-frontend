@@ -7,7 +7,12 @@ We use GitLab tags for deployment to Production. Follow these steps:
 
 1. **Ensure code is ready:** Merge all changes for the release into `main` and ensure they are tested.
 
-2. **Create a GitLab Release:** Go to "Releases" in [GitLab](https://gitlab.cee.redhat.com/insights-platform/api-documentation-frontend/-/releases), click "Create a new release". Add a versioned tag name (e.g., `v1.0.0`), a title, and any notes about the release.
+2. **Create a GitLab Release:** Go to "Releases" in [GitLab](https://gitlab.cee.redhat.com/insights-platform/api-documentation-frontend/-/releases), click "Create a new release". Add a tag name using [Semantic Versioning](https://semver.org/) (e.g., `v1.0.0`). Give it a title, and write any notes about this release.
+
+   When naming your release, follow **Semantic Versioning** rules:
+   - **Major version (e.g., v1.0.0 to v2.0.0)**: You made big changes. Old features might not work.
+   - **Minor version (e.g., v1.0.0 to v1.1.0)**: You added something new, but the old features still work.
+   - **Patch version (e.g., v1.0.0 to v1.0.1)**: You fixed a small bug and didn't change or add anything else.
 
 3. **Trigger the deployment:** Creating the release generates a tag that triggers the production deployment pipeline. Our `.gitlab-ci.yml` includes:
 
