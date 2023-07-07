@@ -97,6 +97,7 @@ deploy_prod:
       libxdamage1 libxcomposite1 libxfixes3 libxrandr2 libgbm1
   script:
     - |
+      echo "Deploying $CI_COMMIT_TAG to Production"
       npm install -g @spaship/cli react-app-rewired
       npm ci
       SITEMAP_BASE_URL=https://developers.redhat.com/api-catalog npm run sitemap
@@ -104,7 +105,7 @@ deploy_prod:
       npm run prerender
       spaship deploy --env=$SPASHIP_PROD_WEB_PROPERTY --apikey=$SPASHIP_PROD_API_KEY
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG =~ /^v\d+/
       when: always
       allow_failure: true
   tags:
