@@ -1,4 +1,7 @@
-@import 'red-hat-theme';
+:root {
+  --rh-custom-column-top-margin: 41px;
+  --pfe-theme--color--ui-accent: #e00;
+}
 
 .apid-c-page-landingpage, .apid-c-page-apipage {
   --pf-c-page__main--ZIndex: 1;
