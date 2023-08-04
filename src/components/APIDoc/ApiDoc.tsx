@@ -1,5 +1,4 @@
 import {FunctionComponent} from 'react';
-import {OpenAPIV3} from "openapi-types";
 import {deRef} from "../../utils/Openapi";
 import {PageSection, PageSectionVariants, TextContent, Text, TextVariants} from "@patternfly/react-core";
 import {ServerList} from "./ServerList";
@@ -9,14 +8,18 @@ import {GroupedOperations} from "./hooks/useGroupedOperations";
 import {renderGroupOperations} from "./Operations/renderGroupedOperations";
 import {getAuthenticationId, getOperationId, getSchemasId} from "../../utils/OpenapiHtmlIds";
 import {getTitleWithVersion} from "../../utils/OpenapiSelectors";
+import {APIContent, ExtraAPIContent} from "@apidocs/common";
+import {DocumentContent} from "../DocumentContent/DocumentContent";
 
 interface ApiDocProps {
-    openapi: OpenAPIV3.Document;
+    apiContent: APIContent;
     groupedOperations: GroupedOperations;
 }
 
 export const ApiDoc: FunctionComponent<ApiDocProps> = props => {
-    const { openapi, groupedOperations } = props;
+    const { apiContent, groupedOperations } = props;
+
+    const openapi = apiContent.openapi;
 
     return (
       <>
@@ -34,6 +37,7 @@ export const ApiDoc: FunctionComponent<ApiDocProps> = props => {
           <ServerList servers={openapi.servers}/>
         )}
       </PageSection>
+      <DocumentContent from={apiContent.extras} name={ExtraAPIContent.GETTING_STARTED} title="Getting started"/>
       { openapi.components?.securitySchemes && (
         <PageSection variant={PageSectionVariants.light} className="pf-u-px-xl-on-md">
           <div className="pf-u-pb-lg" id={getAuthenticationId()}>

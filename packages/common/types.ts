@@ -6,6 +6,10 @@ export interface APIContent {
     extras: Record<string, string>;
 }
 
+export const ExtraAPIContent = {
+    GETTING_STARTED: 'getting_started'
+} as const;
+
 export interface APIConfiguration {
     id: string;
     displayName: string;
