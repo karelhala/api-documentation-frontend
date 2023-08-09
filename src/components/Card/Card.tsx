@@ -8,12 +8,38 @@ export interface CardProps {
   displayName: string;
   icon?: keyof typeof APIConfigurationIcons;
   description: string;
+  onClick: () => void;
+  onCtrlClick?: () => void;
 }
 
-export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, children}) => {
+export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, onClick, onCtrlClick, children}) => {
   const TitleIcon = icon ? APIConfigurationIcons[icon] : APIConfigurationIcons.GenericIcon;
 
+  const onCardClick = (event: MouseEvent) => {
+    // By-pass click if we actually clicked on a button (or it's children)
+    const clickedAButton = event.target instanceof Element && event.target.closest('button');
+    if (!clickedAButton) {
+      if (event.ctrlKey && onCtrlClick) {
+        onCtrlClick();
+      } else {
+        onClick();
+      }
+    }
+  }
+
+  const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    if (["Enter", "Space"].includes(event.code)) {
+      onClick();
+    }
+  }
+
   return <PFCard
+    onClick={onCardClick}
+    onKeyDown={onKeyDown}
     role="link"
     isSelectableRaised
     isFullHeight
