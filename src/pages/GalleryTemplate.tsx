@@ -1,9 +1,9 @@
 import {APIConfiguration, APIConfigurationIcons, pages} from "@apidocs/common";
 import {CSSProperties, FunctionComponent, useMemo} from "react";
-import {useNavigate} from "react-router";
 import {Gallery, GalleryItem} from "@patternfly/react-core";
 import {Card} from "../components/Card/Card";
 import {Tag, Tags} from "../components/Tags";
+import { Link } from "react-router-dom";
 
 interface GaleryProps {
     id?: string;
@@ -12,7 +12,6 @@ interface GaleryProps {
 }
 
 export const GalleryTemplate: FunctionComponent<GaleryProps> = ({id, elements, isHidden}) => {
-    const navigate = useNavigate();
 
     const style = useMemo<CSSProperties>(() => (isHidden ? {
         visibility: 'hidden',
@@ -24,22 +23,22 @@ export const GalleryTemplate: FunctionComponent<GaleryProps> = ({id, elements, i
         <Gallery id={id} style={style} minWidths={{default: '300px'}} hasGutter>
             { elements.map(apiConfig => (
                 <GalleryItem key={apiConfig.displayName}>
-                    <Card
-                        apiId={apiConfig.id}
-                        displayName={apiConfig.displayName}
-                        icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon}
-                        description={apiConfig.description}
-                        onClick={() => navigate(pages.getApiPage(apiConfig.id))}
-                        onCtrlClick={() => window.open("/api-catalog"+pages.getApiPage(apiConfig.id), '_blank', 'rel=noopener noreferrer')}
-                    >
-                        { apiConfig.tags.length > 0 && (
-                            <div className="apid-tags__main">
-                                <Tags>
-                                    {apiConfig.tags.map(t => <Tag key={t.id} value={t} />)}
-                                </Tags>
-                            </div>
-                        )}
-                    </Card>
+                    <Link to={pages.getApiPage(apiConfig.id)} style={{textDecoration: 'none'}}>
+                        <Card
+                            apiId={apiConfig.id}
+                            displayName={apiConfig.displayName}
+                            icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon}
+                            description={apiConfig.description}
+                        >
+                            { apiConfig.tags.length > 0 && (
+                                <div className="apid-tags__main">
+                                    <Tags>
+                                        {apiConfig.tags.map(t => <Tag key={t.id} value={t} />)}
+                                    </Tags>
+                                </div>
+                            )}
+                        </Card>
+                    </Link>
                 </GalleryItem>
             ))}
         </Gallery>
