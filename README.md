@@ -98,6 +98,33 @@ To be more bot-friendly we pre-render the whole site to allow it to be crawled.
 You can run trigger a local run by building the site `npm run build` and then running `npm run prerender`. The results of the pre-rendering are written in
 [build/pre-rendered](./build/pre-rendered)
 
+## Adding external content
+
+Details from each API is extracted from its openapi file to show in the API catalog. Sometimes this is not enough.
+We provide an option to add additional sections. Each section is specified as a [markdown file](https://www.markdownguide.org/basic-syntax/) 
+and has a specific place on the API catalog.
+
+The content is rendered in the API catalog using the same look and feel. Here is an example of a 
+[getting started](./examples/getting-started.md) section:
+
+![Getting started sample](./examples/getting-started.png?raw=true "Getting started sample")
+
+### Adding a section
+
+A markdown file needs to be added to [./packages/discovery/resources/content](./packages/discovery/resources/content)
+under the group-id and api-id using one of the [supported sections](#supported-sections) filenames.
+
+e.g. to add Getting started section for Notifications we need to create the following file:
+[./packages/discovery/resources/content/hcc-insights/notifications/getting-started.md](./packages/discovery/resources/content/hcc-insights/notifications/getting-started.md)
+
+This file will be used when regenerating the API files to add a new section on the API catalog.
+
+### Supported sections
+
+This is a list of the support sections, followed by the required file name.
+
+- Getting started: `getting-started.md`
+
 ## Releasing to Production
 
 We use GitLab tags for deployment to Production. Follow these steps:

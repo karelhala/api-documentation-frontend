@@ -3,15 +3,13 @@ import {existsSync, readdirSync, readFileSync} from "fs";
 import path from "path";
 import snakeCase from 'lodash.snakecase';
 import {ExtraAPIContent} from "@apidocs/common";
+import {CONTENT_DIR} from "./constants";
 
 export type DocumentationMap = {
     [documentationType: string]: string;
 }
 
 const acceptedExtensions: ReadonlyArray<string> = [ '.md' ];
-
-const CONTENT_DIR = 'content';
-
 
 const isDocumentation = (maybeDocumentation: string): boolean => {
     return (Object.values(ExtraAPIContent) as ReadonlyArray<string>).includes(maybeDocumentation);
@@ -20,7 +18,7 @@ const isDocumentation = (maybeDocumentation: string): boolean => {
 export const getDocumentationContents = (group: Group, app: App, baseDir: string): DocumentationMap => {
     const pathToContent = path.resolve(
         baseDir,
-        CONTENT_DIR,
+        ...CONTENT_DIR,
         group.id,
         app.id
     );

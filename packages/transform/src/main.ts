@@ -13,6 +13,7 @@ import {OpenAPI, OpenAPIV3} from "openapi-types";
 import sortedJsonStringify from 'sorted-json-stringify';
 import {getDocumentationContents} from "./documentation";
 import {APIContent} from "@apidocs/common";
+import {OPENAPI_DIR} from "./constants";
 
 interface Options {
     inputDir: string;
@@ -59,8 +60,7 @@ const getOpenAPIContent = async (discoveryPath: string, app: App, group: string,
     if (app.useLocalFile) {
         return readFileSync(path.resolve(
             discoveryPath,
-            'resources',
-            'api',
+            ...OPENAPI_DIR,
             group,
             app.id,
             'openapi.json'
