@@ -24,7 +24,14 @@ export const GalleryTemplate: FunctionComponent<GaleryProps> = ({id, elements, i
         <Gallery id={id} style={style} minWidths={{default: '300px'}} hasGutter>
             { elements.map(apiConfig => (
                 <GalleryItem key={apiConfig.displayName}>
-                    <Card apiId={apiConfig.id} displayName={apiConfig.displayName} icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon} description={apiConfig.description} onClick={() => navigate(pages.getApiPage(apiConfig.id))}>
+                    <Card
+                        apiId={apiConfig.id}
+                        displayName={apiConfig.displayName}
+                        icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon}
+                        description={apiConfig.description}
+                        onClick={() => navigate(pages.getApiPage(apiConfig.id))}
+                        onCtrlClick={() => window.open("/api-catalog"+pages.getApiPage(apiConfig.id), '_blank', 'rel=noopener noreferrer')}
+                    >
                         { apiConfig.tags.length > 0 && (
                             <div className="apid-tags__main">
                                 <Tags>

@@ -9,16 +9,21 @@ export interface CardProps {
   icon?: keyof typeof APIConfigurationIcons;
   description: string;
   onClick: () => void;
+  onCtrlClick?: () => void;
 }
 
-export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, onClick, children}) => {
+export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, onClick, onCtrlClick, children}) => {
   const TitleIcon = icon ? APIConfigurationIcons[icon] : APIConfigurationIcons.GenericIcon;
 
   const onCardClick = (event: MouseEvent) => {
     // By-pass click if we actually clicked on a button (or it's children)
     const clickedAButton = event.target instanceof Element && event.target.closest('button');
     if (!clickedAButton) {
-      onClick();
+      if (event.ctrlKey && onCtrlClick) {
+        onCtrlClick();
+      } else {
+        onClick();
+      }
     }
   }
 
