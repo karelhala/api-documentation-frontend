@@ -30,7 +30,7 @@ export const GalleryTemplate: FunctionComponent<GaleryProps> = ({id, elements, i
                         icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon}
                         description={apiConfig.description}
                         onClick={() => navigate(pages.getApiPage(apiConfig.id))}
-                        onCtrlClick={() => window.open("/api-catalog"+pages.getApiPage(apiConfig.id), '_blank', 'rel=noopener noreferrer')}
+                        to={pages.getApiPage(apiConfig.id)}
                     >
                         { apiConfig.tags.length > 0 && (
                             <div className="apid-tags__main">

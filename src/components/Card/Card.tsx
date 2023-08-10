@@ -1,7 +1,8 @@
-import {FunctionComponent, PropsWithChildren, MouseEvent, KeyboardEvent} from 'react';
+import {FunctionComponent, PropsWithChildren, MouseEvent} from 'react';
 import {Card as PFCard, CardBody, Split, SplitItem, Text, TextContent, TextVariants} from '@patternfly/react-core';
 
 import {APIConfigurationIcons} from '@apidocs/common';
+import { Link } from 'react-router-dom';
 
 export interface CardProps {
   apiId: string;
@@ -9,42 +10,35 @@ export interface CardProps {
   icon?: keyof typeof APIConfigurationIcons;
   description: string;
   onClick: () => void;
-  onCtrlClick?: () => void;
+  to: string;
 }
 
-export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, onClick, onCtrlClick, children}) => {
+export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, onClick, to, children}) => {
   const TitleIcon = icon ? APIConfigurationIcons[icon] : APIConfigurationIcons.GenericIcon;
 
   const onCardClick = (event: MouseEvent) => {
-    // By-pass click if we actually clicked on a button (or it's children)
-    const clickedAButton = event.target instanceof Element && event.target.closest('button');
-    if (!clickedAButton) {
-      if (event.ctrlKey && onCtrlClick) {
-        onCtrlClick();
-      } else {
-        onClick();
-      }
-    }
-  }
-
-  const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    if (event.target !== event.currentTarget) {
+    // Allow default Link new tab on ctrl+click
+    if (event.ctrlKey) {
       return;
     }
 
-    if (["Enter", "Space"].includes(event.code)) {
+    event.preventDefault();
+
+    // By-pass click if we actually clicked on a button (or it's children)
+    const clickedAButton = event.target instanceof Element && event.target.closest('button');
+
+    if (!clickedAButton) {
       onClick();
     }
   }
 
-  return <PFCard
-    onClick={onCardClick}
-    onKeyDown={onKeyDown}
-    role="link"
-    isSelectableRaised
-    isFullHeight
-    ouiaId={apiId}
-     >
+  return <Link to={to} onClick={onCardClick} style={{textDecoration: 'none'}}>
+    <PFCard
+      role="link"
+      isSelectableRaised
+      isFullHeight
+      ouiaId={apiId}
+    >
       <CardBody>
         <Split className="pf-u-mb-sm">
           <SplitItem>
@@ -55,7 +49,7 @@ export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, di
               {displayName}
             </Text>
           </SplitItem>
-          </Split>
+        </Split>
         <TextContent>
 
           <Text component={TextVariants.small}>
@@ -65,4 +59,5 @@ export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, di
         {children}
       </CardBody>
     </PFCard>
+  </Link>
 };
