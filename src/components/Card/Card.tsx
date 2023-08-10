@@ -2,18 +2,19 @@ import {FunctionComponent, PropsWithChildren, MouseEvent} from 'react';
 import {Card as PFCard, CardBody, Split, SplitItem, Text, TextContent, TextVariants} from '@patternfly/react-core';
 
 import {APIConfigurationIcons} from '@apidocs/common';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export interface CardProps {
   apiId: string;
   displayName: string;
   icon?: keyof typeof APIConfigurationIcons;
   description: string;
-  onClick: () => void;
   to: string;
 }
 
-export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, onClick, to, children}) => {
+export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, displayName, icon, description, to, children}) => {
+  const navigate = useNavigate();
+
   const TitleIcon = icon ? APIConfigurationIcons[icon] : APIConfigurationIcons.GenericIcon;
 
   const onCardClick = (event: MouseEvent) => {
@@ -28,7 +29,7 @@ export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, di
     const clickedAButton = event.target instanceof Element && event.target.closest('button');
 
     if (!clickedAButton) {
-      onClick();
+      navigate(to)
     }
   }
 
