@@ -1,6 +1,5 @@
 import {APIConfiguration, APIConfigurationIcons, pages} from "@apidocs/common";
 import {CSSProperties, FunctionComponent, useMemo} from "react";
-import {useNavigate} from "react-router";
 import {Gallery, GalleryItem} from "@patternfly/react-core";
 import {Card} from "../components/Card/Card";
 import {Tag, Tags} from "../components/Tags";
@@ -12,7 +11,7 @@ interface GaleryProps {
 }
 
 export const GalleryTemplate: FunctionComponent<GaleryProps> = ({id, elements, isHidden}) => {
-    const navigate = useNavigate();
+    
 
     const style = useMemo<CSSProperties>(() => (isHidden ? {
         visibility: 'hidden',
@@ -24,7 +23,13 @@ export const GalleryTemplate: FunctionComponent<GaleryProps> = ({id, elements, i
         <Gallery id={id} style={style} minWidths={{default: '300px'}} hasGutter>
             { elements.map(apiConfig => (
                 <GalleryItem key={apiConfig.displayName}>
-                    <Card apiId={apiConfig.id} displayName={apiConfig.displayName} icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon} description={apiConfig.description} onClick={() => navigate(pages.getApiPage(apiConfig.id))}>
+                    <Card
+                        apiId={apiConfig.id}
+                        displayName={apiConfig.displayName}
+                        icon={apiConfig.icon ?? APIConfigurationIcons.GenericIcon}
+                        description={apiConfig.description}
+                        to={pages.getApiPage(apiConfig.id)}
+                    >
                         { apiConfig.tags.length > 0 && (
                             <div className="apid-tags__main">
                                 <Tags>
