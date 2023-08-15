@@ -33,7 +33,7 @@ export const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({apiId, di
     }
   }
 
-  return <Link to={to} onClick={onCardClick} style={{textDecoration: 'none'}}>
+  return <Link to={to} onClick={onCardClick} style={{textDecoration: 'none'}} className="pf-u-color-100">
     <PFCard
       role="link"
       isSelectableRaised
