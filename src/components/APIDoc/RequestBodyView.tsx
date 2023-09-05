@@ -1,6 +1,6 @@
 import React from "react";
 import { OpenAPIV3 } from "openapi-types";
-import { deRef, DeRefResponse } from "../../utils/Openapi";
+import { DeRefResponse } from "../../utils/Openapi";
 import {
   Flex,
   FlexItem,
