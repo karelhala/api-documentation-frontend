@@ -102,6 +102,7 @@ const OperationContent: React.FunctionComponent<OperationProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const reqData: RequestFormat = useMemo(
     () => buildCodeSampleData(codeSampleBuildParams),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [verb, path, codeSampleLanguage]
   );
 
