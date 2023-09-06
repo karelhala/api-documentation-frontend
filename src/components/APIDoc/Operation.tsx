@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useMemo } from "react";
 import { OpenAPIV3 } from "openapi-types";
 import { deRef } from "../../utils/Openapi";
@@ -53,7 +54,7 @@ export const Operation: React.FunctionComponent<OperationProps> = (props) => {
             {operation.summary}
             {operation.deprecated && (
               <Label
-                color="red"
+                color="orange"
                 icon={<InfoCircleIcon />}
                 className="pf-u-ml-lg"
               >
@@ -99,10 +100,9 @@ const OperationContent: React.FunctionComponent<OperationProps> = ({
     responses: operation.responses,
     document: document,
   };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const reqData: RequestFormat = useMemo(
     () => buildCodeSampleData(codeSampleBuildParams),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [verb, path, codeSampleLanguage]
   );
 
