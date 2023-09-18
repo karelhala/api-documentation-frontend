@@ -1,4 +1,4 @@
-import {FunctionComponent, useEffect, useMemo, useState} from 'react';
+import {FunctionComponent, useMemo } from 'react';
 import {
   Button,
   Flex,
@@ -29,65 +29,68 @@ import {usePaginatedGallery} from "../components/Card/usePaginatedGallery";
 
 import { GridContent } from './GridContent';
 import { ListContent } from './ListContent';
-import {usePagination} from "../hooks/usePagination";
+import { useLandingConfigStore } from '../store/useLandingConfigStore';
+import { usePaginationStore, defaultAvailablePerPage } from '../store/usePaginationStore';
 import {Config} from "../config";
 
 export const LandingPage: FunctionComponent = () => {
-  const [searchInput, setSearchInput] = useState('');
-  const [view, setView] = useState<'grid'|'list'>('grid');
+  const landingStore = useLandingConfigStore();
 
   const onChange = (searchInput: string) => {
-    setSearchInput(searchInput);
+    landingStore.setSearchInput(searchInput);
+    pagination.setPage(1);
   };
 
-  const [selectedTags, setSelectedTags] = useState<ReadonlyArray<string>>([]);
-
   const filteredDocs = useMemo(() => apiConfigurations
-      .filter((apiConfig) => apiConfig.displayName.toLowerCase().includes(searchInput.toLowerCase()))
-      .filter(apiConfig => selectedTags.length === 0 || apiConfig.tags.some(tag => selectedTags.includes(tag.id))),
-  [searchInput, selectedTags]
+      .filter((apiConfig) => apiConfig.displayName.toLowerCase().includes(landingStore.searchInput.toLowerCase()))
+      .filter(apiConfig => landingStore.selectedTags.length === 0 || apiConfig.tags.some(tag => landingStore.selectedTags.includes(tag.id))),
+  [landingStore.searchInput, landingStore.selectedTags]
   );
 
   const galleryId = 'apid-c-api-gallery';
-  const pagination = usePagination(filteredDocs, 10);
 
-  usePaginatedGallery(galleryId, view === 'grid', {
-    setPage: pagination.onSetPage,
+  const pagination = usePaginationStore();
+
+  usePaginatedGallery(galleryId, landingStore.view === 'grid', {
+    setPage: pagination.setPage,
+    page: pagination.page,
     perPage: pagination.perPage,
-    setPerPage: pagination.onSetPerPage,
+    setPerPage: pagination.setPerPage,
     setAvailablePerPage: pagination.setAvailablePerPage,
-    defaultAvailablePerPage: usePagination.defaultAvailablePerPage
+    defaultAvailablePerPage: defaultAvailablePerPage,
+    elements: filteredDocs,
+    setItems: pagination.setItems,
   });
 
   const changeView = (toView: 'grid' | 'list') => {
-    setView(toView);
-    pagination.onSetPage(1);
+    landingStore.setView(toView);
+    pagination.setPage(1);
     if (toView === 'list') {
-      pagination.setAvailablePerPage();
-      pagination.onSetPerPage(10);
+      pagination.setAvailablePerPage(defaultAvailablePerPage);
+      pagination.setPerPage(10);
     }
   }
 
   const clearFilters = () => {
-    setSearchInput('');
-    setSelectedTags([]);
-    pagination.onSetPage(1);
+    landingStore.setSearchInput('');
+    landingStore.setSelectedTags([]);
+    pagination.setPage(1);
   };
 
-  useEffect(() => {
-    const onSetPage = pagination.onSetPage;
-    onSetPage(1);
-  }, [filteredDocs, pagination.onSetPage]);
+  const onTagsChange = (tagId: string, isChecked: boolean) => {
+    landingStore.updateSingleTag(tagId, isChecked);
+    pagination.setPage(1);
+  }
 
   // For some reason the type doesn't like 'ref'.
   const basePaginationProps: Omit<PaginationProps, 'ref'> = {
     itemCount: filteredDocs.length,
     perPage: pagination.perPage,
     page: pagination.page,
-    onSetPage: (_event, page) => pagination.onSetPage(page),
+    onSetPage: (_event, page) => pagination.setPage(page),
     onPerPageSelect: (_event, perPage, newPage) => {
-      pagination.onSetPerPage(perPage);
-      pagination.onSetPage(newPage);
+      pagination.setPerPage(perPage);
+      pagination.setPage(newPage);
     },
     perPageOptions: pagination.availablePerPage.map(a => ({
       title: a.toString(),
@@ -109,11 +112,11 @@ export const LandingPage: FunctionComponent = () => {
           <Form>
             <SearchInput
               placeholder="Find by product or service name"
-              value={searchInput}
+              value={landingStore.searchInput}
               onChange={(_event, searchInput) => onChange(searchInput)}
               onClear={() => onChange('')}
             />
-            <SidebarTags tags={apiLabels} selected={selectedTags} setSelected={setSelectedTags} />
+            <SidebarTags tags={apiLabels} selected={landingStore.selectedTags} setSelected={onTagsChange} />
           </Form>
         </SidebarPanel>
         <SidebarContent className="pf-u-display-flex pf-u-flex-direction-column">
@@ -140,10 +143,10 @@ export const LandingPage: FunctionComponent = () => {
                 <SplitItem className="apid-landing-layout-toggle-group">
                   <ToggleGroup aria-label="API content type toggle group">
                     <Tooltip content="Show card view">
-                      <ToggleGroupItem buttonId="display-cards" icon={<ThIcon />} aria-label="Cards display" isSelected={view === 'grid'} onChange={() => changeView('grid')} />
+                      <ToggleGroupItem buttonId="display-cards" icon={<ThIcon />} aria-label="Cards display" isSelected={landingStore.view === 'grid'} onChange={() => changeView('grid')} />
                     </Tooltip>
                     <Tooltip content="Show table view">
-                      <ToggleGroupItem buttonId="display-list" icon={<ThListIcon />} aria-label="Table display" isSelected={view === 'list'} onChange={() => changeView('list')} />
+                      <ToggleGroupItem buttonId="display-list" icon={<ThListIcon />} aria-label="Table display" isSelected={landingStore.view === 'list'} onChange={() => changeView('list')} />
                     </Tooltip>
                   </ToggleGroup>
                 </SplitItem>
@@ -152,7 +155,7 @@ export const LandingPage: FunctionComponent = () => {
           </PageSection>
 
           <PageSection className="apid-c-page__main-section-gallery" isFilled={true}>
-          { view === 'grid'
+          { landingStore.view === 'grid'
             ? <GridContent galleryId={galleryId} allItems={filteredDocs} items={pagination.items} clearFilters={clearFilters}/>
             : <ListContent items={pagination.items} clearFilters={clearFilters}/>
           }
