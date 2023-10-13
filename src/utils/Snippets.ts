@@ -14,6 +14,8 @@ const getHeaders = (inferredContentType: string, params: DeRefResponse<OpenAPIV3
       if ("in" in scheme && scheme.in === "header") {
         headers.push({name: scheme.name, value: scheme.type})
       }
+      // override default Authorization header value
+      headers.push({name: "Authorization", value: "Bearer <token>"})
     });
   }
   params.forEach(param => {
