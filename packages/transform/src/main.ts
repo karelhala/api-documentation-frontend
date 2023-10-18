@@ -137,6 +137,23 @@ const cleanUnusedApiFiles = (foundApis: Array<BuildApi>, options: Options) => {
         ));
 }
 
+const replaceIdentityHeaders = (buildApis: Array<BuildApi>, options: Options) => {
+    buildApis.forEach(api => {
+        // remove x-rh-identity from securitySchemes and add Authorization header
+        if (api.apiContent.openapi.components && api.apiContent.openapi.components.securitySchemes) {
+            if (api.apiContent.openapi.components.securitySchemes["x-rh-identity"]) {
+                delete api.apiContent.openapi.components.securitySchemes["x-rh-identity"];
+
+                api.apiContent.openapi.components.securitySchemes["Authorization"] = {
+                type: "apiKey",
+                in: "header",
+                name: "Authorization",
+                }
+            }
+        }
+    })
+}
+
 const writeApiContent = (foundApis: Array<BuildApi>, options: Options) => {
     foundApis.forEach(api => {
 
@@ -217,6 +234,7 @@ export const execute = async (options: Options) => {
 
     const buildApis: Array<BuildApi> = await downloadApis(discoveryContent.apis, options);
     cleanUnusedApiFiles(buildApis, options);
+    replaceIdentityHeaders(buildApis, options);
     fetchDocumentationContents(buildApis, options);
     writeApiContent(buildApis, options);
 

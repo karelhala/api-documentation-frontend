@@ -40,18 +40,6 @@ const loadGrouped = (openapi: OpenAPIV3.Document, grouped: GroupedOperations) =>
     const defaultUrl = "https://www.example.com"
     let baseUrl = getServerURL(openapi.servers?.[0] || {url: defaultUrl});
 
-    // remove x-rh-identity from securitySchemes and add Authorization header
-    if (openapi.components && openapi.components.securitySchemes) {
-        delete openapi.components?.securitySchemes?.["x-rh-identity"];
-
-        console.log("SECURITY SCHEMES", openapi.components.securitySchemes)
-        openapi.components.securitySchemes["Authorization"] = {
-            type: "apiKey",
-            in: "header",
-            name: "Authorization",
-        }
-    }
-
     // check that baseUrl is a valid url
     try {
         new URL(baseUrl);
