@@ -138,20 +138,27 @@ const cleanUnusedApiFiles = (foundApis: Array<BuildApi>, options: Options) => {
 }
 
 const replaceIdentityHeaders = (buildApis: Array<BuildApi>, options: Options) => {
-    buildApis.forEach(api => {
-        // remove x-rh-identity from securitySchemes and add Authorization header
-        if (api.apiContent.openapi.components && api.apiContent.openapi.components.securitySchemes) {
-            if (api.apiContent.openapi.components.securitySchemes["x-rh-identity"]) {
-                delete api.apiContent.openapi.components.securitySchemes["x-rh-identity"];
+    buildApis.forEach(({ apiContent, app }) => {
+        const { openapi } = apiContent;
+        const { components } = openapi || {};
+        const { securitySchemes } = components || {};
 
-                api.apiContent.openapi.components.securitySchemes["Authorization"] = {
-                type: "apiKey",
-                in: "header",
-                name: "Authorization",
-                }
+        if (!securitySchemes) return;
+
+        for (const [key, scheme] of Object.entries(securitySchemes)) {
+            const typedScheme = scheme as OpenAPIV3.SecuritySchemeObject;
+            if (typedScheme.type === "apiKey" && typedScheme.name.toLowerCase() === "x-rh-identity") {
+                console.log(`Replacing x-rh-identity for app: ${app.id}...`);
+                delete securitySchemes[key];
+
+                securitySchemes["Authorization"] = {
+                    type: "apiKey",
+                    in: "header",
+                    name: "Authorization",
+                };
             }
         }
-    })
+    });
 }
 
 const writeApiContent = (foundApis: Array<BuildApi>, options: Options) => {
