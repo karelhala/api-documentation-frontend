@@ -15,7 +15,7 @@ const getHeaders = (inferredContentType: string, params: DeRefResponse<OpenAPIV3
         if (scheme.name === "Authorization") {
           headers.push({name: scheme.name, value: "Bearer <token>"})
         } else {
-          headers.push({name: scheme.name, value: scheme.name})
+          headers.push({name: scheme.name, value: scheme.type})
         }
       }
     });
