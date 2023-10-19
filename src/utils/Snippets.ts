@@ -12,7 +12,11 @@ const getHeaders = (inferredContentType: string, params: DeRefResponse<OpenAPIV3
     Object.values(document.components?.securitySchemes).forEach(s => {
       const scheme = deRef(s, document)
       if ("in" in scheme && scheme.in === "header") {
-        headers.push({name: scheme.name, value: scheme.type})
+        if (scheme.name === "Authorization") {
+          headers.push({name: scheme.name, value: "Bearer <token>"})
+        } else {
+          headers.push({name: scheme.name, value: scheme.type})
+        }
       }
     });
   }
