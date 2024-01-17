@@ -10,6 +10,11 @@ interface SchemaViewerProps {
 
 export const SchemaViewer: React.FunctionComponent<SchemaViewerProps> = ({ document }) => {
     const schemas = document.components?.schemas;
+    const entries = schemas ? Object.entries(schemas) : undefined;
+
+    if (!entries || entries.length === 0) {
+        return null;
+    }
 
     return(
         <>
