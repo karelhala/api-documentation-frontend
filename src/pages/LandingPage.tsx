@@ -1,5 +1,6 @@
 import {FunctionComponent, useMemo } from 'react';
 import {
+  ActionList, ActionListItem,
   Button,
   Flex,
   Form,
@@ -7,7 +8,7 @@ import {
   PageSection,
   PageSectionVariants,
   Pagination,
-  PaginationProps,
+  PaginationProps, Popover,
   Sidebar,
   SidebarContent,
   SidebarPanel, Split, SplitItem,
@@ -130,10 +131,32 @@ export const LandingPage: FunctionComponent = () => {
             <Flex direction={{ default: "rowReverse" }}>
               <Split className="apid-split-l-pagination">
                 <SplitItem className="pf-u-pb-md pf-u-pt-md-on-md pf-u-pl-sm-on-md" isFilled>
-                  <Button component="a" target="_blank" href="https://console.redhat.com/docs/api" variant="secondary" className="apid-legacy-button">
-                    Use the legacy API documentation site
-                  </Button>
-                </SplitItem>    
+                  <ActionList>
+                    <ActionListItem>
+                      <Button component="a" target="_blank" href="https://console.redhat.com/docs/api" variant="secondary" className="apid-legacy-button">
+                        Use the legacy API documentation site
+                      </Button>
+                    </ActionListItem>
+                    <ActionListItem>
+                      <Popover
+                          aria-label="Connect to APIs using Red Hat service accounts"
+                          position="bottom"
+                          bodyContent={<>
+                            <b>Important:</b> Starting Dec 2024, Red Hat will discontinue support for basic authorization to connect to services' APIs.
+                            The Red Hat Hybrid Cloud Console is integrating service accounts with User Access functionality to provide granular control
+                            over access permissions and enhance security.
+                            Token-based authentication is recommended.
+                            More information about transitioning from basic authentication to token-based authentication via service accounts is described
+                            on the <a href="https://access.redhat.com/articles/7036194">Red Hat Customer Portal</a>.
+                          </>}
+                      >
+                        <Button component="a" target="_blank" variant="secondary" className="apid-legacy-button">
+                          Connect to APIs using Red Hat service accounts
+                        </Button>
+                      </Popover>
+                    </ActionListItem>
+                  </ActionList>
+                </SplitItem>
                 <SplitItem>
                   <Pagination
                       { ...basePaginationProps }
