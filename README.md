@@ -149,3 +149,151 @@ We use GitLab tags for deployment to Production. Follow these steps:
    This means the `deploy_prod` job executes when a tag like `v1.0.0` is added.
 
 4. **Watch the pipeline:** Monitor the pipeline in GitLab's CI/CD > Pipelines section. If successful, your code is deployed to production.
+
+## SPAship configuration
+
+We require some components that are shared across developers.redhat.com (header and footer). These components needs to be copied (and synchronized from time to time).
+To do so, we require the sync service provided by SPAship. 
+
+If we need to update (or recreate) this configuration we can head over the [SPAship portal](https://spaship.redhat.com/properties/developers) and go to
+Settings -> Environment -> Update Sync to configure the environment.
+
+Update the configuration and save by clicking "Sync".
+
+### Current configuration
+
+We list the current configuration used on each environment.
+
+### Prod
+
+```json
+{
+	"autosync": {
+		"enabled": true,
+		"targets": [
+                 {
+			"name": "developers-prod-header",
+			"interval": "1800s",
+			"source": {
+				"url": "https://developers.redhat.com/api/chrome/rh-universal-nav-header"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-universal-nav-header",
+				"filename": "rh-universal-nav-header.html"
+			}
+		},
+                {
+			"name": "developers-prod-footer",
+			"interval": "1800s",
+			"source": {
+				"url": "https://developers.redhat.com/api/chrome/rh-unified-footer"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-unified-footer",
+				"filename": "rh-unified-footer.html"
+			}
+		}
+            ]
+	}
+}
+```
+
+### Stage 
+
+```json
+{
+	"autosync": {
+		"enabled": true,
+		"targets": [
+                {
+			"name": "developers-stage-header",
+			"interval": "3600s",
+			"source": {
+				"url": "https://developers.stage.redhat.com/api/chrome/rh-universal-nav-header"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-universal-nav-header",
+				"filename": "rh-universal-nav-header.html"
+			}
+		},
+                {
+			"name": "developers-stage-footer",
+			"interval": "3600s",
+			"source": {
+				"url": "https://developers.stage.redhat.com/api/chrome/rh-unified-footer"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-unified-footer",
+				"filename": "rh-unified-footer.html"
+			}
+		}
+            ]
+	}
+}
+```
+
+### QA
+
+```json
+{
+	"autosync": {
+		"enabled": true,
+		"targets": [
+                 {
+			"name": "developers-qa-header",
+			"interval": "3600s",
+			"source": {
+				"url": "https://developers.qa.redhat.com/api/chrome/rh-universal-nav-header?f=type%7Eapi_catalog"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-universal-nav-header",
+				"filename": "rh-universal-nav-header.html"
+			}
+		},
+                {
+			"name": "developers-qa-footer",
+			"interval": "3600s",
+			"source": {
+				"url": "https://developers.qa.redhat.com/api/chrome/rh-unified-footer"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-unified-footer",
+				"filename": "rh-unified-footer.html"
+			}
+		}
+            ]
+	}
+}
+```
+
+### Dev
+
+```json
+{
+	"autosync": {
+		"enabled": true,
+		"targets": [{
+			"name": "developers-dev-header",
+			"interval": "3600s",
+			"source": {
+				"url": "https://developers.dev.redhat.com/api/chrome/rh-universal-nav-header?f=type%7Eapi_catalog"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-universal-nav-header",
+				"filename": "rh-universal-nav-header.html"
+			}
+		},
+                {
+			"name": "developers-dev-footer",
+			"interval": "3600s",
+			"source": {
+				"url": "https://developers.dev.redhat.com/api/chrome/rh-unified-footer"
+			},
+			"dest": {
+				"path": "/var/www/html/.include/chrome/rh-unified-footer",
+				"filename": "rh-unified-footer.html"
+			}
+		}]
+	}
+}
+```
