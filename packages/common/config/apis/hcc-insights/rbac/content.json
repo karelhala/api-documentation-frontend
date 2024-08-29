@@ -1387,7 +1387,7 @@
         },
         "ServiceAccount": {
           "properties": {
-            "clientID": {
+            "clientId": {
               "example": "fe593ba0-9c62-013c-1dc2-6aa2427b506a",
               "type": "string"
             },
@@ -1419,14 +1419,14 @@
             }
           },
           "required": [
-            "clientID",
+            "clientId",
             "username",
             "type"
           ]
         },
         "ServiceAccountIn": {
           "properties": {
-            "clientID": {
+            "clientId": {
               "example": "fe593ba0-9c62-013c-1dc2-6aa2427b506a",
               "type": "string"
             },
@@ -1439,7 +1439,7 @@
           },
           "required": [
             "type",
-            "clientID"
+            "clientId"
           ]
         },
         "ServiceAccountInGroupResponse": {
@@ -2547,7 +2547,7 @@
               }
             },
             {
-              "description": "A comma separated list of usernames for service accounts to remove from the group",
+              "description": "A comma separated list of client IDs for service accounts to remove from the group",
               "in": "query",
               "name": "service-accounts",
               "schema": {

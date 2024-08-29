@@ -792,7 +792,7 @@
               "$ref": "#/components/schemas/Timezone"
             },
             "users": {
-              "description": "list of users that a customer can add, also specifying their respective groups and SSH keys",
+              "description": "List of users that a customer can add,\nalso specifying their respective groups and SSH keys and/or password\n",
               "items": {
                 "$ref": "#/components/schemas/User"
               },
@@ -1774,14 +1774,19 @@
               "example": "user1",
               "type": "string"
             },
+            "password": {
+              "description": "Plaintext passwords are also supported, they will be hashed and stored using the SHA-512 algorithm.\n",
+              "example": "$6$G91SvTj7uVp3xhqj$zVa8nqnJTlewniDII5dmvsBJnj3kloL3CXWdPDu9.e677VoRQd5zB6GKwkDvfGLoRR7NTl5nXLnJywk6IPIvS.",
+              "format": "password",
+              "type": "string"
+            },
             "ssh_key": {
               "example": "ssh-rsa AAAAB3NzaC1",
               "type": "string"
             }
           },
           "required": [
-            "name",
-            "ssh_key"
+            "name"
           ],
           "type": "object"
         },

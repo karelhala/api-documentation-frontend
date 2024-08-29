@@ -2927,10 +2927,7 @@
                   "enum": [
                     "standard",
                     "marketplace",
-                    "marketplace-aws",
-                    "marketplace-rhm",
-                    "marketplace-azure",
-                    "marketplace-gcp"
+                    "any"
                   ],
                   "type": "string"
                 },

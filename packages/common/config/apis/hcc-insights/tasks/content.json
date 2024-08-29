@@ -1842,6 +1842,7 @@
               "name": "operating_system",
               "schema": {
                 "items": {
+                  "pattern": "\\w+\\\\|\\d+\\.\\d+",
                   "type": "string"
                 },
                 "type": "array"
@@ -2226,6 +2227,7 @@
               "name": "operating_system",
               "schema": {
                 "items": {
+                  "pattern": "\\w+\\\\|\\d+\\.\\d+",
                   "type": "string"
                 },
                 "type": "array"
