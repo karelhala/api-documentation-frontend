@@ -309,10 +309,23 @@ apis:
         apiType: openapi-v3
         tags:
           - identity-and-access-management
-      - id: rhsm-subscriptions
-        name: Subscriptions
-        description: REST interface for the rhsm-subscriptions service
+      - id: rhsm-subscriptions-v1
+        name: Subscriptions v1
+        description: REST interface for the rhsm-subscriptions service, version 1
         url: https://console.redhat.com/api/rhsm-subscriptions/v1/openapi.json
+        serverUrl: https://console.redhat.com
+        apiType: openapi-v3
+        icon: subscriptions
+        tags:
+          - edge
+          - inventories
+          - openshift
+          - rhel
+          - subscriptions
+      - id: rhsm-subscriptions-v2
+        name: Subscriptions v2
+        description: REST interface for the rhsm-subscriptions service, version 2
+        url: https://console.redhat.com/api/rhsm-subscriptions/v2/openapi.json
         serverUrl: https://console.redhat.com
         apiType: openapi-v3
         icon: subscriptions
