@@ -947,6 +947,24 @@
           },
           "type": "object"
         },
+        "EventsReplayRequest": {
+          "properties": {
+            "end_date": {
+              "$ref": "#/components/schemas/LocalDateTime"
+            },
+            "org_id": {
+              "type": "string"
+            },
+            "start_date": {
+              "$ref": "#/components/schemas/LocalDateTime"
+            }
+          },
+          "required": [
+            "start_date",
+            "end_date"
+          ],
+          "type": "object"
+        },
         "Facet": {
           "properties": {
             "children": {
