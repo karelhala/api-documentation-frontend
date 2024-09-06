@@ -80,12 +80,12 @@ const ConditionSchema:React.FunctionComponent<ConditionSchemaProps> = ({conditio
       return undefined
     }
     if ('type' in schema) {
-      if (schema.type !== 'object') {
+      if (!['object', 'array'].includes(String(schema.type))) {
         singleSchemas.push(schema.type as string)
         return undefined
       }
     }
-    const treeData = getTreeViewData('', deRef(schema,document), document)
+    const treeData = getTreeViewData('', schema.type === 'array' ? schema.items as DeRefResponse<OpenAPIV3.NonArraySchemaObject> : deRef(schema, document), document)
 
     return {type: schema.type as string, treeData: treeData} as SchemasDataOut
   })
