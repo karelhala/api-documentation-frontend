@@ -1412,18 +1412,42 @@
           "type": "object"
         },
         "OpenSCAP": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/OpenSCAPProfile"
+            },
+            {
+              "$ref": "#/components/schemas/OpenSCAPCompliance"
+            }
+          ]
+        },
+        "OpenSCAPCompliance": {
+          "properties": {
+            "policy_id": {
+              "description": "Apply a compliance policy which is defined in the Red Hat Insights Compliance\nservice. This policy can include tailorings. This only works for RHEL images, and the\npolicy needs to be available for the specific RHEL version.\n",
+              "example": "fef25b3c-b970-46da-a4e1-cc4d855b98dc",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "policy_id"
+          ],
+          "type": "object"
+        },
+        "OpenSCAPProfile": {
           "properties": {
             "profile_description": {
-              "description": "The longform policy description",
+              "description": "The longform profile description",
               "type": "string"
             },
             "profile_id": {
-              "description": "The policy reference ID",
+              "description": "Uses the OpenSCAP tooling directly to apply a pre-defined profile without tailorings.\n",
               "example": "xccdf_org.ssgproject.content_profile_cis",
               "type": "string"
             },
             "profile_name": {
-              "description": "The policy type",
+              "description": "The profile type",
               "type": "string"
             }
           },

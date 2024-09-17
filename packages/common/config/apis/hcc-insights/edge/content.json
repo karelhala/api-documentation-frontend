@@ -1691,17 +1691,8 @@
         },
         "models.InstalledPackage": {
           "properties": {
-            "CreatedAt": {
-              "$ref": "#/components/schemas/models.EdgeAPITime"
-            },
-            "DeletedAt": {
-              "$ref": "#/components/schemas/gorm.DeletedAt"
-            },
             "ID": {
               "type": "integer"
-            },
-            "UpdatedAt": {
-              "$ref": "#/components/schemas/models.EdgeAPITime"
             },
             "arch": {
               "type": "string"

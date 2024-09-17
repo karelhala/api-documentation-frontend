@@ -610,15 +610,34 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     tags: [apiLabelsMap["identity-and-access-management"]],
   },
   {
-    id: "rhsm-subscriptions",
-    displayName: "Subscriptions",
-    description: "REST interface for the rhsm-subscriptions service",
+    id: "rhsm-subscriptions-v1",
+    displayName: "Subscriptions v1",
+    description: "REST interface for the rhsm-subscriptions service, version 1",
     icon: "SubscriptionsIcon",
-    apiContentPath: "./apis/hcc-insights/rhsm-subscriptions/content.json",
+    apiContentPath: "./apis/hcc-insights/rhsm-subscriptions-v1/content.json",
     serverUrl: "https://console.redhat.com",
     getApiContent: () =>
       import(
-        "./apis/hcc-insights/rhsm-subscriptions/content.json"
+        "./apis/hcc-insights/rhsm-subscriptions-v1/content.json"
+      ) as unknown as Promise<APIContent>,
+    tags: [
+      apiLabelsMap["edge"],
+      apiLabelsMap["inventories"],
+      apiLabelsMap["openshift"],
+      apiLabelsMap["rhel"],
+      apiLabelsMap["subscriptions"],
+    ],
+  },
+  {
+    id: "rhsm-subscriptions-v2",
+    displayName: "Subscriptions v2",
+    description: "REST interface for the rhsm-subscriptions service, version 2",
+    icon: "SubscriptionsIcon",
+    apiContentPath: "./apis/hcc-insights/rhsm-subscriptions-v2/content.json",
+    serverUrl: "https://console.redhat.com",
+    getApiContent: () =>
+      import(
+        "./apis/hcc-insights/rhsm-subscriptions-v2/content.json"
       ) as unknown as Promise<APIContent>,
     tags: [
       apiLabelsMap["edge"],
