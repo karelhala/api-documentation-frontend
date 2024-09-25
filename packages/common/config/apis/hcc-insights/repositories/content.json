@@ -978,8 +978,16 @@
               "description": "Count of each content type",
               "type": "object"
             },
+            "repository_name": {
+              "description": "Name of repository the snapshot belongs to",
+              "type": "string"
+            },
             "repository_path": {
               "description": "Path to repository snapshot contents",
+              "type": "string"
+            },
+            "repository_uuid": {
+              "description": "UUID of the repository the snapshot belongs to",
               "type": "string"
             },
             "url": {
@@ -1105,16 +1113,20 @@
               "description": "Error thrown while running task",
               "type": "string"
             },
+            "object_name": {
+              "description": "Name of the associated repository or template",
+              "type": "string"
+            },
+            "object_type": {
+              "description": "Type of the associated object, either repository or template",
+              "type": "string"
+            },
+            "object_uuid": {
+              "description": "UUID of the associated repository or template",
+              "type": "string"
+            },
             "org_id": {
               "description": "Organization ID of the owner",
-              "type": "string"
-            },
-            "repository_name": {
-              "description": "Name of the associated repository",
-              "type": "string"
-            },
-            "repository_uuid": {
-              "description": "UUID of the associated repository",
               "type": "string"
             },
             "status": {
@@ -1206,6 +1218,17 @@
             },
             "description": {
               "description": "Description of the template",
+              "type": "string"
+            },
+            "last_update_snapshot_error": {
+              "description": "Error of last update_latest_snapshot task that updated the template",
+              "type": "string"
+            },
+            "last_update_task": {
+              "$ref": "#/components/schemas/api.TaskInfoResponse"
+            },
+            "last_update_task_uuid": {
+              "description": "UUID of the last update_template_content task that updated the template",
               "type": "string"
             },
             "last_updated_by": {
@@ -2346,8 +2369,8 @@
                     }
                   },
                   "required": [
-                    "sha256",
-                    "file"
+                    "file",
+                    "sha256"
                   ],
                   "type": "object"
                 }
@@ -3255,7 +3278,7 @@
       "/repositories/{uuid}/snapshots/": {
         "get": {
           "description": "List snapshots of a repository.",
-          "operationId": "listSnapshots",
+          "operationId": "listSnapshotsForRepo",
           "parameters": [
             {
               "description": "Repository ID.",
@@ -4466,6 +4489,14 @@
               }
             },
             {
+              "description": "A unique identifier of a template to filter the results.",
+              "in": "query",
+              "name": "template_uuid",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
               "description": "A flag to exclude tasks for the red hat org from the query.",
               "in": "query",
               "name": "exclude_red_hat_org",
@@ -5369,6 +5400,87 @@
           "summary": "List Template RPMs",
           "tags": [
             "rpms"
+          ]
+        }
+      },
+      "/templates/{uuid}/snapshots/": {
+        "get": {
+          "description": "List snapshots for a template.",
+          "operationId": "listSnapshotsForTemplate",
+          "parameters": [
+            {
+              "description": "Template ID.",
+              "in": "path",
+              "name": "uuid",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Search through snapshots by repository name.",
+              "in": "query",
+              "name": "repository_search",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/api.SnapshotCollectionResponse"
+                  }
+                }
+              },
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/errors.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/errors.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Unauthorized"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/errors.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/errors.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "summary": "List snapshots for a template",
+          "tags": [
+            "snapshots"
           ]
         }
       }

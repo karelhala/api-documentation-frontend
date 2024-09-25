@@ -3,6 +3,19 @@
   "openapi": {
     "components": {
       "schemas": {
+        "ErrorResponse": {
+          "properties": {
+            "code": {
+              "example": 12345,
+              "type": "integer"
+            },
+            "message": {
+              "example": "Something went wrong",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
         "Export": {
           "allOf": [
             {
@@ -243,6 +256,7 @@
     "paths": {
       "/exports": {
         "get": {
+          "description": "Provides a list of export requests and the resolution status of each request. Use this endpoint to review all of the export requests that the user has requested.",
           "operationId": "getExports",
           "parameters": [
             {
@@ -336,15 +350,27 @@
                 }
               },
               "description": "Matching Exports"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Unexpected server side error"
             }
           },
           "security": [
             {
               "3ScaleIdentity": []
             }
-          ]
+          ],
+          "summary": "List the export requests"
         },
         "post": {
+          "description": "Creates a new export request. Use this endpoint to create an export request that will call the solicited services so that the services can gather the requested data.",
           "operationId": "createExport",
           "requestBody": {
             "content": {
@@ -365,17 +391,39 @@
                 }
               },
               "description": "Export scheduled"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": ""
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": ""
             }
           },
           "security": [
             {
               "3ScaleIdentity": []
             }
-          ]
+          ],
+          "summary": "Create a new export request"
         }
       },
       "/exports/{id}": {
         "delete": {
+          "description": "Delete the specified export request. Use this endpoint to delete available export requests.",
           "operationId": "deleteExport",
           "parameters": [
             {
@@ -390,15 +438,47 @@
           "responses": {
             "202": {
               "description": "Export deleted (if it existed)"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not a valid export UUID"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Record not found"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Error deleting payload entry"
             }
           },
           "security": [
             {
               "3ScaleIdentity": []
             }
-          ]
+          ],
+          "summary": "Delete an existing export request"
         },
         "get": {
+          "description": "Download the exported data from the specified export request. When the export request is ready, use this endpoint to download the exported data.",
           "operationId": "downloadExport",
           "parameters": [
             {
@@ -421,17 +501,29 @@
                 }
               },
               "description": "Export data"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not ready for download"
             }
           },
           "security": [
             {
               "3ScaleIdentity": []
             }
-          ]
+          ],
+          "summary": "Download the exported data"
         }
       },
       "/exports/{id}/status": {
         "get": {
+          "description": "Check the status of the specified export request. Use this endpoint to check the status of an export request.",
           "operationId": "getExportStatus",
           "parameters": [
             {
@@ -453,13 +545,24 @@
                 }
               },
               "description": "Export status"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Unexpected server side error"
             }
           },
           "security": [
             {
               "3ScaleIdentity": []
             }
-          ]
+          ],
+          "summary": "Check the status of the export request"
         }
       }
     },

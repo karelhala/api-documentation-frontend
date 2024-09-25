@@ -971,6 +971,16 @@
           "$ref": "#/components/schemas/NonStrictUUID",
           "description": "A durable and reliable platform-wide group identifier. Applications should use this identifier to reference hosts."
         },
+        "HostIdOut": {
+          "description": "A single Host ID that belongs to a host.",
+          "properties": {
+            "id": {
+              "$ref": "#/components/schemas/HostId"
+            }
+          },
+          "title": "A Host ID query result",
+          "type": "object"
+        },
         "HostIds": {
           "description": "A comma-separated list of host IDs that belong to the group.",
           "items": {
@@ -3246,6 +3256,47 @@
           "summary": "Delete one or more hosts from a group",
           "tags": [
             "groups"
+          ]
+        }
+      },
+      "/host_exists": {
+        "get": {
+          "description": "Find one host by insights_id, if it exists. <br /><br /> Required permissions: inventory:hosts:read",
+          "operationId": "api.host.get_host_exists",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/insightsId"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HostIdOut"
+                  }
+                }
+              },
+              "description": "Found a matching host."
+            },
+            "400": {
+              "description": "Invalid request."
+            },
+            "404": {
+              "description": "Host not found."
+            },
+            "409": {
+              "description": "Multiple matching hosts detected."
+            }
+          },
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "summary": "Find one host by insights_id, if it exists",
+          "tags": [
+            "hosts"
           ]
         }
       },
