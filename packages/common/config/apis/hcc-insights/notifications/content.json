@@ -633,6 +633,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/WebhookPropertiesDTO"
+                },
+                {
+                  "$ref": "#/components/schemas/PagerDutyPropertiesDTO"
                 }
               ],
               "type": "object"
@@ -740,7 +743,8 @@
             "camel",
             "drawer",
             "email_subscription",
-            "webhook"
+            "webhook",
+            "pagerduty"
           ],
           "type": "string"
         },
@@ -1361,6 +1365,31 @@
             "meta"
           ],
           "type": "object"
+        },
+        "PagerDutyPropertiesDTO": {
+          "properties": {
+            "secretToken": {
+              "maxLength": 32,
+              "type": "string"
+            },
+            "severity": {
+              "$ref": "#/components/schemas/PagerDutySeverity"
+            }
+          },
+          "required": [
+            "severity",
+            "secretToken"
+          ],
+          "type": "object"
+        },
+        "PagerDutySeverity": {
+          "enum": [
+            "critical",
+            "error",
+            "warning",
+            "info"
+          ],
+          "type": "string"
         },
         "RenderEmailTemplateRequest": {
           "properties": {

@@ -1793,13 +1793,14 @@
           "type": "string"
         },
         "User": {
+          "description": "At least one of password, ssh_key must be set, validator takes care of it.\nOn update empty string can be used to remove password or ssh_key,\nbut at least one of them still must be present.\n",
           "properties": {
             "name": {
               "example": "user1",
               "type": "string"
             },
             "password": {
-              "description": "Plaintext passwords are also supported, they will be hashed and stored using the SHA-512 algorithm.\n",
+              "description": "Plaintext passwords are also supported, they will be hashed and stored using the SHA-512 algorithm.\nThe password is never returned in the response.\nEmpty string can be used to remove the password during update but only with ssh_key set.\n",
               "example": "$6$G91SvTj7uVp3xhqj$zVa8nqnJTlewniDII5dmvsBJnj3kloL3CXWdPDu9.e677VoRQd5zB6GKwkDvfGLoRR7NTl5nXLnJywk6IPIvS.",
               "format": "password",
               "type": "string"

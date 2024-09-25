@@ -733,9 +733,6 @@
               "format": "int32",
               "type": "integer"
             },
-            "uom": {
-              "$ref": "#/components/schemas/Uom"
-            },
             "usage": {
               "$ref": "#/components/schemas/UsageType"
             }
@@ -786,9 +783,6 @@
             },
             "subscription_type": {
               "$ref": "#/components/schemas/SubscriptionType"
-            },
-            "uom": {
-              "$ref": "#/components/schemas/Uom"
             },
             "usage": {
               "$ref": "#/components/schemas/UsageType"
@@ -928,15 +922,6 @@
           "required": [
             "value"
           ]
-        },
-        "Uom": {
-          "deprecated": true,
-          "description": "The unit-of-measure for the capacity. Deprecated: use 'metric_id' instead.",
-          "enum": [
-            "cores",
-            "sockets"
-          ],
-          "type": "string"
         },
         "UsageType": {
           "description": "Describes the usage that the report was made against. Not set if it wasn't specified as a query parameter.",
@@ -1884,18 +1869,6 @@
               "schema": {
                 "format": "date-time",
                 "type": "string"
-              },
-              "style": "form"
-            },
-            {
-              "deprecated": true,
-              "description": "Filter subscriptions to those that contribute to a specific unit of measure. Deprecated: use 'metric_id' instead.",
-              "explode": true,
-              "in": "query",
-              "name": "uom",
-              "required": false,
-              "schema": {
-                "$ref": "#/components/schemas/Uom"
               },
               "style": "form"
             },

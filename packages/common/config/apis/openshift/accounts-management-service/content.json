@@ -2144,6 +2144,77 @@
           },
           "type": "object"
         },
+        "OndemandMetrics": {
+          "properties": {
+            "alerts": {
+              "items": {
+                "$ref": "#/components/schemas/OndemandMetricsAlerts"
+              },
+              "type": "array"
+            },
+            "cluster_operators": {
+              "items": {
+                "$ref": "#/components/schemas/OndemandMetricsClusterOperators"
+              },
+              "type": "array"
+            },
+            "nodes": {
+              "items": {
+                "$ref": "#/components/schemas/OndemandMetricsAlerts"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "OndemandMetricsAlerts": {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "severity": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "OndemandMetricsClusterOperators": {
+          "properties": {
+            "condition": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "OndemandMetricsNodes": {
+          "properties": {
+            "hostname": {
+              "type": "string"
+            },
+            "internal_ip": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "up": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
         "OneMetric": {
           "properties": {
             "arch": {
@@ -10699,16 +10770,6 @@
               },
               "description": "Unauthorized to perform operation"
             },
-            "404": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "No organization with specified id exists"
-            },
             "500": {
               "content": {
                 "application/json": {
@@ -10760,16 +10821,6 @@
                 }
               },
               "description": "Unauthorized to perform operation"
-            },
-            "404": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "No organization with specified id exists"
             },
             "500": {
               "content": {
@@ -13249,6 +13300,73 @@
             "$ref": "#/components/parameters/fields"
           }
         ]
+      },
+      "/api/accounts_mgmt/v1/subscriptions/{id}/ondemand_metrics": {
+        "get": {
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OndemandMetrics"
+                  }
+                }
+              },
+              "description": "Metrics found"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No subscription with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Get an ondemand metrics of a subscription by id"
+        }
       },
       "/api/accounts_mgmt/v1/subscriptions/{id}/reserved_resources": {
         "get": {
