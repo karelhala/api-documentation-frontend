@@ -109,7 +109,7 @@
           "x-validator": "sparseFields"
         },
         "filter_param": {
-          "description": "Filters hosts based on system_profile fields. For example: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;{\"system_profile\": {\"sap_system\": {\"eq\": \"true\"}}} <br /><br /> which equates to the URL param: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;\"?filter[system_profile][sap_system][eq]=true\" <br /><br /> Hosts with host_type \"edge\" are filtered out by default. <br /><br /> To get \"edge\" hosts, use this explicit filter: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;{\"system_profile\": {\"host_type\": {\"eq\": \"edge\"}}} <br /><br /> which equates to the URL param: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;\"?filter[system_profile][host_type][eq]=edge\"",
+          "description": "Filters hosts based on system_profile fields. For example: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;{\"system_profile\": {\"sap_system\": {\"eq\": \"true\"}}} <br /><br /> which equates to the URL param: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;\"?filter[system_profile][sap_system][eq]=true\" <br /><br /> To get \"edge\" hosts, use this explicit filter: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;{\"system_profile\": {\"host_type\": {\"eq\": \"edge\"}}} <br /><br /> which equates to the URL param: <br /><br /> &nbsp;&nbsp;&nbsp;&nbsp;\"?filter[system_profile][host_type][eq]=edge\"",
           "example": {},
           "explode": true,
           "in": "query",
@@ -1558,7 +1558,6 @@
               "example": "ex1, ex2, ex3",
               "maxLength": 50,
               "type": "string",
-              "x-indexed": false,
               "x-wildcard": true
             },
             "bios_vendor": {
@@ -1692,8 +1691,7 @@
                 "activity": {
                   "description": "Whether the conversion activity has been done or not",
                   "example": true,
-                  "type": "boolean",
-                  "x-indexed": false
+                  "type": "boolean"
                 }
               },
               "type": "object"
@@ -1808,8 +1806,7 @@
                 "maxLength": 512,
                 "type": "string"
               },
-              "type": "array",
-              "x-indexed": false
+              "type": "array"
             },
             "installed_products": {
               "items": {
@@ -1979,8 +1976,7 @@
                 "maxLength": 100,
                 "type": "string"
               },
-              "type": "array",
-              "x-indexed": false
+              "type": "array"
             },
             "public_ipv4_addresses": {
               "items": {
@@ -1990,8 +1986,7 @@
                 "maxLength": 15,
                 "type": "string"
               },
-              "type": "array",
-              "x-indexed": false
+              "type": "array"
             },
             "releasever": {
               "description": "Release name of the system distribution (from yum/dnf)",
@@ -2122,8 +2117,7 @@
                 "maxLength": 1000,
                 "type": "string"
               },
-              "type": "array",
-              "x-indexed": false
+              "type": "array"
             },
             "sap": {
               "description": "Object containing data specific to the SAP workload",
@@ -2377,8 +2371,7 @@
               "items": {
                 "$ref": "#/components/schemas/SystemProfileYumRepo"
               },
-              "type": "array",
-              "x-indexed": false
+              "type": "array"
             }
           },
           "title": "SystemProfile",
@@ -2434,8 +2427,7 @@
               "example": {
                 "ro": true,
                 "uid": "0"
-              },
-              "x-indexed": false
+              }
             },
             "type": {
               "description": "The mount type",

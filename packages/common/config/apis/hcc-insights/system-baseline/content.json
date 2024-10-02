@@ -128,6 +128,16 @@
             }
           },
           "description": "An internal server error has occurred."
+        },
+        "NotImplemented": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "description": "Method not implemented."
         }
       },
       "schemas": {
@@ -454,6 +464,9 @@
             "403": {
               "$ref": "#/components/responses/Forbidden"
             },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
+            },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
             }
@@ -490,6 +503,9 @@
             },
             "403": {
               "$ref": "#/components/responses/Forbidden"
+            },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
             },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
@@ -528,6 +544,9 @@
             },
             "403": {
               "$ref": "#/components/responses/Forbidden"
+            },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
             },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
@@ -667,6 +686,9 @@
             "403": {
               "$ref": "#/components/responses/Forbidden"
             },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
+            },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
             }
@@ -703,6 +725,9 @@
             },
             "403": {
               "$ref": "#/components/responses/Forbidden"
+            },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
             },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
@@ -801,6 +826,9 @@
             "403": {
               "$ref": "#/components/responses/Forbidden"
             },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
+            },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
             }
@@ -843,6 +871,9 @@
             },
             "403": {
               "$ref": "#/components/responses/Forbidden"
+            },
+            "405": {
+              "$ref": "#/components/responses/NotImplemented"
             },
             "500": {
               "$ref": "#/components/responses/InternalServerError"
