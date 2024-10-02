@@ -1254,18 +1254,6 @@
               "style": "form"
             },
             {
-              "deprecated": true,
-              "description": "Include only hosts with a specific unit of measure. Deprecated: use 'metric_id' instead. ",
-              "explode": true,
-              "in": "query",
-              "name": "uom",
-              "required": false,
-              "schema": {
-                "type": "string"
-              },
-              "style": "form"
-            },
-            {
               "description": "Include only hosts with a specific unit of measure",
               "explode": true,
               "in": "query",

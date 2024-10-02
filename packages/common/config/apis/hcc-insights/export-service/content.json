@@ -3,6 +3,12 @@
   "openapi": {
     "components": {
       "schemas": {
+        "Error": {
+          "type": "integer"
+        },
+        "ErrorMessage": {
+          "type": "string"
+        },
         "ErrorResponse": {
           "properties": {
             "code": {
@@ -133,8 +139,14 @@
             },
             {
               "properties": {
+                "error": {
+                  "$ref": "#/components/schemas/Error"
+                },
                 "id": {
                   "$ref": "#/components/schemas/UUID"
+                },
+                "message": {
+                  "$ref": "#/components/schemas/ErrorMessage"
                 },
                 "status": {
                   "$ref": "#/components/schemas/Status"
