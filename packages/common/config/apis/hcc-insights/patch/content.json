@@ -5121,6 +5121,215 @@
           "summary": "Show me details about a system packages by given inventory id"
         }
       },
+      "/export/templates/{template_id}/systems": {
+        "get": {
+          "description": "Export systems applicable to a template. Export endpoints are not paginated.",
+          "operationId": "exportTemplateSystems",
+          "parameters": [
+            {
+              "description": "Template ID",
+              "in": "path",
+              "name": "template_id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Find matching text",
+              "in": "query",
+              "name": "search",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[display_name]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[os]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Tag filter",
+              "explode": true,
+              "in": "query",
+              "name": "tags",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            },
+            {
+              "description": "Filter systems by inventory groups",
+              "explode": true,
+              "in": "query",
+              "name": "filter[group_name]",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            },
+            {
+              "description": "Filter only SAP systems",
+              "in": "query",
+              "name": "filter[system_profile][sap_system]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by their SAP SIDs",
+              "explode": true,
+              "in": "query",
+              "name": "filter[system_profile][sap_sids]",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            },
+            {
+              "description": "Filter systems by ansible",
+              "in": "query",
+              "name": "filter[system_profile][ansible]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by ansible version",
+              "in": "query",
+              "name": "filter[system_profile][ansible][controller_version]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by mssql version",
+              "in": "query",
+              "name": "filter[system_profile][mssql]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by mssql version",
+              "in": "query",
+              "name": "filter[system_profile][mssql][version]",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "items": {
+                      "$ref": "#/components/schemas/controllers.TemplateSystemsDBLookup"
+                    },
+                    "type": "array"
+                  }
+                },
+                "text/csv": {
+                  "schema": {
+                    "items": {
+                      "$ref": "#/components/schemas/controllers.TemplateSystemsDBLookup"
+                    },
+                    "type": "array"
+                  }
+                }
+              },
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                },
+                "text/csv": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                },
+                "text/csv": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            },
+            "415": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                },
+                "text/csv": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Unsupported Media Type"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                },
+                "text/csv": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "RhIdentity": []
+            }
+          ],
+          "summary": "Export systems belonging to a template"
+        }
+      },
       "/ids/advisories": {
         "get": {
           "description": "Show me all applicable advisories for all my systems",
@@ -6626,6 +6835,146 @@
             }
           ],
           "summary": "Show me advisories for a system by given inventory id"
+        }
+      },
+      "/ids/templates/{template_id}/systems": {
+        "get": {
+          "description": "Show me all systems applicable to a template",
+          "operationId": "listTemplateSystemsIds",
+          "parameters": [
+            {
+              "description": "Template ID",
+              "in": "path",
+              "name": "template_id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Limit for paging",
+              "in": "query",
+              "name": "limit",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "description": "Offset for paging",
+              "in": "query",
+              "name": "offset",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "description": "Sort field",
+              "in": "query",
+              "name": "sort",
+              "schema": {
+                "enum": [
+                  "id",
+                  "display_name",
+                  "os",
+                  "installable_rhsa_count",
+                  "installable_rhba_count",
+                  "installable_rhea_count",
+                  "installable_other_count",
+                  "applicable_rhsa_count",
+                  "applicable_rhba_count",
+                  "applicable_rhea_count",
+                  "applicable_other_count",
+                  "last_upload"
+                ],
+                "type": "string"
+              }
+            },
+            {
+              "description": "Find matching text",
+              "in": "query",
+              "name": "search",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[display_name]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[os]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Tag filter",
+              "explode": true,
+              "in": "query",
+              "name": "tags",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/controllers.IDsPlainResponse"
+                  }
+                }
+              },
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "RhIdentity": []
+            }
+          ],
+          "summary": "Show me all systems belonging to a template"
         }
       },
       "/packages/": {
@@ -8228,6 +8577,462 @@
             }
           ],
           "summary": "Show me systems tags applicable to this application"
+        }
+      },
+      "/templates": {
+        "get": {
+          "description": "Show all templates for an account",
+          "operationId": "listTemplate",
+          "parameters": [
+            {
+              "description": "Limit for paging",
+              "in": "query",
+              "name": "limit",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "description": "Offset for paging",
+              "in": "query",
+              "name": "offset",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "description": "Sort field",
+              "in": "query",
+              "name": "sort",
+              "schema": {
+                "enum": [
+                  "id",
+                  "name",
+                  "systems",
+                  "published",
+                  "last_edited"
+                ],
+                "type": "string"
+              }
+            },
+            {
+              "description": "Find matching text",
+              "in": "query",
+              "name": "search",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter ",
+              "in": "query",
+              "name": "filter[id]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[name]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[systems]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Tag filter",
+              "explode": true,
+              "in": "query",
+              "name": "tags",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/controllers.TemplatesResponse"
+                  }
+                }
+              },
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "RhIdentity": []
+            }
+          ],
+          "summary": "Show all templates for an account"
+        }
+      },
+      "/templates/systems": {
+        "delete": {
+          "description": "Remove systems from template",
+          "operationId": "removeTemplateSystems",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/controllers.TemplateSystemsUpdateRequest"
+                }
+              }
+            },
+            "description": "Request body",
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "RhIdentity": []
+            }
+          ],
+          "summary": "Remove systems from template",
+          "x-codegen-request-body-name": "body"
+        }
+      },
+      "/templates/{template_id}/systems": {
+        "get": {
+          "description": "Show me all systems applicable to a template",
+          "operationId": "listTemplateSystems",
+          "parameters": [
+            {
+              "description": "Template ID",
+              "in": "path",
+              "name": "template_id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Limit for paging",
+              "in": "query",
+              "name": "limit",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "description": "Offset for paging",
+              "in": "query",
+              "name": "offset",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "description": "Sort field",
+              "in": "query",
+              "name": "sort",
+              "schema": {
+                "enum": [
+                  "id",
+                  "display_name",
+                  "os",
+                  "installable_rhsa_count",
+                  "installable_rhba_count",
+                  "installable_rhea_count",
+                  "installable_other_count",
+                  "applicable_rhsa_count",
+                  "applicable_rhba_count",
+                  "applicable_rhea_count",
+                  "applicable_other_count",
+                  "last_upload",
+                  "groups"
+                ],
+                "type": "string"
+              }
+            },
+            {
+              "description": "Find matching text",
+              "in": "query",
+              "name": "search",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[display_name]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter",
+              "in": "query",
+              "name": "filter[os]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Tag filter",
+              "explode": true,
+              "in": "query",
+              "name": "tags",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            },
+            {
+              "description": "Filter systems by inventory groups",
+              "explode": true,
+              "in": "query",
+              "name": "filter[group_name]",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            },
+            {
+              "description": "Filter only SAP systems",
+              "in": "query",
+              "name": "filter[system_profile][sap_system]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by their SAP SIDs",
+              "explode": true,
+              "in": "query",
+              "name": "filter[system_profile][sap_sids]",
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "style": "form"
+            },
+            {
+              "description": "Filter systems by ansible",
+              "in": "query",
+              "name": "filter[system_profile][ansible]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by ansible version",
+              "in": "query",
+              "name": "filter[system_profile][ansible][controller_version]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by mssql version",
+              "in": "query",
+              "name": "filter[system_profile][mssql]",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "description": "Filter systems by mssql version",
+              "in": "query",
+              "name": "filter[system_profile][mssql][version]",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/controllers.TemplateSystemsResponse"
+                  }
+                }
+              },
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "RhIdentity": []
+            }
+          ],
+          "summary": "Show me all systems belonging to a template"
+        },
+        "put": {
+          "description": "Add systems to a template",
+          "operationId": "updateTemplateSystems",
+          "parameters": [
+            {
+              "description": "Template ID",
+              "in": "path",
+              "name": "template_id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/controllers.TemplateSystemsUpdateRequest"
+                }
+              }
+            },
+            "description": "Request body",
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Bad Request"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/utils.ErrorResponse"
+                  }
+                }
+              },
+              "description": "Internal Server Error"
+            }
+          },
+          "security": [
+            {
+              "RhIdentity": []
+            }
+          ],
+          "summary": "Add systems to a template",
+          "x-codegen-request-body-name": "body"
         }
       },
       "/views/advisories/systems": {
