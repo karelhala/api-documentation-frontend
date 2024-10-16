@@ -15,9 +15,19 @@ apis:
           - insights
           - observe
       - id: ansible-automation-controller
-        name: Ansible automation controller API
+        name: Ansible automation controller API V1
         description: Define, operate, scale, and delegate automation across your enterprise
         url: https://raw.githubusercontent.com/ansible/aap-docs/2.4/controller-api/_swagger/ansible-controller-api.json
+        serverUrl: none
+        apiType: openapi-v3
+        icon: ansible
+        tags:
+          - ansible
+          - automation
+      - id: ansible-automation-controller-v2
+        name: Ansible automation controller API V2
+        description: Define, operate, scale, and delegate automation across your enterprise
+        url: https://raw.githubusercontent.com/ansible/aap-docs/refs/heads/2.5/controller-api/swagger.json
         serverUrl: none
         apiType: openapi-v3
         icon: ansible
