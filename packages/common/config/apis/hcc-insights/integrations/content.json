@@ -177,6 +177,37 @@
             "bundle_id": {
               "$ref": "#/components/schemas/UUID"
             },
+            "display_name": {
+              "type": "string"
+            },
+            "event_types": {
+              "items": {
+                "$ref": "#/components/schemas/EventTypeDTO"
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
+            "id": {
+              "$ref": "#/components/schemas/UUID"
+            },
+            "name": {
+              "maxLength": 255,
+              "pattern": "[a-z][a-z_0-9-]*",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "display_name",
+            "bundle_id"
+          ],
+          "type": "object"
+        },
+        "ApplicationDTO1": {
+          "properties": {
+            "bundle_id": {
+              "$ref": "#/components/schemas/UUID"
+            },
             "created": {
               "type": "string"
             },
@@ -356,6 +387,33 @@
                 }
               ],
               "readOnly": true,
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "display_name"
+          ],
+          "type": "object"
+        },
+        "BundleDTO": {
+          "properties": {
+            "applications": {
+              "items": {
+                "$ref": "#/components/schemas/ApplicationDTO"
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "id": {
+              "$ref": "#/components/schemas/UUID"
+            },
+            "name": {
+              "maxLength": 255,
+              "pattern": "[a-z][a-z_0-9-]*",
               "type": "string"
             }
           },
@@ -605,14 +663,24 @@
             "enabled": {
               "type": "boolean"
             },
+            "event_types": {
+              "items": {
+                "format": "uuid",
+                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+                "type": "string"
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
+            "event_types_group_by_bundles_and_applications": {
+              "items": {
+                "$ref": "#/components/schemas/BundleDTO"
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
             "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
+              "$ref": "#/components/schemas/UUID"
             },
             "name": {
               "maxLength": 255,
@@ -931,6 +999,32 @@
           "required": [
             "eventTypeId",
             "behaviorGroupId"
+          ],
+          "type": "object"
+        },
+        "EventTypeDTO": {
+          "properties": {
+            "application": {
+              "$ref": "#/components/schemas/ApplicationDTO"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "id": {
+              "$ref": "#/components/schemas/UUID"
+            },
+            "name": {
+              "maxLength": 255,
+              "pattern": "[a-z][a-z_0-9-]*",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "display_name"
           ],
           "type": "object"
         },
@@ -1373,7 +1467,7 @@
               "type": "string"
             },
             "severity": {
-              "$ref": "#/components/schemas/PagerDutySeverity"
+              "$ref": "#/components/schemas/PagerDutySeverityDTO"
             }
           },
           "required": [
@@ -1383,6 +1477,15 @@
           "type": "object"
         },
         "PagerDutySeverity": {
+          "enum": [
+            "critical",
+            "error",
+            "warning",
+            "info"
+          ],
+          "type": "string"
+        },
+        "PagerDutySeverityDTO": {
           "enum": [
             "critical",
             "error",
@@ -1876,6 +1979,152 @@
             }
           },
           "summary": "Create an email subscription endpoint"
+        }
+      },
+      "/endpoints/{endpointId}/eventType/{eventTypeId}": {
+        "delete": {
+          "description": "Delete the link between an endpoint and an event type.",
+          "operationId": "EndpointResource$V1_deleteEventTypeFromEndpoint",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "endpointId",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/UUID"
+              }
+            },
+            {
+              "in": "path",
+              "name": "eventTypeId",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/UUID"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "No Content"
+            },
+            "404": {
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "No event type or endpoint found with the passed id."
+            }
+          },
+          "summary": "Delete the link between an endpoint and an event type"
+        },
+        "put": {
+          "description": "Add a link between an endpoint and an event type.",
+          "operationId": "EndpointResource$V1_addEventTypeToEndpoint",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "endpointId",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/UUID"
+              }
+            },
+            {
+              "in": "path",
+              "name": "eventTypeId",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/UUID"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "No Content"
+            },
+            "404": {
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "No event type or endpoint found with the passed id."
+            }
+          },
+          "summary": "Add a link between an endpoint and an event type"
+        }
+      },
+      "/endpoints/{endpointId}/eventTypes": {
+        "put": {
+          "description": "Update  links between an endpoint and event types.",
+          "operationId": "EndpointResource$V1_updateEventTypesLinkedToEndpoint",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "endpointId",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/UUID"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "format": "uuid",
+                    "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "uniqueItems": true
+                }
+              }
+            }
+          },
+          "responses": {
+            "204": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "No Content"
+            },
+            "404": {
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "No event type or endpoint found with passed ids."
+            }
+          },
+          "summary": "Update  links between an endpoint and event types"
         }
       },
       "/endpoints/{id}": {

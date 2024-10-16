@@ -1746,7 +1746,7 @@
               "content": {
                 "text/plain": {
                   "schema": {
-                    "$ref": "#/components/schemas/Job"
+                    "type": "string"
                   }
                 }
               },
@@ -2126,12 +2126,12 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/Task"
+                    "type": "string"
                   }
                 },
                 "application/yaml": {
                   "schema": {
-                    "$ref": "#/components/schemas/Task"
+                    "type": "string"
                   }
                 }
               },
