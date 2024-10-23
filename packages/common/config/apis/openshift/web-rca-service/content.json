@@ -3,16 +3,6 @@
   "openapi": {
     "components": {
       "parameters": {
-        "checked": {
-          "description": "Filter notification by checked field.\nWhen checked: true returns only checked notifications.\nWhen checked: false returns only NOT checked notifications.\nWhen left empty returns all notification.",
-          "in": "query",
-          "name": "checked",
-          "required": false,
-          "schema": {
-            "nullable": true,
-            "type": "boolean"
-          }
-        },
         "created_after": {
           "description": "Restrict results to all records created after the given date.",
           "in": "query",
@@ -303,6 +293,24 @@
           "description": "Comma separated list of incident statuses",
           "in": "query",
           "name": "status",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        "team_id": {
+          "description": "The id of a Team",
+          "in": "path",
+          "name": "team_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        "team_order_by": {
+          "description": "Specifies the order by criteria. The syntax of this parameter is\nsimilar to the syntax of the _order by_ clause of an SQL statement.\nWe support ordering by these fields:\n- id\n- name\n- emails\n- members\n\n\n\n```sql\nname asc\n```\n\nOr in order to retrieve all incidents ordered by team name _and_ emails:\n\n```sql\nname asc, emails asc\n```\n\nIf the parameter isn't provided, or if the value is empty, then\nno explicit ordering will be applied.",
+          "in": "query",
+          "name": "team_order_by",
           "required": false,
           "schema": {
             "type": "string"
@@ -835,6 +843,12 @@
                   },
                   "type": "array"
                 },
+                "teams": {
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  },
+                  "type": "array"
+                },
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
@@ -985,6 +999,12 @@
             "summary": {
               "type": "string"
             },
+            "teams": {
+              "items": {
+                "$ref": "#/components/schemas/Team"
+              },
+              "type": "array"
+            },
             "viewers": {
               "items": {
                 "$ref": "#/components/schemas/User"
@@ -1133,22 +1153,47 @@
             },
             {
               "properties": {
-                "checked": {
-                  "type": "boolean"
-                },
                 "created_at": {
                   "format": "date-time",
                   "type": "string"
                 },
+                "event": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
                 "incident": {
                   "$ref": "#/components/schemas/ObjectReference"
                 },
-                "name": {
+                "message": {
                   "type": "string"
+                },
+                "notify_by": {
+                  "type": "string"
+                },
+                "notify_on": {
+                  "type": "string"
+                },
+                "product": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "sent_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "subscription": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "team": {
+                  "$ref": "#/components/schemas/ObjectReference"
                 },
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
+                },
+                "user": {
+                  "$ref": "#/components/schemas/ObjectReference"
                 }
               },
               "type": "object"
@@ -1177,17 +1222,91 @@
             }
           ]
         },
-        "NotificationPatchRequest": {
+        "NotificationSubscription": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ObjectReference"
+            },
+            {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "incident_subscription": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "notify_by": {
+                  "type": "string"
+                },
+                "notify_on": {
+                  "type": "string"
+                },
+                "product_subscription": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "subscription": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "team_subscription": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "user_subscription": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                }
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "NotificationSubscriptionList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/List"
+            },
+            {
+              "properties": {
+                "items": {
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/NotificationSubscription"
+                      }
+                    ]
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "NotificationSubscriptionPatchRequest": {
           "properties": {
-            "checked": {
-              "type": "boolean"
+            "incident_subscription": {
+              "$ref": "#/components/schemas/ObjectReference"
             },
-            "name": {
+            "notify_by": {
               "type": "string"
             },
-            "place_after": {
-              "description": "HEAD - place on the top, <notificationID> - place after this notification",
+            "notify_on": {
               "type": "string"
+            },
+            "product_subscription": {
+              "$ref": "#/components/schemas/ObjectReference"
+            },
+            "subscription": {
+              "$ref": "#/components/schemas/ObjectReference"
+            },
+            "team_subscription": {
+              "$ref": "#/components/schemas/ObjectReference"
+            },
+            "user_subscription": {
+              "$ref": "#/components/schemas/ObjectReference"
             }
           },
           "type": "object"
@@ -1352,6 +1471,170 @@
               "type": "object"
             }
           ]
+        },
+        "Team": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ObjectReference"
+            },
+            {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "creator": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "emails": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "incidents": {
+                  "items": {
+                    "$ref": "#/components/schemas/Incident"
+                  },
+                  "type": "array"
+                },
+                "members": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "slack_channel_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "slack_team_id": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "TeamEvent": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ObjectReference"
+            },
+            {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "creator": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "event_type": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                },
+                "team": {
+                  "$ref": "#/components/schemas/ObjectReference"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "TeamEventList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/List"
+            },
+            {
+              "properties": {
+                "items": {
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/TeamEvent"
+                      }
+                    ]
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "TeamList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/List"
+            },
+            {
+              "properties": {
+                "items": {
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Team"
+                      }
+                    ]
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "TeamPatchRequest": {
+          "properties": {
+            "emails": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "incidents": {
+              "items": {
+                "$ref": "#/components/schemas/Incident"
+              },
+              "type": "array"
+            },
+            "members": {
+              "items": {
+                "$ref": "#/components/schemas/User"
+              },
+              "type": "array"
+            },
+            "name": {
+              "type": "string"
+            },
+            "slack_channel_ids": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "slack_team_id": {
+              "type": "string"
+            }
+          },
+          "type": "object"
         },
         "User": {
           "allOf": [
@@ -2408,9 +2691,6 @@
             },
             {
               "$ref": "#/components/parameters/size"
-            },
-            {
-              "$ref": "#/components/parameters/checked"
             }
           ],
           "responses": {
@@ -2461,82 +2741,6 @@
             }
           ],
           "summary": "Get Notifications in given Incident by Incident id"
-        },
-        "post": {
-          "parameters": [
-            {
-              "$ref": "#/components/parameters/id"
-            }
-          ],
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Notification"
-                }
-              }
-            },
-            "description": "Notification data",
-            "required": true
-          },
-          "responses": {
-            "201": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Notification"
-                  }
-                }
-              },
-              "description": "Created"
-            },
-            "400": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Validation errors occurred"
-            },
-            "401": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Auth token is invalid"
-            },
-            "403": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Unauthorized to perform operation"
-            },
-            "500": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "An unexpected error occurred creating the Notification"
-            }
-          },
-          "security": [
-            {
-              "Bearer": []
-            }
-          ],
-          "summary": "Create a new Notification under the Incident"
         }
       },
       "/api/web-rca/v1/incidents/{id}/retrospective": {
@@ -3705,59 +3909,6 @@
         ]
       },
       "/api/web-rca/v1/incidents/{incident_id}/notifications/{id}": {
-        "delete": {
-          "responses": {
-            "204": {
-              "description": "Notification successfully deleted"
-            },
-            "401": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Auth token is invalid"
-            },
-            "403": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Unauthorized to perform operation"
-            },
-            "404": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "No Notication with specified id exists"
-            },
-            "500": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "An unexpected error occurred deleting the Notification"
-            }
-          },
-          "security": [
-            {
-              "Bearer": []
-            }
-          ],
-          "summary": "Delete a Notification"
-        },
         "get": {
           "responses": {
             "200": {
@@ -3815,88 +3966,7 @@
           {
             "$ref": "#/components/parameters/incident_id"
           }
-        ],
-        "patch": {
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotificationPatchRequest"
-                }
-              }
-            },
-            "description": "Notification patch data",
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Notification"
-                  }
-                }
-              },
-              "description": "Notification updated successfully"
-            },
-            "400": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Validation errors occurred"
-            },
-            "401": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Auth token is invalid"
-            },
-            "403": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Unauthorized to perform operation"
-            },
-            "404": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "No Incident with specified id exists"
-            },
-            "500": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              },
-              "description": "Unexpected error updating Incident"
-            }
-          },
-          "security": [
-            {
-              "Bearer": []
-            }
-          ],
-          "summary": "Update a Notification"
-        }
+        ]
       },
       "/api/web-rca/v1/incidents/{incident_id}/task_runs/{id}": {
         "get": {
@@ -3957,6 +4027,328 @@
             "$ref": "#/components/parameters/incident_id"
           }
         ]
+      },
+      "/api/web-rca/v1/notification_subscriptions": {
+        "get": {
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/page"
+            },
+            {
+              "$ref": "#/components/parameters/size"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NotificationSubscriptionList"
+                  }
+                }
+              },
+              "description": "A JSON array of Notification Subscription objects"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Get Notification Subscriptions"
+        },
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSubscription"
+                }
+              }
+            },
+            "description": "Event data",
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NotificationSubscription"
+                  }
+                }
+              },
+              "description": "Created"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Validation errors occurred"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "An unexpected error occurred creating the Notification Subscription"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Create a new Notification Subscription"
+        }
+      },
+      "/api/web-rca/v1/notification_subscriptions/{id}": {
+        "delete": {
+          "responses": {
+            "204": {
+              "description": "Notification Subscription successfully deleted"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No Notification Subscription with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "An unexpected error occurred deleting the event"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Delete a Notification Subscription"
+        },
+        "get": {
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NotificationSubscription"
+                  }
+                }
+              },
+              "description": "A JSON representation of a Notification Subscription object"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Return a Notification Subscription by id"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "patch": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSubscriptionPatchRequest"
+                }
+              }
+            },
+            "description": "Event data",
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NotificationSubscription"
+                  }
+                }
+              },
+              "description": "Event updated successfully"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Validation errors occurred"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No Notification Subscription with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error updating Event"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Update a Notification Subscription"
+        }
       },
       "/api/web-rca/v1/playbooks": {
         "get": {
@@ -4191,6 +4583,545 @@
           ],
           "summary": "Return temporary state token to compose Add to Slack link"
         }
+      },
+      "/api/web-rca/v1/teams": {
+        "get": {
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/page"
+            },
+            {
+              "$ref": "#/components/parameters/size"
+            },
+            {
+              "$ref": "#/components/parameters/team_order_by"
+            },
+            {
+              "$ref": "#/components/parameters/search"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TeamList"
+                  }
+                }
+              },
+              "description": "A JSON array of teams"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Return the list of all teams in the system"
+        },
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            },
+            "description": "Team data",
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              },
+              "description": "Created"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Validation errors occurred"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "409": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Team already exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "An unexpected error occurred creating the Team"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Create a new Team"
+        }
+      },
+      "/api/web-rca/v1/teams/{id}": {
+        "delete": {
+          "responses": {
+            "204": {
+              "description": "Team successfully deleted"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No Team with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "An unexpected error occurred deleting the Team"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Delete a Team"
+        },
+        "get": {
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              },
+              "description": "Team found by id"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No Team with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Get a Team by id"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "patch": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamPatchRequest"
+                }
+              }
+            },
+            "description": "Team data",
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              },
+              "description": "Team updated successfully"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Validation errors occurred"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No Team with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error updating Team"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Update a Team"
+        }
+      },
+      "/api/web-rca/v1/teams/{id}/events": {
+        "get": {
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            },
+            {
+              "$ref": "#/components/parameters/page"
+            },
+            {
+              "$ref": "#/components/parameters/size"
+            },
+            {
+              "$ref": "#/components/parameters/order_by"
+            },
+            {
+              "$ref": "#/components/parameters/note"
+            },
+            {
+              "$ref": "#/components/parameters/created_after"
+            },
+            {
+              "$ref": "#/components/parameters/created_before"
+            },
+            {
+              "$ref": "#/components/parameters/event_type"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TeamEventList"
+                  }
+                }
+              },
+              "description": "A JSON array of team events"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Return the list of all team events in the system"
+        }
+      },
+      "/api/web-rca/v1/teams/{team_id}/events/{id}": {
+        "delete": {
+          "responses": {
+            "204": {
+              "description": "event successfully deleted"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "No team event with specified id exists"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "An unexpected error occurred deleting the team event"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Delete an event"
+        },
+        "get": {
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TeamEvent"
+                  }
+                }
+              },
+              "description": "A JSON representation of a Team Event object"
+            },
+            "401": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Auth token is invalid"
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unauthorized to perform operation"
+            },
+            "500": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              },
+              "description": "Unexpected error occurred"
+            }
+          },
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "summary": "Return an event by Team id and Event id"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/team_id"
+          }
+        ]
       },
       "/api/web-rca/v1/users": {
         "get": {

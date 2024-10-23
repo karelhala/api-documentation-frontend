@@ -1231,6 +1231,9 @@
               },
               "type": "array"
             },
+            "rh_region_id": {
+              "type": "string"
+            },
             "scope": {
               "type": "string"
             },
@@ -4020,6 +4023,9 @@
                 },
                 "released": {
                   "type": "boolean"
+                },
+                "rh_region_id": {
+                  "type": "string"
                 },
                 "service_level": {
                   "enum": [

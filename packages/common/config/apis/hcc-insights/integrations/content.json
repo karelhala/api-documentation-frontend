@@ -3,176 +3,7 @@
   "openapi": {
     "components": {
       "schemas": {
-        "AddAccessRequest": {
-          "properties": {
-            "application_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "role": {
-              "type": "string"
-            }
-          },
-          "type": "object"
-        },
-        "AddApplicationRequest": {
-          "properties": {
-            "bundle_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "display_name": {
-              "type": "string"
-            },
-            "name": {
-              "maxLength": 255,
-              "pattern": "[a-z][a-z_0-9-]*",
-              "type": "string"
-            },
-            "owner_role": {
-              "maxLength": 200,
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "display_name",
-            "bundle_id"
-          ],
-          "type": "object"
-        },
-        "AggregationEmailTemplate": {
-          "properties": {
-            "application": {
-              "$ref": "#/components/schemas/Application"
-            },
-            "application_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "body_template": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/Template"
-                }
-              ],
-              "readOnly": true,
-              "type": "object"
-            },
-            "body_template_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "subject_template": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/Template"
-                }
-              ],
-              "readOnly": true,
-              "type": "object"
-            },
-            "subject_template_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "subscription_type": {
-              "$ref": "#/components/schemas/SubscriptionType"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "subscription_type",
-            "subject_template_id",
-            "body_template_id"
-          ],
-          "type": "object"
-        },
         "Application": {
-          "properties": {
-            "bundle_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "display_name": {
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "name": {
-              "maxLength": 255,
-              "pattern": "[a-z][a-z_0-9-]*",
-              "type": "string"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "display_name",
-            "bundle_id"
-          ],
-          "type": "object"
-        },
-        "Application1": {
-          "properties": {
-            "display_name": {
-              "type": "string"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            }
-          },
-          "required": [
-            "id",
-            "display_name"
-          ],
-          "type": "object"
-        },
-        "ApplicationDTO": {
           "properties": {
             "bundle_id": {
               "$ref": "#/components/schemas/UUID"
@@ -182,7 +13,7 @@
             },
             "event_types": {
               "items": {
-                "$ref": "#/components/schemas/EventTypeDTO"
+                "$ref": "#/components/schemas/EventType"
               },
               "type": "array",
               "uniqueItems": true
@@ -203,47 +34,7 @@
           ],
           "type": "object"
         },
-        "ApplicationDTO1": {
-          "properties": {
-            "bundle_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "created": {
-              "type": "string"
-            },
-            "display_name": {
-              "type": "string"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "name": {
-              "pattern": "[a-z][a-z_0-9-]*",
-              "type": "string"
-            },
-            "owner_role": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "display_name",
-            "bundle_id"
-          ],
-          "type": "object"
-        },
-        "ApplicationSettingsValue": {
-          "properties": {
-            "eventTypes": {
-              "additionalProperties": {
-                "$ref": "#/components/schemas/EventTypeSettingsValue"
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        },
-        "BasicAuthenticationDTO": {
+        "BasicAuthentication": {
           "properties": {
             "password": {
               "type": "string"
@@ -254,153 +45,11 @@
           },
           "type": "object"
         },
-        "BehaviorGroup": {
-          "properties": {
-            "actions": {
-              "items": {
-                "$ref": "#/components/schemas/BehaviorGroupAction"
-              },
-              "type": "array"
-            },
-            "behaviors": {
-              "items": {
-                "$ref": "#/components/schemas/EventTypeBehavior"
-              },
-              "type": "array",
-              "uniqueItems": true
-            },
-            "bundle": {
-              "$ref": "#/components/schemas/Bundle"
-            },
-            "bundle_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "default_behavior": {
-              "readOnly": true,
-              "type": "boolean"
-            },
-            "display_name": {
-              "pattern": "\\S",
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "display_name",
-            "bundle_id"
-          ],
-          "type": "object"
-        },
-        "BehaviorGroupAction": {
-          "properties": {
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "endpoint": {
-              "$ref": "#/components/schemas/Endpoint"
-            },
-            "id": {
-              "$ref": "#/components/schemas/BehaviorGroupActionId"
-            }
-          },
-          "type": "object"
-        },
-        "BehaviorGroupActionId": {
-          "properties": {
-            "behaviorGroupId": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "endpointId": {
-              "$ref": "#/components/schemas/UUID"
-            }
-          },
-          "required": [
-            "behaviorGroupId",
-            "endpointId"
-          ],
-          "type": "object"
-        },
         "Bundle": {
           "properties": {
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "display_name": {
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "name": {
-              "maxLength": 255,
-              "pattern": "[a-z][a-z_0-9-]*",
-              "type": "string"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "display_name"
-          ],
-          "type": "object"
-        },
-        "BundleDTO": {
-          "properties": {
             "applications": {
               "items": {
-                "$ref": "#/components/schemas/ApplicationDTO"
+                "$ref": "#/components/schemas/Application"
               },
               "type": "array",
               "uniqueItems": true
@@ -423,21 +72,10 @@
           ],
           "type": "object"
         },
-        "BundleSettingsValue": {
-          "properties": {
-            "applications": {
-              "additionalProperties": {
-                "$ref": "#/components/schemas/ApplicationSettingsValue"
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        },
-        "CamelPropertiesDTO": {
+        "CamelProperties": {
           "properties": {
             "basicAuthentication": {
-              "$ref": "#/components/schemas/BasicAuthenticationDTO"
+              "$ref": "#/components/schemas/BasicAuthentication"
             },
             "disableSslVerification": {
               "type": "boolean"
@@ -462,191 +100,7 @@
           ],
           "type": "object"
         },
-        "CreateBehaviorGroupRequest": {
-          "properties": {
-            "bundle_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "bundle_name": {
-              "type": "string"
-            },
-            "bundle_uuid_or_bundle_name_valid": {
-              "type": "boolean"
-            },
-            "display_name": {
-              "maxLength": 150,
-              "pattern": "\\S",
-              "type": "string"
-            },
-            "endpoint_ids": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "event_type_ids": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array",
-              "uniqueItems": true
-            }
-          },
-          "required": [
-            "display_name"
-          ],
-          "type": "object"
-        },
-        "CreateBehaviorGroupResponse": {
-          "properties": {
-            "bundle_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "created": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "display_name": {
-              "type": "string"
-            },
-            "endpoints": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "event_types": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array",
-              "uniqueItems": true
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            }
-          },
-          "required": [
-            "id",
-            "bundle_id",
-            "display_name",
-            "endpoints",
-            "event_types",
-            "created"
-          ],
-          "type": "object"
-        },
-        "CurrentStatus": {
-          "properties": {
-            "end_time": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "start_time": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "status": {
-              "$ref": "#/components/schemas/Status"
-            }
-          },
-          "required": [
-            "status"
-          ],
-          "type": "object"
-        },
-        "DrawerEntryPayload": {
-          "properties": {
-            "bundle": {
-              "type": "string"
-            },
-            "created": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "description": {
-              "type": "string"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "read": {
-              "type": "boolean"
-            },
-            "source": {
-              "type": "string"
-            },
-            "title": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "read"
-          ],
-          "type": "object"
-        },
         "Endpoint": {
-          "properties": {
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "enabled": {
-              "type": "boolean"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "name": {
-              "maxLength": 255,
-              "type": "string"
-            },
-            "properties": {
-              "$ref": "#/components/schemas/EndpointProperties"
-            },
-            "server_errors": {
-              "format": "int32",
-              "minimum": 0,
-              "type": "integer"
-            },
-            "status": {
-              "$ref": "#/components/schemas/EndpointStatus"
-            },
-            "sub_type": {
-              "type": "string"
-            },
-            "type": {
-              "$ref": "#/components/schemas/EndpointType"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
-          "type": "object"
-        },
-        "EndpointDTO": {
           "properties": {
             "created": {
               "allOf": [
@@ -674,7 +128,7 @@
             },
             "event_types_group_by_bundles_and_applications": {
               "items": {
-                "$ref": "#/components/schemas/BundleDTO"
+                "$ref": "#/components/schemas/Bundle"
               },
               "type": "array",
               "uniqueItems": true
@@ -689,21 +143,21 @@
             "properties": {
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/EndpointPropertiesDTO"
+                  "$ref": "#/components/schemas/EndpointProperties"
                 }
               ],
               "oneOf": [
                 {
-                  "$ref": "#/components/schemas/CamelPropertiesDTO"
+                  "$ref": "#/components/schemas/CamelProperties"
                 },
                 {
-                  "$ref": "#/components/schemas/SystemSubscriptionPropertiesDTO"
+                  "$ref": "#/components/schemas/SystemSubscriptionProperties"
                 },
                 {
-                  "$ref": "#/components/schemas/WebhookPropertiesDTO"
+                  "$ref": "#/components/schemas/WebhookProperties"
                 },
                 {
-                  "$ref": "#/components/schemas/PagerDutyPropertiesDTO"
+                  "$ref": "#/components/schemas/PagerDutyProperties"
                 }
               ],
               "type": "object"
@@ -714,14 +168,14 @@
               "type": "integer"
             },
             "status": {
-              "$ref": "#/components/schemas/EndpointStatusDTO"
+              "$ref": "#/components/schemas/EndpointStatus"
             },
             "sub_type": {
               "maxLength": 20,
               "type": "string"
             },
             "type": {
-              "$ref": "#/components/schemas/EndpointTypeDTO"
+              "$ref": "#/components/schemas/EndpointType"
             },
             "updated": {
               "allOf": [
@@ -744,7 +198,7 @@
           "properties": {
             "data": {
               "items": {
-                "$ref": "#/components/schemas/EndpointDTO"
+                "$ref": "#/components/schemas/Endpoint"
               },
               "type": "array"
             },
@@ -768,21 +222,7 @@
         "EndpointProperties": {
           "type": "object"
         },
-        "EndpointPropertiesDTO": {
-          "type": "object"
-        },
         "EndpointStatus": {
-          "enum": [
-            "READY",
-            "UNKNOWN",
-            "NEW",
-            "PROVISIONING",
-            "DELETING",
-            "FAILED"
-          ],
-          "type": "string"
-        },
-        "EndpointStatusDTO": {
           "enum": [
             "DELETING",
             "FAILED",
@@ -816,196 +256,10 @@
           ],
           "type": "string"
         },
-        "EndpointTypeDTO": {
-          "enum": [
-            "ansible",
-            "camel",
-            "drawer",
-            "email_subscription",
-            "webhook"
-          ],
-          "type": "string"
-        },
-        "Environment": {
-          "enum": [
-            "PROD",
-            "STAGE",
-            "EPHEMERAL",
-            "LOCAL_SERVER"
-          ],
-          "type": "string"
-        },
-        "EventLogEntry": {
-          "properties": {
-            "actions": {
-              "items": {
-                "$ref": "#/components/schemas/EventLogEntryAction"
-              },
-              "type": "array"
-            },
-            "application": {
-              "type": "string"
-            },
-            "bundle": {
-              "type": "string"
-            },
-            "created": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "event_type": {
-              "type": "string"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "payload": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "created",
-            "bundle",
-            "application",
-            "event_type",
-            "actions"
-          ],
-          "type": "object"
-        },
-        "EventLogEntryAction": {
-          "properties": {
-            "details": {
-              "additionalProperties": {},
-              "type": "object"
-            },
-            "endpoint_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "endpoint_sub_type": {
-              "type": "string"
-            },
-            "endpoint_type": {
-              "$ref": "#/components/schemas/EndpointType"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "invocation_result": {
-              "deprecated": true,
-              "type": "boolean"
-            },
-            "status": {
-              "$ref": "#/components/schemas/EventLogEntryActionStatus"
-            }
-          },
-          "required": [
-            "id",
-            "endpoint_type",
-            "invocation_result",
-            "status"
-          ],
-          "type": "object"
-        },
-        "EventLogEntryActionStatus": {
-          "enum": [
-            "SENT",
-            "SUCCESS",
-            "PROCESSING",
-            "FAILED",
-            "UNKNOWN"
-          ],
-          "type": "string"
-        },
         "EventType": {
           "properties": {
             "application": {
               "$ref": "#/components/schemas/Application"
-            },
-            "application_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "description": {
-              "type": "string"
-            },
-            "display_name": {
-              "type": "string"
-            },
-            "fully_qualified_name": {
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "name": {
-              "maxLength": 255,
-              "pattern": "[a-z][a-z_0-9-]*",
-              "type": "string"
-            },
-            "not_subscription_locked_or_subscribed_by_default": {
-              "type": "boolean"
-            },
-            "subscribed_by_default": {
-              "type": "boolean"
-            },
-            "subscription_locked": {
-              "type": "boolean"
-            },
-            "visible": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "name",
-            "display_name",
-            "application_id"
-          ],
-          "type": "object"
-        },
-        "EventTypeBehavior": {
-          "properties": {
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "event_type": {
-              "$ref": "#/components/schemas/EventType"
-            },
-            "id": {
-              "$ref": "#/components/schemas/EventTypeBehaviorId"
-            }
-          },
-          "type": "object"
-        },
-        "EventTypeBehaviorId": {
-          "properties": {
-            "behaviorGroupId": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "eventTypeId": {
-              "$ref": "#/components/schemas/UUID"
-            }
-          },
-          "required": [
-            "eventTypeId",
-            "behaviorGroupId"
-          ],
-          "type": "object"
-        },
-        "EventTypeDTO": {
-          "properties": {
-            "application": {
-              "$ref": "#/components/schemas/ApplicationDTO"
             },
             "description": {
               "type": "string"
@@ -1028,66 +282,6 @@
           ],
           "type": "object"
         },
-        "EventTypeSettingsValue": {
-          "properties": {
-            "emailSubscriptionTypes": {
-              "additionalProperties": {
-                "type": "boolean"
-              },
-              "type": "object"
-            },
-            "hasForcedEmail": {
-              "type": "boolean"
-            },
-            "subscriptionLocked": {
-              "type": "boolean"
-            }
-          },
-          "type": "object"
-        },
-        "EventsReplayRequest": {
-          "properties": {
-            "end_date": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "org_id": {
-              "type": "string"
-            },
-            "start_date": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            }
-          },
-          "required": [
-            "start_date",
-            "end_date"
-          ],
-          "type": "object"
-        },
-        "Facet": {
-          "properties": {
-            "children": {
-              "items": {
-                "$ref": "#/components/schemas/Facet"
-              },
-              "type": "array"
-            },
-            "displayName": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "name",
-            "displayName"
-          ],
-          "type": "object"
-        },
         "HttpType": {
           "enum": [
             "GET",
@@ -1096,170 +290,10 @@
           ],
           "type": "string"
         },
-        "InstantEmailTemplate": {
-          "properties": {
-            "body_template": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/Template"
-                }
-              ],
-              "readOnly": true,
-              "type": "object"
-            },
-            "body_template_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "event_type": {
-              "$ref": "#/components/schemas/EventType"
-            },
-            "event_type_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "subject_template": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/Template"
-                }
-              ],
-              "readOnly": true,
-              "type": "object"
-            },
-            "subject_template_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "subject_template_id",
-            "body_template_id"
-          ],
-          "type": "object"
-        },
-        "InternalApplicationUserPermission": {
-          "properties": {
-            "application_display_name": {
-              "type": "string"
-            },
-            "application_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "role": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "application_id",
-            "application_display_name",
-            "role"
-          ],
-          "type": "object"
-        },
-        "InternalRoleAccess": {
-          "properties": {
-            "application_id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "id": {
-              "$ref": "#/components/schemas/UUID"
-            },
-            "role": {
-              "maxLength": 200,
-              "type": "string"
-            }
-          },
-          "required": [
-            "role",
-            "application_id"
-          ],
-          "type": "object"
-        },
-        "InternalUserPermissions": {
-          "properties": {
-            "applications": {
-              "items": {
-                "$ref": "#/components/schemas/Application1"
-              },
-              "type": "array"
-            },
-            "is_admin": {
-              "type": "boolean"
-            },
-            "roles": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          },
-          "required": [
-            "is_admin",
-            "applications",
-            "roles"
-          ],
-          "type": "object"
-        },
-        "LocalDate": {
-          "example": "2022-03-10",
-          "format": "date",
-          "type": "string"
-        },
         "LocalDateTime": {
           "example": "2022-03-10T12:15:50",
           "format": "date-time",
           "type": "string"
-        },
-        "LocalTime": {
-          "example": "13:45:30.123456789",
-          "externalDocs": {
-            "description": "As defined by 'partial-time' in RFC3339",
-            "url": "https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6"
-          },
-          "format": "local-time",
-          "type": "string"
-        },
-        "MessageValidationResponse": {
-          "properties": {
-            "errors": {
-              "additionalProperties": {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              "type": "object"
-            }
-          },
-          "required": [
-            "errors"
-          ],
-          "type": "object"
         },
         "Meta": {
           "properties": {
@@ -1291,23 +325,13 @@
             "endpointId": {
               "$ref": "#/components/schemas/UUID"
             },
-            "endpointSubType": {
-              "type": "string"
-            },
             "endpointType": {
               "$ref": "#/components/schemas/EndpointType"
             },
             "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
+              "$ref": "#/components/schemas/UUID"
             },
             "invocationResult": {
-              "deprecated": true,
               "type": "boolean"
             },
             "invocationTime": {
@@ -1335,139 +359,14 @@
           ],
           "type": "string"
         },
-        "PageBehaviorGroup": {
-          "properties": {
-            "data": {
-              "items": {
-                "$ref": "#/components/schemas/BehaviorGroup"
-              },
-              "type": "array"
-            },
-            "links": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "meta": {
-              "$ref": "#/components/schemas/Meta"
-            }
-          },
-          "required": [
-            "data",
-            "links",
-            "meta"
-          ],
-          "type": "object"
-        },
-        "PageDrawerEntryPayload": {
-          "properties": {
-            "data": {
-              "items": {
-                "$ref": "#/components/schemas/DrawerEntryPayload"
-              },
-              "type": "array"
-            },
-            "links": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "meta": {
-              "$ref": "#/components/schemas/Meta"
-            }
-          },
-          "required": [
-            "data",
-            "links",
-            "meta"
-          ],
-          "type": "object"
-        },
-        "PageEventLogEntry": {
-          "properties": {
-            "data": {
-              "items": {
-                "$ref": "#/components/schemas/EventLogEntry"
-              },
-              "type": "array"
-            },
-            "links": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "meta": {
-              "$ref": "#/components/schemas/Meta"
-            }
-          },
-          "required": [
-            "data",
-            "links",
-            "meta"
-          ],
-          "type": "object"
-        },
-        "PageEventType": {
-          "properties": {
-            "data": {
-              "items": {
-                "$ref": "#/components/schemas/EventType"
-              },
-              "type": "array"
-            },
-            "links": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "meta": {
-              "$ref": "#/components/schemas/Meta"
-            }
-          },
-          "required": [
-            "data",
-            "links",
-            "meta"
-          ],
-          "type": "object"
-        },
-        "PageNotificationHistory": {
-          "properties": {
-            "data": {
-              "items": {
-                "$ref": "#/components/schemas/NotificationHistory"
-              },
-              "type": "array"
-            },
-            "links": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "meta": {
-              "$ref": "#/components/schemas/Meta"
-            }
-          },
-          "required": [
-            "data",
-            "links",
-            "meta"
-          ],
-          "type": "object"
-        },
-        "PagerDutyPropertiesDTO": {
+        "PagerDutyProperties": {
           "properties": {
             "secretToken": {
               "maxLength": 32,
               "type": "string"
             },
             "severity": {
-              "$ref": "#/components/schemas/PagerDutySeverityDTO"
+              "$ref": "#/components/schemas/PagerDutySeverity"
             }
           },
           "required": [
@@ -1485,49 +384,6 @@
           ],
           "type": "string"
         },
-        "PagerDutySeverityDTO": {
-          "enum": [
-            "critical",
-            "error",
-            "warning",
-            "info"
-          ],
-          "type": "string"
-        },
-        "RenderEmailTemplateRequest": {
-          "properties": {
-            "payload": {
-              "minLength": 1,
-              "type": "string"
-            },
-            "template": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          },
-          "required": [
-            "template",
-            "payload"
-          ],
-          "type": "object"
-        },
-        "RequestDefaultBehaviorGroupPropertyList": {
-          "properties": {
-            "ignore_preferences": {
-              "type": "boolean"
-            },
-            "only_admins": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "only_admins",
-            "ignore_preferences"
-          ],
-          "type": "object"
-        },
         "RequestSystemSubscriptionProperties": {
           "properties": {
             "group_id": {
@@ -1542,41 +398,7 @@
           ],
           "type": "object"
         },
-        "ServerInfo": {
-          "properties": {
-            "environment": {
-              "$ref": "#/components/schemas/Environment"
-            }
-          },
-          "type": "object"
-        },
-        "SettingsValuesByEventType": {
-          "properties": {
-            "bundles": {
-              "additionalProperties": {
-                "$ref": "#/components/schemas/BundleSettingsValue"
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        },
-        "Status": {
-          "enum": [
-            "UP",
-            "MAINTENANCE"
-          ],
-          "type": "string"
-        },
-        "SubscriptionType": {
-          "enum": [
-            "INSTANT",
-            "DAILY",
-            "DRAWER"
-          ],
-          "type": "string"
-        },
-        "SystemSubscriptionPropertiesDTO": {
+        "SystemSubscriptionProperties": {
           "properties": {
             "groupId": {
               "$ref": "#/components/schemas/UUID"
@@ -1590,154 +412,15 @@
           },
           "type": "object"
         },
-        "Template": {
-          "properties": {
-            "created": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "data": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "name": {
-              "maxLength": 100,
-              "type": "string"
-            },
-            "updated": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/LocalDateTime"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description",
-            "data"
-          ],
-          "type": "object"
-        },
-        "TriggerDailyDigestRequest": {
-          "properties": {
-            "application_name": {
-              "pattern": "\\S",
-              "type": "string"
-            },
-            "bundle_name": {
-              "pattern": "\\S",
-              "type": "string"
-            },
-            "end": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            },
-            "org_id": {
-              "pattern": "\\S",
-              "type": "string"
-            },
-            "start": {
-              "$ref": "#/components/schemas/LocalDateTime"
-            }
-          },
-          "required": [
-            "application_name",
-            "bundle_name",
-            "org_id"
-          ],
-          "type": "object"
-        },
         "UUID": {
           "format": "uuid",
           "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
           "type": "string"
         },
-        "UpdateApplicationRequest": {
-          "properties": {
-            "display_name": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "owner_role": {
-              "type": "string"
-            }
-          },
-          "type": "object"
-        },
-        "UpdateBehaviorGroupRequest": {
-          "properties": {
-            "display_name": {
-              "maxLength": 150,
-              "type": "string"
-            },
-            "display_name_not_null_and_blank": {
-              "type": "boolean"
-            },
-            "endpoint_ids": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "event_type_ids": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array",
-              "uniqueItems": true
-            }
-          },
-          "type": "object"
-        },
-        "UpdateNotificationDrawerStatus": {
-          "properties": {
-            "notification_ids": {
-              "items": {
-                "format": "uuid",
-                "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
-                "type": "string"
-              },
-              "type": "array",
-              "uniqueItems": true
-            },
-            "read_status": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "notification_ids",
-            "read_status"
-          ],
-          "type": "object"
-        },
-        "WebhookPropertiesDTO": {
+        "WebhookProperties": {
           "properties": {
             "basicAuthentication": {
-              "$ref": "#/components/schemas/BasicAuthenticationDTO"
+              "$ref": "#/components/schemas/BasicAuthentication"
             },
             "bearerAuthentication": {
               "type": "string"
@@ -1760,38 +443,6 @@
             "disableSslVerification",
             "method",
             "url"
-          ],
-          "type": "object"
-        },
-        "X509Certificate": {
-          "properties": {
-            "application": {
-              "type": "string"
-            },
-            "bundle": {
-              "type": "string"
-            },
-            "id": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/UUID"
-                }
-              ],
-              "readOnly": true,
-              "type": "string"
-            },
-            "source_environment": {
-              "type": "string"
-            },
-            "subject_dn": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "subject_dn",
-            "source_environment",
-            "bundle",
-            "application"
           ],
           "type": "object"
         }
@@ -1899,7 +550,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EndpointDTO"
+                  "$ref": "#/components/schemas/Endpoint"
                 }
               }
             },
@@ -1942,7 +593,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/EndpointDTO"
+                    "$ref": "#/components/schemas/Endpoint"
                   }
                 }
               },
@@ -1971,7 +622,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/EndpointDTO"
+                    "$ref": "#/components/schemas/Endpoint"
                   }
                 }
               },
@@ -2167,7 +818,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/EndpointDTO"
+                    "$ref": "#/components/schemas/Endpoint"
                   }
                 }
               },
@@ -2193,7 +844,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EndpointDTO"
+                  "$ref": "#/components/schemas/Endpoint"
                 }
               }
             },
