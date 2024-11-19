@@ -190,21 +190,6 @@ export const apiConfigurations: ReadonlyArray<Readonly<APIConfiguration>> = [
     tags: [apiLabelsMap["ansible"], apiLabelsMap["automation"]],
   },
   {
-    id: "ansible-automation-controller-v2",
-    displayName: "Ansible automation controller API V2",
-    description:
-      "Define, operate, scale, and delegate automation across your enterprise",
-    icon: "AnsibleIcon",
-    apiContentPath:
-      "./apis/hcc-insights/ansible-automation-controller-v2/content.json",
-    serverUrl: "none",
-    getApiContent: () =>
-      import(
-        "./apis/hcc-insights/ansible-automation-controller-v2/content.json"
-      ) as unknown as Promise<APIContent>,
-    tags: [apiLabelsMap["ansible"], apiLabelsMap["automation"]],
-  },
-  {
     id: "automation-hub",
     displayName: "Automation Hub",
     description: "Fetch, upload, organize, and distribute Ansible Collections",
