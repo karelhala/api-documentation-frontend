@@ -917,6 +917,7 @@
       },
       "/endpoints/{id}/history": {
         "get": {
+          "description": "Get Endpoint History",
           "operationId": "EndpointResource$V1_getEndpointHistory",
           "parameters": [
             {

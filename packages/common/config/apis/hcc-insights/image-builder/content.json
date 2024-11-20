@@ -177,6 +177,14 @@
         },
         "BlueprintExportResponse": {
           "properties": {
+            "content_sources": {
+              "additionalProperties": true,
+              "description": "List of custom repositories including all the repository details needed in order\nto recreate the repositories.\n",
+              "items": {
+                "type": "object"
+              },
+              "type": "array"
+            },
             "customizations": {
               "$ref": "#/components/schemas/Customizations"
             },
@@ -692,6 +700,7 @@
               "type": "array"
             },
             "custom_repositories": {
+              "description": "List of custom repositories.",
               "items": {
                 "$ref": "#/components/schemas/CustomRepository"
               },
@@ -919,6 +928,7 @@
             "rhel-93",
             "rhel-94",
             "rhel-10-nightly",
+            "rhel-10-beta",
             "centos-9",
             "centos-10",
             "fedora-37",
