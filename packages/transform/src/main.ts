@@ -268,6 +268,8 @@ const writeTsTemplates = (foundApis: Array<BuildApi>, tags: Array<Tag>, options:
 
     writeFileSync(
         path.resolve(options.outputDir, 'apis.ts'),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         prettyResult
     );
 }
